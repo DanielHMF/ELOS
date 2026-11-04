@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&family=Nunito+Sans:wght@400;600&display=swap');
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--cor-superficie);
+    color: var(--cor-tinta);
+    font-family: var(--fonte-texto);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+:root {
+  /* Cores principais */
+  --cor-nevoa: #F7FAFC;
+  --cor-superficie: #E8F0F6;
+  --cor-pastel: #C9DCEB;
+  --cor-apoio: #91B5D0;
+  --cor-primaria: #506F89;
+
+  /* Cores de afeto */
+  --cor-areia: #F5F1E9;
+  --cor-salvia: #D8E5DF;
+  --cor-rose: #E9DCD9;
+
+  /* Cores de texto */
+  --cor-tinta: #24394D;
+  --cor-texto-suave: #5B6B7A;
+
+  /* Fontes */
+  --fonte-titulo: 'Nunito', sans-serif;
+  --fonte-texto: 'Nunito Sans', sans-serif;
+}
+
+/* ---------- Regras gerais ---------- */
+
+/* O padding passa a contar dentro da largura, evitando estourar a tela */
+* {
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h4 {
+    margin: 0;
+    font-family: var(--fonte-titulo);
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Texto pequeno em maiúsculas que aparece acima dos títulos */
+.etiqueta {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ---------- Botões ---------- */
+
+.botao_primario,
+.botao_secundario,
+.botao_suave,
+.botao_pastel {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-tinta);
+}
+
+.botao_primario {
+    background-color: var(--cor-primaria);
+    color: var(--cor-nevoa);
+}
+
+.botao_secundario {
+    background-color: var(--cor-superficie);
+    border-color: var(--cor-primaria);
+}
+
+.botao_suave {
+    background-color: var(--cor-superficie);
+}
+
+.botao_pastel {
+    background-color: var(--cor-pastel);
+}
+
+.botao_primario:hover {
+    background-color: var(--cor-tinta);
+}
+
+.botao_secundario:hover,
+.botao_suave:hover,
+.botao_pastel:hover {
+    background-color: var(--cor-nevoa);
+}
+
+/* ---------- Logo (cabeçalho e rodapé) ---------- */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cor-tinta);
+}
+
+.logo img {
+    width: 36px;
+}
+
+/* ---------- Cabeçalho ---------- */
+
+#header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 8%;
+    background-color: var(--cor-pastel);
+}
+
+.navbar,
+.navbar_botoes {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar a {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-tinta);
+}
+
+.navbar a:hover {
+    color: var(--cor-primaria);
+}
+
+.navbar_botoes {
+    gap: 8px;
+}
+
+/* ---------- Banner ---------- */
+
+.banner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    padding: 32px 8% 64px;
+    background-color: var(--cor-pastel);
+}
+
+.banner_descricao {
+    flex: 1 1 340px;
+}
+
+.banner_descricao h1 {
+    margin-bottom: 16px;
+}
+
+.banner_descricao p {
+    color: var(--cor-tinta);
+}
+
+.banner_descricao .selo {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 2px 12px;
+    border-radius: 20px;
+    background-color: var(--cor-primaria);
+    color: var(--cor-nevoa);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.botao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.banner_img {
+    flex: 1 1 300px;
+}
+
+.banner_img img {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+/* ---------- Propósito ---------- */
+
+.proposito {
+    padding: 64px 8%;
+    background-color: var(--cor-primaria);
+    color: var(--cor-nevoa);
+}
+
+.proposito_descricao {
+    max-width: 600px;
+    margin-bottom: 32px;
+}
+
+.proposito_descricao h2 {
+    margin-bottom: 12px;
+}
+
+.proposito_cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.proposito_cards > div {
+    flex: 1 1 220px;
+    padding: 24px;
+    border-radius: 20px;
+    background-color: var(--cor-superficie);
+    color: var(--cor-tinta);
+}
+
+.proposito_cards img {
+    display: block;
+    width: 36px;
+    margin-bottom: 12px;
+    padding: 7px;
+    border-radius: 10px;
+}
+
+.proposito_cards h4 {
+    margin-bottom: 8px;
+}
+
+.proposito_cards p {
+    font-size: 13px;
+    color: var(--cor-texto-suave);
+}
+
+.icone_pastel {
+    background-color: var(--cor-pastel);
+}
+
+.icone_apoio {
+    background-color: var(--cor-apoio);
+}
+
+.icone_tinta {
+    background-color: var(--cor-tinta);
+}
+
+/* ---------- Como funciona ---------- */
+
+.passos {
+    padding: 64px 8%;
+    background-color: var(--cor-superficie);
+}
+
+.passos_descricao {
+    margin-bottom: 28px;
+}
+
+.passos_cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.passos_cards > div {
+    display: flex;
+    gap: 12px;
+    flex: 1 1 220px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--cor-pastel);
+}
+
+/* flex: 0 0 impede que o círculo seja achatado */
+.passos_cards .passo_numero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--cor-primaria);
+    color: var(--cor-nevoa);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.passos_cards h4 {
+    font-size: 15px;
+}
+
+.passos_cards p {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--cor-texto-suave);
+}
+
+/* ---------- Sobre mim ---------- */
+
+.sobre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 48px;
+    padding: 64px 8%;
+    background-color: white;
+}
+
+.sobre_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 200px;
+    height: 200px;
+    border: 6px solid var(--cor-apoio);
+    border-radius: 50%;
+    background-color: var(--cor-pastel);
+    font-size: 13px;
+}
+
+.sobre_descricao {
+    flex: 1 1 300px;
+}
+
+.sobre_descricao h2 {
+    margin-bottom: 12px;
+}
+
+.sobre_descricao p {
+    margin-bottom: 8px;
+}
+
+.sobre_cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+}
+
+.sobre_cards p {
+    margin: 0;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background-color: var(--cor-pastel);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sobre_cards .sobre_card_destaque {
+    background-color: var(--cor-primaria);
+    color: var(--cor-nevoa);
+}
+
+/* ---------- Chamada final ---------- */
+
+.sua_historia {
+    padding: 52px 8%;
+    background-color: var(--cor-apoio);
+}
+
+.sua_historia_card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 32px;
+    border-radius: 24px;
+    background-color: var(--cor-tinta);
+    color: var(--cor-nevoa);
+}
+
+.sua_historia p {
+    margin-top: 6px;
+}
+
+/* ---------- Rodapé ---------- */
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 8%;
+    background-color: var(--cor-tinta);
+}
+
+.footer .logo {
+    color: var(--cor-nevoa);
+    font-size: 18px;
+}
+
+.footer p {
+    font-size: 12px;
+    color: var(--cor-pastel);
+}

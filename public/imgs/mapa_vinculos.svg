@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="530 85 330 320" font-family="Nunito Sans, sans-serif" text-anchor="middle">
+  <!-- Anéis de proximidade: quanto mais perto do centro, mais próxima a pessoa -->
+  <circle cx="696" cy="244" r="153" fill="#B5CCDF"/>
+  <circle cx="696" cy="244" r="104" fill="#91B5D0"/>
+  <circle cx="696" cy="244" r="55" fill="#E8F0F6"/>
+
+  <!-- Centro -->
+  <circle cx="696" cy="244" r="29" fill="#24394D"/>
+  <text x="696" y="249" fill="#F7FAFC" font-size="13" font-weight="700">Você</text>
+
+  <!-- Pessoas no anel de dentro -->
+  <g font-size="11" font-weight="700">
+    <circle cx="648" cy="196" r="18" fill="#506F89" stroke="#F7FAFC" stroke-width="2"/>
+    <text x="648" y="200" fill="#F7FAFC">M</text>
+    <circle cx="745" cy="288" r="18" fill="#506F89" stroke="#F7FAFC" stroke-width="2"/>
+    <text x="745" y="292" fill="#F7FAFC">D</text>
+  </g>
+
+  <!-- Pessoas no anel do meio -->
+  <g font-size="11" font-weight="700" fill="#24394D">
+    <circle cx="780" cy="168" r="16" fill="#E8F0F6" stroke="#506F89"/>
+    <text x="780" y="172">T</text>
+    <circle cx="602" cy="291" r="16" fill="#E8F0F6" stroke="#506F89"/>
+    <text x="602" y="295">A</text>
+  </g>
+
+  <!-- Pessoas no anel de fora -->
+  <g font-size="10" font-weight="700" fill="#24394D">
+    <circle cx="574" cy="147" r="13" fill="#E8F0F6" stroke="#506F89"/>
+    <text x="574" y="151">F</text>
+    <circle cx="801" cy="336" r="13" fill="#E8F0F6" stroke="#506F89"/>
+    <text x="801" y="340">P</text>
+  </g>
+
+  <!-- Nomes -->
+  <g font-size="9" font-weight="600" fill="#24394D">
+    <text x="648" y="226">Mãe</text>
+    <text x="745" y="318">Irmã</text>
+    <text x="780" y="195">Tios</text>
+    <text x="602" y="318">Amigos</text>
+    <text x="574" y="171">Faculdade</text>
+    <text x="801" y="360">Primos</text>
+  </g>
+</svg>
