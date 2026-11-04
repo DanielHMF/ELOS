@@ -440,3 +440,193 @@ ul {
     font-size: 12px;
     color: var(--cor-pastel);
 }
+
+/* ---------- Telas de cadastro e login ---------- */
+
+/* Divide a tela em dois lados: texto à esquerda e formulário à direita */
+/* 136px é a soma da altura do cabeçalho e do rodapé */
+.acesso {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 136px);
+}
+
+/* flex-direction: column deixa um item embaixo do outro, centralizados na altura */
+.acesso_descricao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 1 340px;
+    padding: 64px 8%;
+    background-color: var(--cor-primaria);
+    color: var(--cor-nevoa);
+}
+
+.acesso_descricao h1 {
+    margin-bottom: 16px;
+}
+
+.acesso_lista {
+    margin-top: 24px;
+}
+
+.acesso_lista li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.acesso_lista img {
+    width: 28px;
+    padding: 6px;
+    border-radius: 50%;
+    background-color: var(--cor-pastel);
+}
+
+.acesso_mapa {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    margin-top: 32px;
+}
+
+.acesso_formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 340px;
+    padding: 48px 20px;
+    background-color: var(--cor-pastel);
+}
+
+/* ---------- Formulário ---------- */
+
+.formulario_card {
+    width: 100%;
+    max-width: 420px;
+    padding: 36px;
+    border-radius: 24px;
+    background-color: var(--cor-superficie);
+    box-shadow: 0 12px 32px rgba(36, 57, 77, 0.12);
+}
+
+.formulario_subtitulo {
+    margin: 4px 0 20px;
+    color: var(--cor-texto-suave);
+}
+
+.campo {
+    margin-bottom: 16px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.campo input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--cor-apoio);
+    border-radius: 12px;
+    background-color: var(--cor-nevoa);
+    color: var(--cor-tinta);
+    font-family: var(--fonte-texto);
+    font-size: 15px;
+}
+
+.campo input::placeholder {
+    color: var(--cor-texto-suave);
+}
+
+.campo input:focus {
+    outline: 2px solid var(--cor-primaria);
+}
+
+/* Senha e Confirmar senha lado a lado */
+.campo_duplo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 12px;
+}
+
+.campo_duplo .campo {
+    flex: 1 1 130px;
+    margin-bottom: 4px;
+}
+
+.campo_topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.campo_topo a {
+    font-size: 12px;
+    color: var(--cor-primaria);
+    text-decoration: underline;
+}
+
+.formulario_dica {
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--cor-texto-suave);
+}
+
+.campo_marcar {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--cor-texto-suave);
+}
+
+.campo_marcar input {
+    margin: 4px 0 0;
+}
+
+.botao_largo {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-family: var(--fonte-texto);
+    text-align: center;
+    cursor: pointer;
+}
+
+.botao_contorno {
+    border-color: var(--cor-primaria);
+}
+
+.formulario_rodape {
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+    color: var(--cor-texto-suave);
+}
+
+.formulario_rodape a {
+    font-weight: 600;
+    color: var(--cor-primaria);
+    text-decoration: underline;
+}
+
+/* Linha com a palavra "ou" no meio */
+.divisor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+    font-size: 12px;
+    color: var(--cor-texto-suave);
+}
+
+.divisor span {
+    flex: 1;
+    height: 1px;
+    background-color: var(--cor-apoio);
+}

@@ -1,11 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ELOS | Cadastro</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    
+    <div id="header">
+        <a class="logo" href="index.html">
+            <img src="imgs/logo.svg" alt="Símbolo do ELOS">
+            <span>ELOS</span>
+        </a>
+        <ul class="navbar">
+            <li>
+                <a href="index.html#proposito">Propósito</a>
+            </li>
+            <li>
+                <a href="index.html#como_funciona">Como funciona</a>
+            </li>
+            <li>
+                <a href="index.html#sobre_mim">Sobre mim</a>
+            </li>
+        </ul>
+        <ul class="navbar_botoes">
+            <li>
+                <a class="botao_suave" href="loginElos.html">Entrar</a>
+            </li>
+            <li>
+                <a class="botao_primario" href="cadastroElos.html">Criar conta</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="acesso">
+        <div class="acesso_descricao">
+            <h1>Comece a guardar quem importa.</h1>
+            <p>Sua conta é o ponto central do seu mapa. A partir dela, cada pessoa que você adicionar ganha um lugar, uma história e uma distância de você.</p>
+            <ul class="acesso_lista">
+                <li>
+                    <img src="imgs/icone_check.svg" alt="">
+                    <span>Cadastre família, amigos e colegas</span>
+                </li>
+                <li>
+                    <img src="imgs/icone_check.svg" alt="">
+                    <span>Registre lembranças de cada vínculo</span>
+                </li>
+                <li>
+                    <img src="imgs/icone_check.svg" alt="">
+                    <span>Veja seu mapa de proximidade</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="acesso_formulario">
+            <div class="formulario_card">
+                <h2>Criar conta</h2>
+                <p class="formulario_subtitulo">Leva menos de um minuto.</p>
+
+                <div class="campo">
+                    <label for="nome_input">Nome completo</label>
+                    <input id="nome_input" type="text" placeholder="Como você se chama?">
+                </div>
+
+                <div class="campo">
+                    <label for="email_input">E-mail</label>
+                    <input id="email_input" type="text" placeholder="voce@email.com">
+                </div>
+
+                <div class="campo_duplo">
+                    <div class="campo">
+                        <label for="senha_input">Senha</label>
+                        <input id="senha_input" type="password" placeholder="••••••••">
+                    </div>
+                    <div class="campo">
+                        <label for="confirmacao_senha_input">Confirmar senha</label>
+                        <input id="confirmacao_senha_input" type="password" placeholder="••••••••">
+                    </div>
+                </div>
+                <p class="formulario_dica">Mínimo de 8 caracteres, com pelo menos um número.</p>
+
+                <label class="campo_marcar">
+                    <input id="termos_input" type="checkbox">
+                    <span>Concordo em guardar meus dados no ELOS para montar meu mapa de vínculos.</span>
+                </label>
+
+                <button class="botao_primario botao_largo">Criar minha conta</button>
+
+                <p class="formulario_rodape">Já tem conta? <a href="loginElos.html">Entrar</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a class="logo" href="index.html">
+            <img src="imgs/logo_negativo.svg" alt="Símbolo do ELOS">
+            <span>ELOS</span>
+        </a>
+        <p>Projeto individual · SPTech · 2026/2 · Daniel Henrique Matos Ferreira</p>
+    </div>
 </body>
 </html>
