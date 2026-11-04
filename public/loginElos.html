@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ELOS | Login</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    
+    <div id="header">
+        <a class="logo" href="index.html">
+            <img src="imgs/logo.svg" alt="Símbolo do ELOS">
+            <span>ELOS</span>
+        </a>
+        <ul class="navbar">
+            <li>
+                <a href="index.html#proposito">Propósito</a>
+            </li>
+            <li>
+                <a href="index.html#como_funciona">Como funciona</a>
+            </li>
+            <li>
+                <a href="index.html#sobre_mim">Sobre mim</a>
+            </li>
+        </ul>
+        <ul class="navbar_botoes">
+            <li>
+                <a class="botao_suave" href="loginElos.html">Entrar</a>
+            </li>
+            <li>
+                <a class="botao_primario" href="cadastroElos.html">Criar conta</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="acesso">
+        <div class="acesso_descricao">
+            <h1>Que bom te ver de novo.</h1>
+            <p>Suas pessoas estão te esperando. Entre para ver como está o seu mapa hoje.</p>
+            <img class="acesso_mapa" src="imgs/mapa_login.svg" alt="Mapa com a palavra Você no centro e pessoas ao redor">
+        </div>
+
+        <div class="acesso_formulario">
+            <div class="formulario_card">
+                <h2>Entrar</h2>
+                <p class="formulario_subtitulo">Use o e-mail do seu cadastro.</p>
+
+                <div class="campo">
+                    <label for="email_input">E-mail</label>
+                    <input id="email_input" type="text" placeholder="voce@email.com">
+                </div>
+
+                <div class="campo">
+                    <div class="campo_topo">
+                        <label for="senha_input">Senha</label>
+                        <a href="">Esqueci minha senha</a>
+                    </div>
+                    <input id="senha_input" type="password" placeholder="••••••••">
+                </div>
+
+                <label class="campo_marcar">
+                    <input id="manter_conectado_input" type="checkbox">
+                    <span>Manter conectado</span>
+                </label>
+
+                <button class="botao_primario botao_largo">Entrar</button>
+
+                <div class="divisor">
+                    <span></span>
+                    <p>ou</p>
+                    <span></span>
+                </div>
+
+                <a class="botao_pastel botao_largo botao_contorno" href="cadastroElos.html">Criar uma conta</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a class="logo" href="index.html">
+            <img src="imgs/logo_negativo.svg" alt="Símbolo do ELOS">
+            <span>ELOS</span>
+        </a>
+        <p>Projeto individual · SPTech · 2026/2 · Daniel Henrique Matos Ferreira</p>
+    </div>
 </body>
 </html>

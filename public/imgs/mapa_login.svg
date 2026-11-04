@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" font-family="Nunito Sans, sans-serif" text-anchor="middle">
+  <!-- Anéis de proximidade -->
+  <circle cx="150" cy="150" r="148" fill="#5F7E98" stroke="#C9DCEB"/>
+  <circle cx="150" cy="150" r="84" fill="#6E8BA5" stroke="#C9DCEB"/>
+
+  <!-- Pessoas ao redor -->
+  <circle cx="87" cy="96" r="19" fill="#C9DCEB" stroke="#F7FAFC" stroke-width="3"/>
+  <circle cx="218" cy="208" r="19" fill="#91B5D0" stroke="#F7FAFC" stroke-width="3"/>
+  <circle cx="255" cy="58" r="16" fill="#E8F0F6"/>
+  <circle cx="28" cy="226" r="16" fill="#24394D" stroke="#C9DCEB"/>
+
+  <!-- Centro -->
+  <circle cx="150" cy="150" r="32" fill="#F7FAFC"/>
+  <text x="150" y="155" fill="#24394D" font-size="14" font-weight="700">Você</text>
+</svg>
