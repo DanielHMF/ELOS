@@ -79,11 +79,15 @@
                         <input id="ipt_confirmacaoSenha" type="password" placeholder="••••••••">
                     </div>
                 </div>
-                <p class="formulario_dica">Mínimo de 8 caracteres, com pelo menos um número.</p>
+
+                <p class="formulario_dica" id="p_senha">Mínimo de 8 caracteres, com pelo menos um número. <p id="p_camposNull"></p></p>
+
+
 
                 <button class="botao_primario botao_largo" onclick="cadastrar()">Criar minha conta</button>
 
                 <p class="formulario_rodape">Já tem conta? <a href="loginElos.html">Entrar</a></p>
+
             </div>
         </div>
     </div>
@@ -100,6 +104,78 @@
 </html>
 
 <script>
+    function cadastrar(){
+        let nome = ipt_nome.value.trim()
 
+        let email = ipt_email.value.toLowerCase().trim()
+        let indexArroba = email.indexOf('@')
+        let indexCom = email.indexOf('.com')
+
+        let senha = ipt_senha.value.trim()
+        let temEspecial = senha.includes('!') || senha.includes('@') || senha.includes('#') || senha.includes('$') || senha.includes('*') || senha.includes('.') || senha.includes('_')
+        let senhaUpper = senha.toUpperCase()
+        let senhaLower = senha.toLowerCase()
+        
+        let confirmacaoSenha = ipt_confirmacaoSenha.value.trim()
+        
+        let campos = [nome, email, senha, confirmacaoSenha]
+
+        let nomeValido = nome.length > 1
+        let emailValido = email.includes('@') && email.includes('.com') && indexArroba > 0 && indexCom > indexArroba + 1
+        let senhaValida = senha != senhaUpper && senha != senhaLower && senha.length >= 8 && temEspecial == true
+        let confirmacaoValida = confirmacaoSenha == senha
+
+        let i = 0
+        for(i; i < campos.length && campos[i] != ''; i++){}
+
+        if (i < campos.length){
+            p_camposNull.innerHTML = `<br><p style="color: red">Preencha todos os campos!<p>`
+        } else {
+            if (!nomeValido){
+                alert('Nome inválido')
+            } else if(!emailValido){
+                alert('E-mail inválido')
+            } else if(!senhaValida){
+                alert('Senha não atende os requisitos mínimos')
+            } else if(!confirmacaoValida){
+                alert('Senhas não coincidem')
+            } else {
+                alert('Cadastro realizado com sucesso!')
+                window.location.href = 'loginElos.html'
+            }
+        }
+    }
+
+    function mostrarSenha(){
+        let senha = ipt_senha.value.trim()
+        let temEspecial = senha.includes('!') || senha.includes('@') || senha.includes('#') || senha.includes('$') || senha.includes('.') || senha.includes('*')
+        let senhaUpper = senha.toUpperCase()
+        let senhaLower = senha.toLowerCase()
+        let requisitos = 0
+
+        if (senha.length > 8){
+            requisitos++
+        }
+
+        if (senha != senhaUpper){
+            requisitos++
+        }
+
+        if (senha != senhaLower){
+            requisitos++
+        }
+
+        if (senha != temEspecial){
+            requisitos++
+        }
+
+        if (requisitos == 4) {
+            p_senha.innerHTML = `Senha <b style="color: green">Forte</b>`
+        } else if (requisitos == 3) {
+            p_senha.innerHTML = `Senha <b style="color: #FFD700">Média</b>`
+        } else {
+            p_senha.innerHTML = `Senha <b style="color: red">Fraca</b>`
+        }
+    }
     
 </script>
