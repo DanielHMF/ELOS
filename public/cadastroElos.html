@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+
     <div id="header">
         <a class="logo" href="index.html">
             <img src="imgs/logo.svg" alt="Símbolo do ELOS">
@@ -59,33 +60,28 @@
                 <p class="formulario_subtitulo">Leva menos de um minuto.</p>
 
                 <div class="campo">
-                    <label for="nome_input">Nome completo</label>
-                    <input id="nome_input" type="text" placeholder="Como você se chama?">
+                    <label for="ipt_nome">Nome completo</label>
+                    <input id="ipt_nome" type="text" placeholder="Como você se chama?">
                 </div>
 
                 <div class="campo">
-                    <label for="email_input">E-mail</label>
-                    <input id="email_input" type="text" placeholder="voce@email.com">
+                    <label for="ipt_email">E-mail</label>
+                    <input id="ipt_email" type="text" placeholder="voce@email.com">
                 </div>
 
                 <div class="campo_duplo">
                     <div class="campo">
-                        <label for="senha_input">Senha</label>
-                        <input id="senha_input" type="password" placeholder="••••••••">
+                        <label for="ipt_senha">Senha</label>
+                        <input id="ipt_senha" type="password" placeholder="••••••••" onkeyup="mostrarSenha()">
                     </div>
                     <div class="campo">
-                        <label for="confirmacao_senha_input">Confirmar senha</label>
-                        <input id="confirmacao_senha_input" type="password" placeholder="••••••••">
+                        <label for="ipt_confirmacaoSenha">Confirmar senha</label>
+                        <input id="ipt_confirmacaoSenha" type="password" placeholder="••••••••">
                     </div>
                 </div>
                 <p class="formulario_dica">Mínimo de 8 caracteres, com pelo menos um número.</p>
 
-                <label class="campo_marcar">
-                    <input id="termos_input" type="checkbox">
-                    <span>Concordo em guardar meus dados no ELOS para montar meu mapa de vínculos.</span>
-                </label>
-
-                <button class="botao_primario botao_largo">Criar minha conta</button>
+                <button class="botao_primario botao_largo" onclick="cadastrar()">Criar minha conta</button>
 
                 <p class="formulario_rodape">Já tem conta? <a href="loginElos.html">Entrar</a></p>
             </div>
@@ -99,5 +95,11 @@
         </a>
         <p>Projeto individual · SPTech · 2026/2 · Daniel Henrique Matos Ferreira</p>
     </div>
+
 </body>
 </html>
+
+<script>
+
+    
+</script>
