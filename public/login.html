@@ -63,7 +63,7 @@
                     <span>Manter conectado</span>
                 </label>
 
-                <button class="botao_primario botao_largo">Entrar</button>
+                <button class="botao_primario botao_largo" onclick="entrar()">Entrar</button>
 
                 <div class="divisor">
                     <span></span>
@@ -85,3 +85,44 @@
     </div>
 </body>
 </html>
+
+<script>
+
+    function entrar() {
+        let email = email_input.value.toLowerCase().trim()
+        let senha = senha_input.value.trim()
+
+        if (email == '' || senha == '') {
+            alert('Preencha todos os campos!')
+        } else {
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: email,
+                    senhaServer: senha
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (usuario) {
+                        sessionStorage.ID_USUARIO = usuario.id
+                        sessionStorage.NOME_USUARIO = usuario.nome
+                        sessionStorage.EMAIL_USUARIO = usuario.email
+                        alert(`Olá, ${usuario.nome}!`)
+                        window.location.href = 'index.html'
+                    })
+                } else {
+                    resposta.text().then(function (mensagem) {
+                        alert(mensagem)
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                alert('Não foi possível conectar ao servidor')
+            })
+        }
+    }
+    
+</script>
