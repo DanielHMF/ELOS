@@ -58,7 +58,6 @@ Exemplo: `feat(login): adiciona validação de e-mail`
 - Não gerar o projeto inteiro: eu preciso entender e saber explicar o código
 - Registrar o uso de IA no Diário de Prompts
 - Não mudar a arquitetura nem usar tecnologias fora do material de apoio
-- Não alterar `DOCUMENTOS_DE_APOIO/`
 - Não publicar senhas, arquivos `.env` ou dados pessoais reais
 - Não fazer o que está nos desejáveis sem eu pedir: tabela de grupos, último contato, editar e excluir pessoa
 - Me perguntar antes de qualquer decisão importante
