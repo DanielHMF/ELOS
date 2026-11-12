@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELOS | Dashboard</title>
+    <link rel="stylesheet" href="css/sistema.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="carregarDashboard()">
+    <div class="sistema">
+
+        <!-- Menu lateral (igual nas telas de dentro, só muda o item ativo) -->
+        <aside class="menu_lateral">
+            <a class="menu_logo" href="dashboard.html">
+                <img src="imgs/logo_elos_negativo.svg" alt="Símbolo do ELOS">
+                <span>ELOS</span>
+            </a>
+            <nav>
+                <p class="menu_titulo">Menu</p>
+                <ul class="menu_lista">
+                    <li>
+                        <a class="menu_item menu_ativo" href="dashboard.html">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="2"></rect><rect x="14" y="3" width="7" height="5" rx="2"></rect><rect x="14" y="12" width="7" height="9" rx="2"></rect><rect x="3" y="16" width="7" height="5" rx="2"></rect></svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu_item" href="pessoas.html">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5a6 6 0 0 1 3 5.2V21"></path></svg>
+                            Pessoas
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu_item" href="perfil.html">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4.5"></circle><path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"></path></svg>
+                            Perfil
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="conteudo">
+            <div class="conteudo_interno">
+
+                <div class="cabecalho_pagina">
+                    <div>
+                        <h1>Olá, <span id="span_nome_usuario"></span></h1>
+                        <p>Veja como estão os seus elos hoje.</p>
+                    </div>
+                </div>
+
+                <!-- KPIs: os valores são preenchidos pelo JavaScript -->
+                <div class="linha">
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Pessoas no mapa</span>
+                            <span class="kpi_icone fundo_ceu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5a6 6 0 0 1 3 5.2V21"></path></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_total">--</span>
+                        <span class="kpi_legenda" id="kpi_total_legenda"></span>
+                    </div>
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Força média do elo</span>
+                            <span class="kpi_icone fundo_capri_claro"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_media">--</span>
+                        <span class="kpi_legenda">de 0 a 100</span>
+                    </div>
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Mais perto de você</span>
+                            <span class="kpi_icone fundo_anil"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_mais_perto">--</span>
+                        <span class="kpi_legenda" id="kpi_mais_perto_legenda"></span>
+                    </div>
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Pedem atenção</span>
+                            <span class="kpi_icone fundo_lavanda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17h-19z"></path><path d="M12 10v4M12 17.5v.01"></path></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_atencao">--</span>
+                        <span class="kpi_legenda">pessoas com força abaixo de 50</span>
+                    </div>
+                </div>
+
+                <!-- Mapa de proximidade + radar dos 3 pilares -->
+                <div class="linha">
+                    <section class="card card_largo">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Mapa de proximidade</h2>
+                                <p>Quanto mais perto do centro, mais forte é o elo.</p>
+                            </div>
+                        </div>
+                        <div class="mapa" id="div_mapa">
+                            <div class="anel anel_distante"></div>
+                            <div class="anel anel_meio"></div>
+                            <div class="anel anel_perto"></div>
+                            <div class="mapa_voce">Você</div>
+                            <!-- As pessoas entram aqui pelo JavaScript -->
+                        </div>
+                        <ul class="legenda">
+                            <li><span class="legenda_cor fundo_anil"></span>Família</li>
+                            <li><span class="legenda_cor fundo_lavanda"></span>Amigos</li>
+                            <li><span class="legenda_cor fundo_ceu"></span>Faculdade</li>
+                            <li><span class="legenda_cor fundo_anil_claro"></span>Trabalho</li>
+                        </ul>
+                    </section>
+
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Os 3 pilares do elo</h2>
+                                <p>Média de todas as suas pessoas.</p>
+                            </div>
+                        </div>
+                        <div class="grafico">
+                            <canvas id="grafico_pilares"></canvas>
+                        </div>
+                        <div class="destaque" id="div_destaque_pilares"></div>
+                    </section>
+                </div>
+
+                <!-- Elos mais fracos + força por grupo -->
+                <div class="linha">
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Quem merece uma mensagem</h2>
+                                <p>Os três elos mais fracos agora.</p>
+                            </div>
+                            <a href="pessoas.html"><b>Ver todos</b></a>
+                        </div>
+                        <div id="div_lista_fracos"></div>
+                    </section>
+
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Força média por grupo</h2>
+                                <p>Como cada parte da sua vida está hoje.</p>
+                            </div>
+                        </div>
+                        <div class="grafico">
+                            <canvas id="grafico_grupos"></canvas>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+
+    // DADOS DE EXEMPLO: só para montar a tela.
+    // No próximo passo esse vetor vai vir do banco, por um fetch para a API.
+    let pessoas = [
+        { nome: 'Ana', vinculo: 'Mãe', grupo: 'Família', convivencia: 95, confianca: 98, apoio: 97 },
+        { nome: 'Tia Marta', vinculo: 'Tia', grupo: 'Família', convivencia: 80, confianca: 92, apoio: 94 },
+        { nome: 'Lucas', vinculo: 'Melhor amigo', grupo: 'Amigos', convivencia: 75, confianca: 95, apoio: 90 },
+        { nome: 'Júlia', vinculo: 'Irmã', grupo: 'Família', convivencia: 90, confianca: 80, apoio: 88 },
+        { nome: 'Carlos', vinculo: 'Pai', grupo: 'Família', convivencia: 70, confianca: 85, apoio: 84 },
+        { nome: 'Bia', vinculo: 'Amiga', grupo: 'Amigos', convivencia: 60, confianca: 85, apoio: 80 },
+        { nome: 'Gabi', vinculo: 'Colega de sala', grupo: 'Faculdade', convivencia: 70, confianca: 65, apoio: 60 },
+        { nome: 'Thiago', vinculo: 'Amigo da ETEC', grupo: 'Amigos', convivencia: 30, confianca: 70, apoio: 50 },
+        { nome: 'Sr. Jorge', vinculo: 'Ex-chefe', grupo: 'Trabalho', convivencia: 20, confianca: 55, apoio: 40 },
+        { nome: 'Paulo', vinculo: 'Primo', grupo: 'Família', convivencia: 25, confianca: 45, apoio: 35 }
+    ]
+
+    // function carregarDashboard() {
+    //     // Sem login, volta para a tela de login
+    //     if (sessionStorage.ID_USUARIO == undefined) {
+    //         window.location.href = 'login.html'
+    //     } else {
+    //         span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO
+
+    //         // A Força do Elo não fica salva no banco: é a média dos 3 pilares
+    //         for (let i = 0; i < pessoas.length; i++) {
+    //             pessoas[i].forca = Math.round((pessoas[i].convivencia + pessoas[i].confianca + pessoas[i].apoio) / 3)
+    //         }
+
+    //         montarKpis()
+    //         montarMapa()
+    //         montarListaFracos()
+    //         montarGraficoPilares()
+    //         montarGraficoGrupos()
+    //     }
+    // }
+
+    function montarKpis() {
+        let soma = 0
+        let maisPerto = pessoas[0]
+        let qtdAtencao = 0
+
+        for (let i = 0; i < pessoas.length; i++) {
+            soma += pessoas[i].forca
+
+            if (pessoas[i].forca > maisPerto.forca) {
+                maisPerto = pessoas[i]
+            }
+
+            if (pessoas[i].forca < 50) {
+                qtdAtencao++
+            }
+        }
+
+        kpi_total.innerHTML = pessoas.length
+        kpi_total_legenda.innerHTML = 'pessoas cadastradas'
+        kpi_media.innerHTML = Math.round(soma / pessoas.length)
+        kpi_mais_perto.innerHTML = `${maisPerto.nome} · ${maisPerto.forca}`
+        kpi_mais_perto_legenda.innerHTML = maisPerto.vinculo
+        kpi_atencao.innerHTML = qtdAtencao
+    }
+
+    // Devolve a classe de cor de cada grupo (as mesmas da legenda)
+    function corDoGrupo(grupo) {
+        let classe = 'fundo_anil_claro'
+
+        if (grupo == 'Família') {
+            classe = 'fundo_anil'
+        } else if (grupo == 'Amigos') {
+            classe = 'fundo_lavanda'
+        } else if (grupo == 'Faculdade') {
+            classe = 'fundo_ceu'
+        }
+
+        return classe
+    }
+
+    function montarMapa() {
+        for (let i = 0; i < pessoas.length; i++) {
+            let pessoa = pessoas[i]
+
+            // Distância do centro (em % do mapa): força 100 fica perto do "Você", força 0 fica na borda
+            let distancia = 16 + (100 - pessoa.forca) * 0.4
+
+            // Cada pessoa gira 2,4 radianos (uns 137°) em relação à anterior.
+            // Esse passo espalha as pessoas em volta do centro sem amontoar umas nas outras
+            let angulo = i * 2.4
+
+            // Cosseno dá a posição na horizontal e seno na vertical, a partir do centro (50%)
+            let esquerda = 50 + distancia * Math.cos(angulo)
+            let topo = 50 + distancia * Math.sin(angulo)
+
+            div_mapa.innerHTML += `
+                <div class="mapa_pessoa" style="left: ${esquerda}%; top: ${topo}%;">
+                    <div class="bolinha ${corDoGrupo(pessoa.grupo)}">${pessoa.nome[0]}</div>
+                    <span>${pessoa.nome} · ${pessoa.forca}</span>
+                </div>
+            `
+        }
+    }
+
+    function montarListaFracos() {
+        // O vetor de exemplo já está da mais forte para a mais fraca,
+        // então as 3 últimas posições são os elos mais fracos.
+        // Quando vier do banco, o SELECT pode trazer isso pronto com ORDER BY e LIMIT.
+        for (let i = pessoas.length - 1; i >= pessoas.length - 3; i--) {
+            let pessoa = pessoas[i]
+
+            let corBarra = '#C7B8FF'
+            if (pessoa.forca >= 50) {
+                corBarra = '#7FDFFF'
+            }
+
+            div_lista_fracos.innerHTML += `
+                <div class="lista_pessoa">
+                    <div class="bolinha ${corDoGrupo(pessoa.grupo)}">${pessoa.nome[0]}</div>
+                    <div class="lista_pessoa_info">
+                        <div class="lista_pessoa_topo">
+                            <span>${pessoa.nome} <small>· ${pessoa.vinculo}</small></span>
+                            <span>${pessoa.forca}</span>
+                        </div>
+                        <div class="barra">
+                            <div style="width: ${pessoa.forca}%; background-color: ${corBarra};"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+    }
+
+    function montarGraficoPilares() {
+        let somaConvivencia = 0
+        let somaConfianca = 0
+        let somaApoio = 0
+
+        for (let i = 0; i < pessoas.length; i++) {
+            somaConvivencia += pessoas[i].convivencia
+            somaConfianca += pessoas[i].confianca
+            somaApoio += pessoas[i].apoio
+        }
+
+        let mediaConvivencia = Math.round(somaConvivencia / pessoas.length)
+        let mediaConfianca = Math.round(somaConfianca / pessoas.length)
+        let mediaApoio = Math.round(somaApoio / pessoas.length)
+
+        new Chart(grafico_pilares, {
+            type: 'radar',
+            data: {
+                labels: ['Convivência', 'Confiança', 'Apoio'],
+                datasets: [{
+                    label: 'Média',
+                    data: [mediaConvivencia, mediaConfianca, mediaApoio],
+                    backgroundColor: 'rgba(0, 191, 255, 0.35)',
+                    borderColor: '#0077B6',
+                    pointBackgroundColor: '#0077B6',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: { min: 0, max: 100, ticks: { display: false }, grid: { color: '#CCF2FF' }, angleLines: { color: '#CCF2FF' } }
+                }
+            }
+        })
+
+        // Descobre o pilar mais forte e o mais fraco para escrever o destaque
+        let nomes = ['Convivência', 'Confiança', 'Apoio']
+        let medias = [mediaConvivencia, mediaConfianca, mediaApoio]
+        let maior = 0
+        let menor = 0
+
+        for (let i = 1; i < medias.length; i++) {
+            if (medias[i] > medias[maior]) {
+                maior = i
+            }
+            if (medias[i] < medias[menor]) {
+                menor = i
+            }
+        }
+
+        div_destaque_pilares.innerHTML = `
+            <span><b>${nomes[maior]}</b> é o seu pilar mais forte (${medias[maior]}).</span>
+            <span><b>${nomes[menor]}</b> é o que mais pede cuidado (${medias[menor]}).</span>
+        `
+    }
+
+    function montarGraficoGrupos() {
+        let grupos = ['Família', 'Amigos', 'Faculdade', 'Trabalho']
+        let medias = []
+
+        // Para cada grupo, soma a força das pessoas daquele grupo e divide pela quantidade
+        for (let g = 0; g < grupos.length; g++) {
+            let soma = 0
+            let quantidade = 0
+
+            for (let i = 0; i < pessoas.length; i++) {
+                if (pessoas[i].grupo == grupos[g]) {
+                    soma += pessoas[i].forca
+                    quantidade++
+                }
+            }
+
+            if (quantidade > 0) {
+                medias.push(Math.round(soma / quantidade))
+            } else {
+                medias.push(0)
+            }
+        }
+
+        new Chart(grafico_grupos, {
+            type: 'bar',
+            data: {
+                labels: grupos,
+                datasets: [{
+                    label: 'Força média',
+                    data: medias,
+                    backgroundColor: ['#7B93FF', '#C7B8FF', '#CCF2FF', '#E8ECFF'],
+                    borderColor: '#0B2E4F',
+                    borderWidth: 1.5,
+                    borderRadius: 99
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { min: 0, max: 100, grid: { color: '#DDF3FD' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        })
+    }
+
+</script>

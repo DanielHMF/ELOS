@@ -1,4 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
-  <circle cx="60" cy="11" r="10" fill="#91B5D0"/>
-  <path d="M60 50C48 36 40 30 28 30C16 30 8 39 8 50C8 61 16 70 28 70C40 70 48 64 60 50C72 36 80 30 92 30C104 30 112 39 112 50C112 61 104 70 92 70C80 70 72 64 60 50Z" fill="none" stroke="#F7FAFC" stroke-width="12"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -14 200 179" width="200" height="179">
+  <!-- Logo ELOS: traço da assinatura do Daniel, com dois elos, o H e as bolinhas -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M48,102.6 L195,7.5" stroke="#00BFFF" stroke-width="8"/>
+    <path d="M15,150 L185,40" stroke="#FFFFFF" stroke-width="9"/>
+    <path d="M100,10 L93,134 C92,140 88,139 86,136 C64,131 38,144 15,150" stroke="#FFFFFF" stroke-width="9"/>
+    <path d="M143,29 L140,83" stroke="#FFFFFF" stroke-width="7"/>
+    <path d="M159,19 L156,73" stroke="#FFFFFF" stroke-width="7"/>
+  </g>
+  <circle cx="144.5" cy="12" r="6.5" fill="#00BFFF"/>
+  <circle cx="160.5" cy="2" r="6.5" fill="#00BFFF"/>
 </svg>
