@@ -457,8 +457,7 @@ ul {
 
 /* ---------- Botões ---------- */
 
-.botao_primario,
-.botao_secundario {
+.botao_primario, .botao_secundario {
     display: inline-flex;
     align-items: center;
     gap: 8px;
