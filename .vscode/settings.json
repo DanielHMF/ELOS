@@ -1,0 +1,13 @@
+{
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#6E5CE038",
+        "titleBar.inactiveBackground": "#6E5CE01f",
+        "titleBar.border": "#6E5CE0",
+        "statusBar.border": "#6E5CE0",
+        "statusBar.foreground": "#6E5CE0",
+        "activityBar.activeBorder": "#6E5CE0",
+        "focusBorder": "#6E5CE080",
+        "__omnify": "alienx:subtle"
+    },
+    "omnify.alien": "alienx"
+}
