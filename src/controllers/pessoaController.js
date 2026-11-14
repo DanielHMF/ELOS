@@ -1,7 +1,7 @@
 let pessoaModel = require("../models/pessoaModel");
 
 function listar(req, res){
-    let idUsuario = req.params.idusuraio;
+    let idUsuario = req.params.idUsuario;
     
     if (idUsuario == undefined){
         res.status(400).send("O id do usuário está indefined!");
@@ -16,7 +16,7 @@ function listar(req, res){
 
         .catch(function (erro){
             console.log("Houve um erro ao listar as pessoas! Erro: ", erro.sqlMessage);
-            res.status(500).jason(erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
         });
     }
 }

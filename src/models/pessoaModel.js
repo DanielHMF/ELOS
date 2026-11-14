@@ -1,6 +1,6 @@
 let database = require('../database/config.js');
 
-function listar(idUsuariio){
+function listar(idUsuario){
     let instrucaoSql = `
     SELECT 
         pessoa.id,
