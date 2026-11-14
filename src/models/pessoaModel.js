@@ -2,7 +2,7 @@ let database = require('../database/config.js');
 
 function cadastrar(nome, vinculo, descricao, foto, idUsuario){
     let instrucaoSql = `
-        INSERT INTO pessoa (nome, vinculo, descricao, toto, fk_usuario)
+        INSERT INTO pessoa (nome, vinculo, descricao, foto, fk_usuario)
         VALUES ('${nome}', '${vinculo}', '${descricao}', '${foto}', ${idUsuario});
     `;
 

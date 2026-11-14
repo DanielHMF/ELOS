@@ -2,7 +2,7 @@ let pessoaModel = require("../models/pessoaModel");
 
 function cadastrar(req, res){
     let nome = req.body.nomeServer;
-    let vinculo = req.body.nomeServer;
+    let vinculo = req.body.vinculoServer;
     let descricao = req.body.descricaoServer;
     let foto = req.body.fotoServer;
     let convivencia = req.body.convivenciaServer;
@@ -22,26 +22,25 @@ function cadastrar(req, res){
         res.status(400).send('O apoio está undefined!')
     } else if (idUsuario == undefined) {
         res.status(400).send('O id do usuário está undefined!')
-    }
-
-    pessoaModel.cadastrar(nome, vinculo, descricao, foto, idUsuario).then(function (resultadoPessoa) {
-        let idPessoa = resultadoPessoa.insertId;
-
-        pessoaModel.cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa).then(function (resultadoAvaliacao) {
-            res.status(201).json(resultadoAvaliacao);
+    } else {
+        pessoaModel.cadastrar(nome, vinculo, descricao, foto, idUsuario).then(function (resultadoPessoa) {
+            let idPessoa = resultadoPessoa.insertId;
+    
+            pessoaModel.cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa).then(function (resultadoAvaliacao) {
+                res.status(201).json(resultadoAvaliacao);
+            })
+    
+            .catch(function (erro){
+                console.log('Houve um erro ao cadastrar a avaliação! Erro: ', erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
         })
 
-        .catch(function (erro){
-            console.log('Houve um erro ao cadastrar a avaliação! Erro: ', erro.sqlMessage);
+        .catch(function (erro) {
+            console.log('Houve um erro ao cadastrar a pessoa! Erro: ', erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
-    })
-
-    .catch(function (erro) {
-        console.log('Houve um erro ao cadastrar a pessoa! Erro: ', erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    })
-
+    }
 }
 
 function listar(req, res){

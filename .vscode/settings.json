@@ -1,14 +1,13 @@
 {
-    "omnify.alien": "xlr8",
-    "omnify.enabled": true,
+    "omnify.alien": "wildmutt",
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#5E8EE638",
-        "titleBar.inactiveBackground": "#5E8EE61f",
-        "titleBar.border": "#5E8EE6",
-        "statusBar.border": "#5E8EE6",
-        "statusBar.foreground": "#5E8EE6",
-        "activityBar.activeBorder": "#5E8EE6",
-        "focusBorder": "#5E8EE680",
-        "__omnify": "xlr8:subtle"
+        "titleBar.activeBackground": "#c4925638",
+        "titleBar.inactiveBackground": "#c492561f",
+        "titleBar.border": "#c49256",
+        "statusBar.border": "#c49256",
+        "statusBar.foreground": "#c49256",
+        "activityBar.activeBorder": "#c49256",
+        "focusBorder": "#c4925680",
+        "__omnify": "wildmutt:subtle"
     }
 }
