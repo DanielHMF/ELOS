@@ -1,13 +1,14 @@
 {
+    "omnify.alien": "xlr8",
+    "omnify.enabled": true,
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#6E5CE038",
-        "titleBar.inactiveBackground": "#6E5CE01f",
-        "titleBar.border": "#6E5CE0",
-        "statusBar.border": "#6E5CE0",
-        "statusBar.foreground": "#6E5CE0",
-        "activityBar.activeBorder": "#6E5CE0",
-        "focusBorder": "#6E5CE080",
-        "__omnify": "alienx:subtle"
-    },
-    "omnify.alien": "alienx"
+        "titleBar.activeBackground": "#5E8EE638",
+        "titleBar.inactiveBackground": "#5E8EE61f",
+        "titleBar.border": "#5E8EE6",
+        "statusBar.border": "#5E8EE6",
+        "statusBar.foreground": "#5E8EE6",
+        "activityBar.activeBorder": "#5E8EE6",
+        "focusBorder": "#5E8EE680",
+        "__omnify": "xlr8:subtle"
+    }
 }
