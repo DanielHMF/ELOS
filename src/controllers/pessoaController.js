@@ -43,6 +43,32 @@ function cadastrar(req, res){
     }
 }
 
+function avaliar(req, res) {
+    let convivencia = req.body.convivenciaServer;
+    let confianca = req.body.confiancaServer;
+    let apoio = req.body.apoioServer;
+    let idPessoa = req.params.idPessoa;
+
+    if (convivencia == undefined) {
+        res.status(400).send('A convivência está undefined!');
+    } else if (confianca == undefined) {
+
+    } else if (apoio == undefined) {
+
+    } else if (idPessoa == undefined) {
+
+    } else {
+        pessoaModel.cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa)
+        .then(function (resuldado){
+            res.status(201).json(resultado);
+        })
+        .catch(function (erro) {
+            console.log('Houve um erro ao cadastrar a avaliação!! Erro: ', erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        })
+    }
+}
+
 function listar(req, res){
     let idUsuario = req.params.idUsuario;
     
