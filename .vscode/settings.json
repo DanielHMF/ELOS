@@ -1,13 +1,13 @@
 {
-    "omnify.alien": "wildmutt",
+    "omnify.alien": "diamondhead",
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#C4925638",
-        "titleBar.inactiveBackground": "#C492561f",
-        "titleBar.border": "#C49256",
-        "statusBar.border": "#C49256",
-        "statusBar.foreground": "#C49256",
-        "activityBar.activeBorder": "#C49256",
-        "focusBorder": "#C4925680",
-        "__omnify": "wildmutt:subtle"
+        "titleBar.activeBackground": "#3fd4c238",
+        "titleBar.inactiveBackground": "#3fd4c21f",
+        "titleBar.border": "#3fd4c2",
+        "statusBar.border": "#3fd4c2",
+        "statusBar.foreground": "#3fd4c2",
+        "activityBar.activeBorder": "#3fd4c2",
+        "focusBorder": "#3fd4c280",
+        "__omnify": "diamondhead:subtle"
     }
 }

@@ -17,7 +17,7 @@ let app = express();
 
 let usuarioRouter = require("./src/routes/usuarios");
 let pessoaRouter = require("./src/routes/pessoas");
-
+let grupoRouter = require("./src/routes/grupos");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,6 +27,7 @@ app.use(cors());
 
 app.use("/usuarios", usuarioRouter);
 app.use("/pessoas", pessoaRouter);
+app.use("grupos", grupoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

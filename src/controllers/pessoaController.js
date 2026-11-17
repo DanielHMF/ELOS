@@ -59,7 +59,7 @@ function avaliar(req, res) {
         res.status(400).send('O id da pessoa está undefined!')
     } else {
         pessoaModel.cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa)
-        .then(function (resuldado){
+        .then(function (resultado){
             res.status(201).json(resultado);
         })
         .catch(function (erro) {
