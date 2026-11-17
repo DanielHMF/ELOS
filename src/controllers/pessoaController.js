@@ -52,11 +52,11 @@ function avaliar(req, res) {
     if (convivencia == undefined) {
         res.status(400).send('A convivência está undefined!');
     } else if (confianca == undefined) {
-
+        res.status(400).send('A confiança está undefined!')
     } else if (apoio == undefined) {
-
+        res.status(400).send('O apoio está undefined!')
     } else if (idPessoa == undefined) {
-
+        res.status(400).send('O id da pessoa está undefined!')
     } else {
         pessoaModel.cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa)
         .then(function (resuldado){
@@ -92,5 +92,6 @@ function listar(req, res){
 
 module.exports = {
     cadastrar,
+    avaliar,
     listar
 };
