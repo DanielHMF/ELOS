@@ -14,7 +14,7 @@ CREATE TABLE grupo(
 id INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45) NOT NULL,
 descricao VARCHAR(200),
-fk_usuario INT NOT NULL, 
+fk_usuario INT, 
 FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 
