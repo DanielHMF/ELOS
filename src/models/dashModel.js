@@ -70,10 +70,27 @@ function buscarPilares(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarGrupos(idUsuario) {
+    let instrucaoSql = `
+        SELECT
+            grupo,
+            ROUND(AVG(forca)) AS media
+        FROM vw_elos
+        WHERE fk_usuario = ${idUsuario}
+        GROUP BY grupo
+        ORDER BY media DESC;
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarKpis,
     buscarAtencao,
     buscarMaisPerto,
     buscarFracos,
-    buscarPilares
+    buscarPilares,
+    buscarGrupos
 }
