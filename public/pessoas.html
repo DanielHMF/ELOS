@@ -1,11 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ELOS | Pessoas</title>
+    <link rel="stylesheet" href="css/geral.css">
+    <link rel="stylesheet" href="css/sistema.css">
 </head>
 <body>
-    
+    <div class="sistema">
+        <main class="conteudo">
+            <div class="conteudo_interno">
+
+                <div class="cabecalho_pagina">
+                    <div>
+                        <h1>Suas pessoas</h1>
+                        <p>Quem faz parte da sua família, de sangue ou não.</p>
+                    </div>
+                    <div class="cabecalho_botoes">
+                        <button class="botao_secundario" onclick="abrirModal(div_modal_grupo)">Novo grupo</button>
+                        <button class="botao_primario" onclick="abrirModal(div_modal_cadastro)">Cadastrar pessoa</button>
+                    </div>
+                </div>
+                <div class="grade_pessoas" id="div_cards">
+
+                    <!-- CARD DE EXEMPLO: no passo ⑦ ele vira template dentro de um for -->
+                    <div class="card card_pessoa">
+                        <div class="card_pessoa_topo">
+                            <div class="bolinha fundo_anil">A</div>
+                            <div>
+                                <h3>Ana</h3>
+                                <p>Mãe</p>
+                            </div>
+                        </div>
+
+                        <span class="etiqueta fundo_anil">Família</span>
+
+                        <div>
+                            <div class="card_pessoa_forca">
+                                <span>Força do elo</span>
+                                <b>97</b>
+                            </div>
+                            <div class="barra">
+                                <div style="width: 97%; background-color: #7FDFFF;"></div>
+                            </div>
+                        </div>
+
+                        <div class="card_pessoa_pilares">
+                            <div><b>95</b><span>Convivência</span></div>
+                            <div><b>98</b><span>Confiança</span></div>
+                            <div><b>97</b><span>Apoio</span></div>
+                        </div>
+
+                        <button class="botao_secundario botao_largo" onclick="abrirReavaliacao(1, 'Ana')">Reavaliar</button>
+                    </div>
+
+                </div>
+
+                <div class="card vazio" id="div_vazio">
+                    <h2>Ninguém por aqui ainda</h2>
+                    <p>Cadastre a primeira pessoa para começar a ver seus elos.</p>
+                    <button class="botao_primario" onclick="abrirModal(div_modal_cadastro)">Cadastrar pessoa</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <div class="modal" id="div_modal_cadastro">
+        <div class="modal_caixa">
+            <h2>Cadastrar pessoa</h2>
+            <p>De 0 a 100, como está esse elo hoje?</p>
+
+            <div class="campo">
+                <label for="nome_input">Nome</label>
+                <input id="nome_input" type="text" placeholder="Ex.: Ana">
+            </div>
+
+            <div class="campo_duplo">
+                <div class="campo">
+                    <label for="vinculo_input">Vínculo</label>
+                    <input id="vinculo_input" type="text" placeholder="Ex.: Mãe">
+                </div>
+                <div class="campo">
+                    <label for="grupo_select">Grupo</label>
+                    <select id="grupo_select">
+                        <!-- as opções vêm do GET /grupos/listar -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="descricao_input">Descrição (opcional)</label>
+                <textarea id="descricao_input" placeholder="Algo que você quer lembrar sobre essa pessoa"></textarea>
+            </div>
+
+            <div class="campo">
+                <div class="campo_topo">
+                    <label for="convivencia_input">Convivência</label>
+                    <span id="convivencia_valor">50</span>
+                </div>
+                <input id="convivencia_input" type="range" min="0" max="100" value="50"
+                    oninput="convivencia_valor.innerHTML = convivencia_input.value">
+                <small>O quanto vocês se veem e conversam.</small>
+            </div>
+
+            <div class="campo">
+                <div class="campo_topo">
+                    <label for="confianca_input">Confiança</label>
+                    <span id="confianca_valor">50</span>
+                </div>
+                <input id="confianca_input" type="range" min="0" max="100" value="50"
+                    oninput="confianca_valor.innerHTML = confianca_input.value">
+                <small>O quanto você confia nessa pessoa.</small>
+            </div>
+
+            <div class="campo">
+                <div class="campo_topo">
+                    <label for="apoio_input">Apoio</label>
+                    <span id="apoio_valor">50</span>
+                </div>
+                <input id="apoio_input" type="range" min="0" max="100" value="50"
+                    oninput="apoio_valor.innerHTML = apoio_input.value">
+                <small>O quanto vocês podem contar um com o outro.</small>
+            </div>
+
+            <span class="mensagem_erro" id="cadastro_erro"></span>
+
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_cadastro)">Cancelar</button>
+                <button class="botao_primario" onclick="cadastrarPessoa()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="div_modal_grupo">
+        <div class="modal_caixa">
+            <h2>Novo grupo</h2>
+            <p>Crie um grupo só seu, além dos que já vêm prontos.</p>
+
+            <div class="campo">
+                <label for="grupo_nome_input">Nome do grupo</label>
+                <input id="grupo_nome_input" type="text" placeholder="Ex.: Futebol de quinta">
+            </div>
+
+            <div class="campo">
+                <label for="grupo_descricao_input">Descrição (opcional)</label>
+                <textarea id="grupo_descricao_input"></textarea>
+            </div>
+
+            <span class="mensagem_erro" id="grupo_erro"></span>
+
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_grupo)">Cancelar</button>
+                <button class="botao_primario" onclick="cadastrarGrupo()">Criar grupo</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="div_modal_reavaliar">
+        <div class="modal_caixa">
+            <h2>Reavaliar <span id="reavaliar_nome"></span></h2>
+            <p>A avaliação antiga fica guardada no histórico.</p>
+
+            <div class="campo">
+                <div class="campo_topo">
+                    <label for="nova_convivencia_input">Convivência</label>
+                    <span id="nova_convivencia_valor">50</span>
+                </div>
+                <input id="nova_convivencia_input" type="range" min="0" max="100" value="50"
+                    oninput="nova_convivencia_valor.innerHTML = nova_convivencia_input.value">
+            </div>
+
+            <div class="campo">
+                <div class="campo_topo">
+                    <label for="nova_confianca_input">Confiança</label>
+                    <span id="nova_confianca_valor">50</span>
+                </div>
+                <input id="nova_confianca_input" type="range" min="0" max="100" value="50"
+                    oninput="nova_confianca_valor.innerHTML = nova_confianca_input.value">
+            </div>
+
+            <div class="campo">
+                <div class="campo_topo">
+                    <label for="novo_apoio_input">Apoio</label>
+                    <span id="novo_apoio_valor">50</span>
+                </div>
+                <input id="novo_apoio_input" type="range" min="0" max="100" value="50"
+                    oninput="novo_apoio_valor.innerHTML = novo_apoio_input.value">
+            </div>
+
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_reavaliar)">Cancelar</button>
+                <button class="botao_primario" onclick="reavaliarPessoa()">Salvar avaliação</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
