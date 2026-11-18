@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELOS | Dashboard</title>
+    <link rel="stylesheet" href="css/geral.css">
+    <link rel="stylesheet" href="css/sistema.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="sistema">
+
+        <aside class="menu_lateral">
+            <a class="logo logo_negativo menu_logo" href="dashboard.html">
+                <img src="imgs/logo_negativo.svg" alt="Símbolo do ELOS">
+                <span>ELOS</span>
+            </a>
+
+            <nav>
+                <p class="menu_titulo">Menu</p>
+                <ul class="menu_lista">
+                    <li>
+                        <a class="menu_item menu_ativo" href="dashboard.html">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="2"></rect><rect x="14" y="3" width="7" height="5" rx="2"></rect><rect x="14" y="12" width="7" height="9" rx="2"></rect><rect x="3" y="16" width="7" height="5" rx="2"></rect></svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu_item" href="pessoas.html">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5a6 6 0 0 1 3 5.2V21"></path></svg>
+                            Pessoas
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu_item" href="perfil.html">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4.5"></circle><path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"></path></svg>
+                            Perfil
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="conteudo">
+            <div class="conteudo_interno">
+
+                <div class="cabecalho_pagina">
+                    <div>
+                        <h1>Olá, <span id="span_nome_usuario"></span></h1>
+                        <p>Veja como estão os seus elos hoje.</p>
+                    </div>
+                </div>
+
+                <div class="linha">
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Pessoas no mapa</span>
+                            <span class="kpi_icone fundo_ceu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"></path><path d="M16 4.5a4 4 0 0 1 0 7"></path><path d="M19 14.5a6 6 0 0 1 3 5.2V21"></path></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_total">--</span>
+                        <span class="kpi_legenda">pessoas cadastradas</span>
+                    </div>
+
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Força média do elo</span>
+                            <span class="kpi_icone fundo_capri_claro"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_media">--</span>
+                        <span class="kpi_legenda">de 0 a 100</span>
+                    </div>
+
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Mais perto de você</span>
+                            <span class="kpi_icone fundo_anil"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_mais_perto">--</span>
+                        <span class="kpi_legenda" id="kpi_mais_perto_legenda"></span>
+                    </div>
+
+                    <div class="card kpi">
+                        <div class="kpi_topo">
+                            <span>Pedem atenção</span>
+                            <span class="kpi_icone fundo_lavanda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2E4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17h-19z"></path><path d="M12 10v4M12 17.5v.01"></path></svg></span>
+                        </div>
+                        <span class="kpi_valor" id="kpi_atencao">--</span>
+                        <span class="kpi_legenda">elos com força abaixo de 50</span>
+                    </div>
+                </div>
+
+                <div class="linha">
+                    <section class="card card_largo">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Mapa de proximidade</h2>
+                                <p>Quanto mais perto do centro, mais forte é o elo.</p>
+                            </div>
+                        </div>
+                        <div class="mapa" id="div_mapa">
+                            <div class="anel anel_distante"></div>
+                            <div class="anel anel_meio"></div>
+                            <div class="anel anel_perto"></div>
+                            <div class="mapa_voce">Você</div>
+                            <!-- as pessoas entram aqui pelo JavaScript -->
+                        </div>
+                        <ul class="legenda">
+                            <li><span class="legenda_cor fundo_anil"></span>Família</li>
+                            <li><span class="legenda_cor fundo_lavanda"></span>Amigos</li>
+                            <li><span class="legenda_cor fundo_ceu"></span>Faculdade</li>
+                            <li><span class="legenda_cor fundo_anil_claro"></span>Trabalho e outros</li>
+                        </ul>
+                    </section>
+
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Os 3 pilares do elo</h2>
+                                <p>Média de todas as suas pessoas.</p>
+                            </div>
+                        </div>
+                        <div class="grafico">
+                            <canvas id="grafico_pilares"></canvas>
+                        </div>
+                        <div class="destaque" id="div_destaque_pilares"></div>
+                    </section>
+                </div>
+
+                 <div class="linha">
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Quem merece uma mensagem</h2>
+                                <p>Os três elos mais fracos agora.</p>
+                            </div>
+                            <a href="pessoas.html"><b>Ver todos</b></a>
+                        </div>
+                        <div id="div_lista_fracos"></div>
+                    </section>
+
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Força média por grupo</h2>
+                                <p>Como cada parte da sua vida está hoje.</p>
+                            </div>
+                        </div>
+                        <div class="grafico">
+                            <canvas id="grafico_grupos"></canvas>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
