@@ -41,8 +41,23 @@ function buscarMaisPerto(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarFracos(idUsuario) {
+    let instrucaoSql = `
+        SELECT nome, vinculo, grupo, forca
+        FROM vw_elos
+        WHERE fk_usuario = ${idUsuario}
+        ORDER BY forca ASC
+        LIMIT 3;
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarKpis,
     buscarAtencao,
-    buscarMaisPerto
+    buscarMaisPerto,
+    buscarFracos
 }
