@@ -1,21 +1,48 @@
 let database = require('../database/config.js');
 
 function buscarKpis(idUsuario) {
-    let instrucaSql = `
+    let instrucaoSql = `
         SELECT 
             COUNT(id) AS total,
             ROUND(AVG(forca)) AS media
         FROM vw_elos
         WHERE fk_usuario = ${idUsuario};
-    `
+    `;
+    
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+    
+    return database.executar(instrucaoSql);
 }
 
-console.log('Executando a instrução SQL: \n' + instrucaoSql);
+function buscarAtencao(idUsuario) {
+    let instrucaoSql = `
+        SELECCT COUNT(id) AS atencao
+        FROM vw_elos
+        WHERE fk_usuario = ${idUsuario} 
+            AND forca < 50;
+    `;
+        
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+    
+    return database.executar(instrucaoSql);
+}
 
-return database.executar(instrucaoSql);
+function buscarMaisPerto(idUsuario) {
+    let instrucaoSql = `
+        SELECT nome, vinculo, forca
+        FROM vw_elos
+        WHERE fk_usuario = ${idUsuario}
+        ORDER BY forca DESC
+        LIMIT 1;
+    `;
 
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
 
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
-    buscarKpis
+    buscarKpis,
+    buscarAtencao,
+    buscarMaisPerto
 }
