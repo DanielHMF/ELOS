@@ -55,9 +55,25 @@ function buscarFracos(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarPilares(idUsuario) {
+    let instrucaoSql = `
+        SELECT
+            ROUND(AVG(convivencia)) AS convivencia,
+            ROUND(AVG(confianca)) AS confianca,
+            ROUND(AVG(apoio)) AS apoio
+        FROM vw_elos
+        WHERE fk_usuario = ${idUsuario};
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarKpis,
     buscarAtencao,
     buscarMaisPerto,
-    buscarFracos
+    buscarFracos,
+    buscarPilares
 }
