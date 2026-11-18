@@ -9,6 +9,7 @@ function cadastrar(req, res){
     let confianca = req.body.confiancaServer;
     let apoio = req.body.apoioServer;
     let idUsuario = req.body.idUsuarioServer;
+    let idGrupo = req.body.idGripoServer;
     
     if (nome == undefined) {
         res.status(400).send('O nome está undefined!')
@@ -22,7 +23,9 @@ function cadastrar(req, res){
         res.status(400).send('O apoio está undefined!')
     } else if (idUsuario == undefined) {
         res.status(400).send('O id do usuário está undefined!')
-    } else {
+    } else if (idGrupo == undefined) {
+        res.status(400).send('O id do grupo está undefined!')
+    }else {
         pessoaModel.cadastrar(nome, vinculo, descricao, foto, idUsuario).then(function (resultadoPessoa) {
             let idPessoa = resultadoPessoa.insertId;
     

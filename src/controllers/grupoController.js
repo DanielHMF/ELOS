@@ -8,10 +8,10 @@ function listar(req, res) {
     } else {
         grupoModel.listar(idUsuario)
         .then(function (resultado) {
-            req.status(200).json(resultado);
+            res.status(200).json(resultado);
         })
         .catch(function (erro) {
-            console.log('Houve um erro ao listas os grupos! Erro: ', erro.slqMessage);
+            console.log('Houve um erro ao listas os grupos! Erro: ', erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
     }
@@ -33,8 +33,8 @@ function cadastrar(req, res) {
         })
         .catch(function (erro) {
             console.log('Houve um erro ao cadastrar o grupo! Erro: ', erro.sqlMessage);
-            res.statud(500).json(erro.sqlMessage);
-        });
+            res.status(500).json(erro.sqlMessage);
+        });        
     }
 }
 

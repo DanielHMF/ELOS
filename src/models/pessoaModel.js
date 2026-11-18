@@ -1,9 +1,9 @@
 let database = require('../database/config.js');
 
-function cadastrar(nome, vinculo, descricao, foto, idUsuario){
+function cadastrar(nome, vinculo, descricao, foto, idUsuario, idGrupo){
     let instrucaoSql = `
-        INSERT INTO pessoa (nome, vinculo, descricao, foto, fk_usuario)
-        VALUES ('${nome}', '${vinculo}', '${descricao}', '${foto}', ${idUsuario});
+        INSERT INTO pessoa (nome, vinculo, descricao, foto, fk_usuario, fk_grupo)
+        VALUES ('${nome}', '${vinculo}', '${descricao}', '${foto}', ${idUsuario}, ${idGrupo});
     `;
 
     console.log('Executando a instrução SQL: \n' + instrucaoSql);

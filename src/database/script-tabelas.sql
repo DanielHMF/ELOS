@@ -46,7 +46,7 @@ SELECT
     pessoa.id,
     pessoa.nome,
     pessoa.vinculo,
-    pessoa.fk_vinculo,
+    pessoa.fk_usuario,
     grupo.nome AS grupo,
     avaliacao.convivencia,
     avaliacao.confianca,

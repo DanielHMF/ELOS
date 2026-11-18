@@ -1,7 +1,7 @@
 let express = require("express");
 let router = express.Router();
 
-let grupoRouter = require("../controllers/grupoController");
+let grupoController = require("../controllers/grupoController");
 
 router.get("/listar/:idUsuario", function (req, res) {
     grupoController.listar(req,res);

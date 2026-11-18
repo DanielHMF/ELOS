@@ -1,3 +1,5 @@
+let database = require("../database/config.js")
+
 function cadastrar(nome, descricao, idUsuario) {
     let instrucaoSql = `
         INSERT INTO grupo (nome, descricao, fk_usuario)
@@ -21,4 +23,9 @@ function listar(idUsuario) {
     console.log('Executando a instrução SQL: \n' + instrucaoSql);
 
     return database.executar(instrucaoSql);
+}
+
+module.exports = {
+    listar,
+    cadastrar
 }

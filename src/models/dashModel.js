@@ -16,7 +16,7 @@ function buscarKpis(idUsuario) {
 
 function buscarAtencao(idUsuario) {
     let instrucaoSql = `
-        SELECCT COUNT(id) AS atencao
+        SELECT COUNT(id) AS atencao
         FROM vw_elos
         WHERE fk_usuario = ${idUsuario} 
             AND forca < 50;
