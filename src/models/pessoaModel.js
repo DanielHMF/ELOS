@@ -24,22 +24,17 @@ function cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa){
 function listar(idUsuario){
     let instrucaoSql = `
         SELECT 
-            pessoa.id,
-            pessoa.nome,
-            pessoa.vinculo,
-            grupo.nome AS grupo,
-            avaliacao.convivencia,
-            avaliacao.confianca,
-            avaliacao.apoio,
-            ROUND((avaliacao.convivencia + avaliacao.confianca + avaliacao.apoio) / 3) AS forca
-        FROM pessoa
-        JOIN avaliacao
-            ON avaliacao.fk_pessoa = pessoa.id
-        LEFT JOIN grupo
-            ON grupo.id = pessoa.fk_grupo
-        WHERE pessoa.fk_usuario = ${idUsuario} 
-            AND avaliacao.id = (SELECT MAX(id) FROM avaliacao WHERE fk_pessoa = pessoa.id)
-        ORDER BY forca DESC;
+            id, 
+            nome, 
+            vinculo, 
+            grupo, 
+            convivencia, 
+            confianca, 
+            apoio, 
+            forca 
+        FROM vw_elos 
+        WHERE fk_usuario = ${idUsuario} 
+            ORDER BY forca DESC
     `;
 
     console.log('Executando a instrução SQL: \n' + instrucaoSql);
