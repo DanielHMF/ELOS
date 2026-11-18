@@ -48,6 +48,8 @@ SELECT
     pessoa.id,
     pessoa.nome,
     pessoa.vinculo,
+    pessoa.descricao,
+    pessoa.foto,
     pessoa.fk_usuario,
     grupo.nome AS grupo,
     avaliacao.convivencia,

@@ -1,0 +1,347 @@
+/* =====================================================================
+   SITE.CSS — telas de fora do sistema: Home, Login e Cadastro
+   Usa as variáveis, botões e campos do geral.css (que vem linkado antes)
+   ===================================================================== */
+
+
+/* =====================================================================
+   1. HEADER (topo com logo, links e botões)
+   ===================================================================== */
+
+/* Barra do topo */
+.header {
+    display: flex;                      /* logo, links e botões lado a lado */
+    flex-wrap: wrap;                    /* se faltar espaço, os itens descem */
+    justify-content: space-between;     /* logo na esquerda, botões na direita */
+    align-items: center;                /* tudo centralizado na vertical */
+    gap: 16px;                          /* espaço entre os blocos */
+    position: sticky;                   /* o header acompanha a rolagem */
+    top: 0;                             /* gruda no topo da tela */
+    z-index: 10;                        /* fica na frente das seções ao rolar */
+    padding: 16px 6vw;                  /* 6vw = 6% da largura da tela nas laterais */
+    border-bottom: 1px solid var(--cor-borda); /* linha fininha embaixo */
+    background-color: var(--cor-gelo);  /* fundo igual ao da página, para não ficar transparente */
+}
+
+/* Lista de links do meio (Propósito, Como funciona, Sobre mim) */
+.navbar {
+    display: flex;                      /* links lado a lado */
+    gap: 32px;                          /* espaço entre os links */
+}
+
+/* Cada link da navbar */
+.navbar a {
+    font-weight: 600;                   /* seminegrito */
+    color: var(--cor-azul-noite);       /* azul-noite */
+}
+
+/* Link da navbar com o mouse em cima */
+.navbar a:hover {
+    color: var(--cor-capri-profundo);   /* muda para capri escuro */
+}
+
+/* Botões da direita (Entrar e Criar conta) */
+.header_botoes {
+    display: flex;                      /* lado a lado */
+    gap: 8px;                           /* espaço entre eles */
+}
+
+
+/* =====================================================================
+   2. SEÇÕES DA HOME (estrutura comum)
+   ===================================================================== */
+
+/* Caixa de cada seção: limita a largura e centraliza */
+.secao {
+    max-width: 1160px;                  /* largura máxima do conteúdo */
+    margin: 0 auto;                     /* centraliza na horizontal */
+    padding: 88px 24px;                 /* espaço em cima/embaixo e nas laterais */
+}
+
+/* Faixa de fundo branco que ocupa a largura toda (alterna com o gelo) */
+.faixa_branca {
+    background-color: var(--cor-branco); /* fundo branco */
+}
+
+/* Título de seção: etiqueta + h2 + parágrafo */
+.secao_titulo {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    gap: 14px;                          /* espaço entre eles */
+    max-width: 640px;                   /* não deixa o texto ficar muito comprido */
+    margin-bottom: 44px;                /* espaço até o conteúdo da seção */
+}
+
+/* Parágrafo do título de seção */
+.secao_titulo p {
+    font-size: 17px;                    /* um pouco maior que o normal */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Palavrinha em cima do título (ex.: PROPÓSITO) */
+.etiqueta_secao {
+    font-size: 13px;                    /* texto pequeno */
+    font-weight: 700;                   /* negrito */
+    letter-spacing: 2px;                /* espaço entre as letras */
+    text-transform: uppercase;          /* tudo maiúsculo */
+    color: var(--cor-capri-profundo);   /* capri escuro */
+}
+
+
+/* =====================================================================
+   3. BANNER (primeira dobra da Home)
+   ===================================================================== */
+
+/* Banner: texto à esquerda e mapa à direita */
+.banner {
+    display: flex;                      /* lado a lado */
+    flex-wrap: wrap;                    /* no celular, a imagem desce */
+    align-items: center;                /* centralizados na vertical */
+    gap: 48px;                          /* espaço entre texto e imagem */
+}
+
+/* Parte do texto */
+.banner_texto {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    align-items: flex-start;            /* alinhados à esquerda, sem esticar o selo */
+    gap: 22px;                          /* espaço entre selo, título, texto e botões */
+    flex: 1 1 440px;                    /* cresce; base de 440px */
+}
+
+/* Parágrafo do banner */
+.banner_texto p {
+    font-size: 18px;                    /* texto maior */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Selo em formato de pílula acima do título */
+.selo {
+    padding: 6px 16px;                  /* espaço interno */
+    border-radius: 99px;                /* formato de pílula */
+    background-color: var(--cor-ceu);   /* fundo céu */
+    font-size: 14px;                    /* texto pequeno */
+    font-weight: 700;                   /* negrito */
+    color: var(--cor-capri-profundo);   /* capri escuro */
+}
+
+/* Palavra destacada dentro do h1 */
+.destaque_texto {
+    color: var(--cor-capri-profundo);   /* capri escuro para chamar atenção */
+}
+
+/* Botões do banner */
+.banner_botoes {
+    display: flex;                      /* lado a lado */
+    flex-wrap: wrap;                    /* quebram se faltar espaço */
+    gap: 12px;                          /* espaço entre eles */
+    margin-top: 8px;                    /* um pouco mais de espaço depois do texto */
+}
+
+/* Parte da imagem */
+.banner_imagem {
+    flex: 1 1 380px;                    /* cresce; base de 380px */
+}
+
+/* Imagem do mapa */
+.banner_imagem img {
+    width: 100%;                        /* ocupa toda a parte da imagem */
+    max-width: 520px;                   /* mas no máximo 520px */
+    margin: 0 auto;                     /* centralizada */
+}
+
+
+/* =====================================================================
+   4. CARDS DA HOME (Propósito e Como funciona)
+   ===================================================================== */
+
+/* Grade com 3 colunas que se ajustam ao tamanho da tela */
+.grade_cards {
+    display: grid;                      /* grid para colunas iguais */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* quantas colunas couberem, mínimo 260px cada */
+    gap: 20px;                          /* espaço entre os cards */
+}
+
+/* Card do site */
+.card_site {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    gap: 12px;                          /* espaço entre ícone, título e texto */
+    padding: 28px;                      /* espaço interno */
+    border: 1px solid var(--cor-borda); /* borda fininha */
+    border-radius: 24px;                /* cantos arredondados */
+    background-color: var(--cor-gelo);  /* fundo gelo (a seção é branca) */
+}
+
+/* Texto do card */
+.card_site p {
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Quadrado colorido com o ícone */
+.icone {
+    display: flex;                      /* flexbox para centralizar o ícone */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    width: 56px;                        /* largura */
+    height: 56px;                       /* altura */
+    margin-bottom: 6px;                 /* espaço extra até o título */
+    border-radius: 16px;                /* cantos arredondados */
+}
+
+/* Imagem dentro do quadrado */
+.icone img {
+    width: 28px;                        /* tamanho do ícone */
+}
+
+/* Círculo com o número do passo */
+.passo_numero {
+    display: flex;                      /* flexbox para centralizar o número */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    width: 48px;                        /* largura */
+    height: 48px;                       /* altura */
+    margin-bottom: 6px;                 /* espaço extra até o título */
+    border-radius: 50%;                 /* círculo */
+    background-color: var(--cor-capri); /* fundo capri */
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-size: 20px;                    /* tamanho do número */
+    font-weight: 800;                   /* bem negrito */
+}
+
+
+/* =====================================================================
+   5. SOBRE MIM
+   ===================================================================== */
+
+/* Foto à esquerda e texto à direita */
+.sobre {
+    display: flex;                      /* lado a lado */
+    flex-wrap: wrap;                    /* no celular, o texto desce */
+    align-items: center;                /* centralizados na vertical */
+    gap: 56px;                          /* espaço entre foto e texto */
+}
+
+/* Moldura da foto */
+.sobre_foto {
+    display: flex;                      /* flexbox para centralizar o texto provisório */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    flex: 0 1 360px;                    /* não cresce; base de 360px */
+    aspect-ratio: 4 / 5;                /* formato retrato */
+    overflow: hidden;                   /* corta a foto nos cantos arredondados */
+    border-radius: 28px;                /* cantos arredondados */
+    background-color: var(--cor-ceu);   /* fundo céu enquanto não tem foto */
+    color: var(--cor-texto-suave);      /* cor do texto provisório */
+}
+
+/* Foto dentro da moldura */
+.sobre_foto img {
+    width: 100%;                        /* ocupa toda a largura da moldura */
+    height: 100%;                       /* ocupa toda a altura da moldura */
+    object-fit: cover;                  /* preenche sem distorcer, cortando o que sobrar */
+}
+
+/* Parte do texto */
+.sobre_texto {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    gap: 16px;                          /* espaço entre os parágrafos */
+    flex: 1 1 420px;                    /* cresce; base de 420px */
+}
+
+/* Parágrafos do sobre */
+.sobre_texto p {
+    font-size: 16px;                    /* um pouco maior */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Linha do tempo em pílulas */
+.linha_tempo {
+    display: flex;                      /* pílulas lado a lado */
+    flex-wrap: wrap;                    /* quebram linha */
+    gap: 10px;                          /* espaço entre elas */
+    margin-top: 8px;                    /* espaço depois do texto */
+}
+
+/* Cada pílula */
+.linha_tempo li {
+    padding: 8px 16px;                  /* espaço interno */
+    border: 1.5px solid var(--cor-borda); /* contorno azul claro */
+    border-radius: 99px;                /* formato de pílula */
+    background-color: var(--cor-branco); /* fundo branco */
+    font-size: 14px;                    /* texto menor */
+    font-weight: 700;                   /* negrito */
+}
+
+/* Pílula de destaque (momento atual) */
+.linha_tempo .linha_tempo_atual {
+    border-color: var(--cor-capri);     /* contorno capri */
+    background-color: var(--cor-capri); /* fundo capri */
+}
+
+
+/* =====================================================================
+   6. CHAMADA FINAL (card azul-noite antes do rodapé)
+   ===================================================================== */
+
+/* Card da chamada */
+.chamada {
+    display: flex;                      /* texto e botão lado a lado */
+    flex-wrap: wrap;                    /* no celular, o botão desce */
+    justify-content: space-between;     /* texto na esquerda, botão na direita */
+    align-items: center;                /* centralizados na vertical */
+    gap: 24px;                          /* espaço entre eles */
+    padding: 48px;                      /* espaço interno */
+    border-radius: 32px;                /* cantos bem arredondados */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
+    color: var(--cor-branco);           /* texto branco */
+}
+
+/* Parágrafo da chamada */
+.chamada p {
+    margin-top: 8px;                    /* espaço depois do título */
+    color: var(--cor-ceu);              /* azul clarinho, mais suave que o branco */
+}
+
+
+/* =====================================================================
+   7. RODAPÉ
+   ===================================================================== */
+
+/* Barra do rodapé */
+.rodape {
+    display: flex;                      /* logo e texto lado a lado */
+    flex-wrap: wrap;                    /* quebram no celular */
+    justify-content: space-between;     /* logo na esquerda, texto na direita */
+    align-items: center;                /* centralizados na vertical */
+    gap: 16px;                          /* espaço entre eles */
+    padding: 32px 6vw;                  /* espaço interno */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
+    color: var(--cor-ceu);              /* texto azul clarinho */
+    font-size: 14px;                    /* texto menor */
+}
+
+
+/* =====================================================================
+   9. CELULAR (até 900px de largura)
+   ===================================================================== */
+
+/* Tudo aqui dentro só vale em telas de até 900px */
+@media (max-width: 900px) {
+
+    /* Links do meio do header */
+    .navbar {
+        display: none;                  /* somem no celular; ficam só logo e botões */
+    }
+
+    /* Seções */
+    .secao {
+        padding: 56px 20px;             /* menos espaço */
+    }
+
+    /* Card da chamada final */
+    .chamada {
+        padding: 32px 24px;             /* menos espaço interno */
+    }
+}

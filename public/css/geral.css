@@ -1,0 +1,331 @@
+/* Importa do Google Fonts as duas fontes da identidade visual: Nunito (títulos) e Nunito Sans (textos) */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap');
+
+/* =====================================================================
+   GERAL.CSS — vale para TODAS as telas do ELOS
+   Cores, fontes, regras gerais, logo, botões e campos de formulário.
+   Toda página linka este arquivo PRIMEIRO e depois o site.css ou o sistema.css
+   Paleta: Gruta Azul (Capri como protagonista, azul-noite nos fundos escuros)
+   ===================================================================== */
+
+
+/* =====================================================================
+   1. VARIÁVEIS
+   ===================================================================== */
+
+/* :root é o elemento mais alto da página; variáveis criadas aqui valem em qualquer lugar */
+:root {
+  /* ----- Azuis ----- */
+  --cor-gelo: #E6F8FF;              /* fundo geral das telas */
+  --cor-ceu: #CCF2FF;               /* azul bem clarinho para detalhes */
+  --cor-capri-claro: #7FDFFF;       /* capri suave para barras e destaques leves */
+  --cor-capri: #00BFFF;             /* cor protagonista: botões principais */
+  --cor-capri-hover: #66D4FF;       /* capri mais claro para quando passa o mouse */
+  --cor-capri-profundo: #0077B6;    /* capri escuro para links e textos de destaque */
+  --cor-azul-noite: #0B2E4F;        /* textos principais e fundos escuros (menu, rodapé) */
+  --cor-azul-noite-claro: #1D4A73;  /* azul-noite mais claro para hover em fundo escuro */
+
+  /* ----- Cores de apoio (diferenciam os grupos) ----- */
+  --cor-anil: #7B93FF;              /* grupo Família */
+  --cor-lavanda: #C7B8FF;           /* grupo Amigos */
+  --cor-anil-claro: #E8ECFF;        /* grupo Trabalho e grupos criados pelo usuário */
+
+  /* ----- Texto, bordas e fundos ----- */
+  --cor-texto-suave: #3E5872;       /* textos secundários (subtítulos, legendas) */
+  --cor-borda: #CDEBFA;             /* borda fininha de cards e campos */
+  --cor-trilho: #DDF3FD;            /* fundo de barras e linhas divisórias */
+  --cor-branco: #FFFFFF;            /* fundo dos cards */
+
+  /* ----- Fontes ----- */
+  --fonte-titulo: 'Nunito', sans-serif;       /* títulos; sans-serif é a reserva se a Nunito não carregar */
+  --fonte-texto: 'Nunito Sans', sans-serif;   /* textos */
+}
+
+
+/* =====================================================================
+   2. REGRAS GERAIS
+   ===================================================================== */
+
+/* O asterisco seleciona todos os elementos da página */
+* {
+    box-sizing: border-box;             /* padding e borda contam dentro da largura, evitando estourar a tela */
+}
+
+/* Faz os links com # (ex.: #proposito) rolarem suavemente até a seção */
+html {
+    scroll-behavior: smooth;            /* rolagem suave em vez de pular direto */
+}
+
+/* Corpo da página */
+body {
+    margin: 0;                          /* tira a margem branca que o navegador coloca sozinho */
+    background-color: var(--cor-gelo);  /* fundo azul bem clarinho */
+    color: var(--cor-azul-noite);       /* cor padrão de todo o texto */
+    font-family: var(--fonte-texto);    /* fonte padrão: Nunito Sans */
+    font-size: 15px;                    /* tamanho padrão do texto */
+    line-height: 1.6;                   /* espaço entre as linhas */
+}
+
+/* Títulos */
+h1,
+h2,
+h3 {
+    margin: 0;                          /* tira a margem automática */
+    font-family: var(--fonte-titulo);   /* títulos na Nunito */
+    line-height: 1.2;                   /* linhas mais juntas */
+}
+
+/* Título principal */
+h1 {
+    font-size: 44px;                    /* bem grande */
+    font-weight: 800;                   /* bem negrito */
+}
+
+/* Título de seção / card */
+h2 {
+    font-size: 30px;                    /* grande */
+    font-weight: 700;                   /* negrito */
+}
+
+/* Título pequeno */
+h3 {
+    font-size: 18px;                    /* menor */
+    font-weight: 700;                   /* negrito */
+}
+
+/* Parágrafos */
+p {
+    margin: 0;                          /* tira a margem automática */
+}
+
+/* Links */
+a {
+    color: var(--cor-capri-profundo);   /* capri escuro */
+    text-decoration: none;              /* tira o sublinhado */
+}
+
+/* Listas */
+ul {
+    margin: 0;                          /* tira a margem automática */
+    padding: 0;                         /* tira o recuo da esquerda */
+    list-style: none;                   /* tira as bolinhas */
+}
+
+/* Imagens */
+img {
+    display: block;                     /* tira o espacinho que fica embaixo das imagens */
+    max-width: 100%;                    /* imagem nunca fica maior que o espaço onde está */
+}
+
+
+/* =====================================================================
+   3. LOGO (header, rodapé e menu)
+   ===================================================================== */
+
+/* Link que envolve o símbolo e o nome */
+.logo {
+    display: flex;                      /* símbolo e nome lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 10px;                          /* espaço entre eles */
+    font-family: var(--fonte-titulo);   /* nome na Nunito */
+    font-size: 24px;                    /* tamanho do nome */
+    font-weight: 800;                   /* bem negrito */
+    color: var(--cor-azul-noite);       /* azul-noite em fundo claro */
+}
+
+/* Símbolo do logo */
+.logo img {
+    width: 42px;                        /* largura do símbolo */
+}
+
+/* Logo em fundo escuro (rodapé e menu) */
+.logo_negativo {
+    color: var(--cor-branco);           /* nome em branco */
+}
+
+
+/* =====================================================================
+   4. BOTÕES (funcionam em <a> e em <button>)
+   ===================================================================== */
+
+/* Estrutura comum de todos os botões */
+.botao_primario,
+.botao_secundario,
+.botao_suave {
+    display: inline-flex;               /* flexbox em linha: fica do tamanho do conteúdo */
+    justify-content: center;            /* centraliza o texto */
+    align-items: center;                /* centraliza na vertical */
+    gap: 8px;                           /* espaço entre ícone e texto */
+    height: 48px;                       /* altura */
+    padding: 0 24px;                    /* espaço nas laterais */
+    border: 1.5px solid transparent;    /* borda invisível: deixa todos os botões com a mesma altura */
+    border-radius: 14px;                /* cantos arredondados */
+    font-family: var(--fonte-texto);    /* <button> não herda a fonte sozinho */
+    font-size: 15px;                    /* tamanho do texto */
+    font-weight: 700;                   /* negrito */
+    cursor: pointer;                    /* mãozinha ao passar o mouse */
+}
+
+/* Botão principal: a ação mais importante da tela */
+.botao_primario {
+    background-color: var(--cor-capri); /* fundo capri */
+    color: var(--cor-azul-noite);       /* texto azul-noite (branco no capri fica ilegível) */
+}
+
+/* Botão principal com o mouse em cima */
+.botao_primario:hover {
+    background-color: var(--cor-capri-hover); /* capri mais claro */
+}
+
+/* Botão secundário: ações de apoio */
+.botao_secundario {
+    border-color: var(--cor-azul-noite); /* contorno azul-noite */
+    background-color: transparent;      /* sem fundo */
+    color: var(--cor-azul-noite);       /* texto azul-noite */
+}
+
+/* Botão secundário com o mouse em cima */
+.botao_secundario:hover {
+    background-color: var(--cor-branco); /* fundo branco */
+}
+
+/* Botão suave: sem contorno, só o texto (ex.: "Entrar" no header) */
+.botao_suave {
+    background-color: transparent;      /* sem fundo */
+    color: var(--cor-azul-noite);       /* texto azul-noite */
+}
+
+/* Botão suave com o mouse em cima */
+.botao_suave:hover {
+    background-color: var(--cor-ceu);   /* fundo céu */
+}
+
+/* Botão que ocupa a largura toda */
+.botao_largo {
+    width: 100%;                        /* largura total do lugar onde está */
+}
+
+
+/* =====================================================================
+   5. CAMPOS DE FORMULÁRIO (Login, Cadastro e janelas do sistema)
+   ===================================================================== */
+
+/* Conjunto label + campo */
+.campo {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* label em cima, campo embaixo */
+    gap: 6px;                           /* espaço entre eles */
+}
+
+/* Texto do label */
+.campo label {
+    font-size: 14px;                    /* texto menor */
+    font-weight: 700;                   /* negrito */
+}
+
+/* Caixas de texto, seleção e texto longo */
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;                        /* largura total */
+    padding: 12px 14px;                 /* espaço interno */
+    border: 1.5px solid var(--cor-borda); /* borda azul clara */
+    border-radius: 12px;                /* cantos arredondados */
+    background-color: var(--cor-branco); /* fundo branco */
+    color: var(--cor-azul-noite);       /* cor do texto digitado */
+    font-family: var(--fonte-texto);    /* campos não herdam a fonte sozinhos */
+    font-size: 15px;                    /* tamanho do texto */
+}
+
+/* Campo de texto longo */
+.campo textarea {
+    min-height: 80px;                   /* altura mínima */
+    resize: vertical;                   /* o usuário só pode aumentar na altura */
+}
+
+/* Campo clicado (em foco) */
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;                      /* tira o contorno padrão do navegador */
+    border-color: var(--cor-capri);     /* borda capri mostra qual campo está ativo */
+}
+
+/* Dois campos lado a lado */
+.campo_duplo {
+    display: flex;                      /* lado a lado */
+    gap: 14px;                          /* espaço entre eles */
+}
+
+/* Cada campo dentro da linha dupla */
+.campo_duplo .campo {
+    flex: 1;                            /* dividem o espaço igualmente */
+}
+
+/* Texto de ajuda embaixo de um campo */
+.campo_dica {
+    font-size: 13px;                    /* texto pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Mensagem de erro preenchida pelo JavaScript */
+.mensagem_erro {
+    min-height: 20px;                   /* reserva espaço para a tela não "pular" quando aparecer */
+    font-size: 14px;                    /* texto menor */
+    font-weight: 700;                   /* negrito */
+    color: var(--cor-capri-profundo);   /* capri escuro (sem vermelho para manter a paleta) */
+}
+
+
+/* =====================================================================
+   6. CORES DE FUNDO REAPROVEITÁVEIS (ícones, grupos, etiquetas)
+   ===================================================================== */
+
+/* Fundo céu */
+.fundo_ceu {
+    background-color: var(--cor-ceu);   /* azul bem clarinho */
+}
+
+/* Fundo capri claro */
+.fundo_capri_claro {
+    background-color: var(--cor-capri-claro); /* capri suave */
+}
+
+/* Fundo anil */
+.fundo_anil {
+    background-color: var(--cor-anil);  /* grupo Família */
+}
+
+/* Fundo lavanda */
+.fundo_lavanda {
+    background-color: var(--cor-lavanda); /* grupo Amigos */
+}
+
+/* Fundo anil claro */
+.fundo_anil_claro {
+    background-color: var(--cor-anil-claro); /* grupo Trabalho e grupos novos */
+}
+
+
+/* =====================================================================
+   7. CELULAR (até 900px de largura)
+   ===================================================================== */
+
+/* Tudo aqui dentro só vale em telas de até 900px */
+@media (max-width: 900px) {
+
+    /* Título principal */
+    h1 {
+        font-size: 34px;                /* menor no celular */
+    }
+
+    /* Título de seção */
+    h2 {
+        font-size: 24px;                /* menor no celular */
+    }
+
+    /* Dois campos lado a lado */
+    .campo_duplo {
+        flex-direction: column;         /* passam a ficar um embaixo do outro */
+    }
+}
