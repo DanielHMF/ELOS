@@ -324,6 +324,120 @@
 
 
 /* =====================================================================
+   8. LOGIN E CADASTRO (telas de acesso)
+   ===================================================================== */
+
+/* Área da tela entre o header e o rodapé: texto à esquerda, formulário à direita */
+.acesso {
+    display: flex;                      /* as duas metades lado a lado */
+    flex-wrap: wrap;                    /* no celular, o formulário desce */
+    min-height: calc(100vh - 81px);     /* altura da tela menos a altura do header */
+}
+
+/* Metade da esquerda (título, texto e imagem) */
+.acesso_texto {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    justify-content: center;            /* centraliza o conteúdo na vertical */
+    gap: 20px;                          /* espaço entre título, texto e imagem */
+    flex: 1 1 420px;                    /* cresce; base de 420px */
+    padding: 56px 6vw;                  /* espaço interno */
+}
+
+/* Parágrafo da metade da esquerda */
+.acesso_texto > p {
+    max-width: 480px;                   /* não deixa a linha ficar comprida demais */
+    font-size: 17px;                    /* um pouco maior */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Imagem do mapa no Login */
+.acesso_imagem {
+    width: 100%;                        /* ocupa a largura disponível */
+    max-width: 360px;                   /* mas no máximo 360px */
+    margin-top: 12px;                   /* espaço extra depois do texto */
+}
+
+/* Lista de vantagens do Cadastro (com ícone de check) */
+.acesso_lista {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um item embaixo do outro */
+    gap: 14px;                          /* espaço entre os itens */
+    margin-top: 8px;                    /* espaço depois do texto */
+}
+
+/* Cada item da lista */
+.acesso_lista li {
+    display: flex;                      /* ícone e texto lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 12px;                          /* espaço entre eles */
+    font-weight: 600;                   /* seminegrito */
+}
+
+/* Círculo capri em volta do check */
+.acesso_lista img {
+    width: 32px;                        /* largura */
+    height: 32px;                       /* altura */
+    padding: 6px;                       /* espaço entre o ícone e a borda do círculo */
+    border-radius: 50%;                 /* círculo */
+    background-color: var(--cor-capri-claro); /* fundo capri claro */
+}
+
+/* Metade da direita (fundo branco com o formulário) */
+.acesso_lado_formulario {
+    display: flex;                      /* flexbox para centralizar o card */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    flex: 1 1 420px;                    /* cresce; base de 420px */
+    padding: 56px 24px;                 /* espaço interno */
+    background-color: var(--cor-branco); /* fundo branco */
+}
+
+/* O formulário em si */
+.formulario {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* campos um embaixo do outro */
+    gap: 18px;                          /* espaço entre os campos */
+    width: 100%;                        /* ocupa a largura disponível */
+    max-width: 420px;                   /* mas no máximo 420px */
+}
+
+/* Subtítulo embaixo do "Entrar" / "Criar conta" */
+.formulario_subtitulo {
+    margin-top: -10px;                  /* aproxima do título */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Linha "──── ou ────" */
+.divisor {
+    display: flex;                      /* linha, texto, linha lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 12px;                          /* espaço entre eles */
+    font-size: 14px;                    /* texto pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* As duas linhas do divisor */
+.divisor span {
+    flex: 1;                            /* cada linha ocupa metade do espaço que sobra */
+    height: 1px;                        /* espessura da linha */
+    background-color: var(--cor-borda); /* cor da linha */
+}
+
+/* Frase final (ex.: "Já tem conta? Entrar") */
+.formulario_rodape {
+    text-align: center;                 /* centralizada */
+    font-size: 14px;                    /* texto pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Link dentro da frase final */
+.formulario_rodape a {
+    font-weight: 700;                   /* negrito */
+}
+
+
+/* =====================================================================
    9. CELULAR (até 900px de largura)
    ===================================================================== */
 

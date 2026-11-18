@@ -3,41 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELOS | Cadastro</title>
-    <link rel="stylesheet" href="css/index.css">
+    <title>ELOS | Criar conta</title>
+    <link rel="stylesheet" href="css/geral.css">
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 
-    <div id="header">
+    <header class="header">
         <a class="logo" href="index.html">
             <img src="imgs/logo.svg" alt="Símbolo do ELOS">
             <span>ELOS</span>
         </a>
-        <ul class="navbar">
-            <li>
-                <a href="index.html#proposito">Propósito</a>
-            </li>
-            <li>
-                <a href="index.html#como_funciona">Como funciona</a>
-            </li>
-            <li>
-                <a href="index.html#sobre_mim">Sobre mim</a>
-            </li>
-        </ul>
-        <ul class="navbar_botoes">
-            <li>
-                <a class="botao_suave" href="login.html">Entrar</a>
-            </li>
-            <li>
-                <a class="botao_primario" href="cadastro.html">Criar conta</a>
-            </li>
-        </ul>
-    </div>
 
-    <div class="acesso">
-        <div class="acesso_descricao">
+        <nav>
+            <ul class="navbar">
+                <li><a href="#proposito">Propósito</a></li>
+                <li><a href="#como_funciona">Como funciona</a></li>
+                <li><a href="#sobre_mim">Sobre mim</a></li>
+            </ul>
+        </nav>
+
+        <div class="header_botoes">
+            <a class="botao_suave" href="login.html">Entrar</a>
+            <a class="botao_primario" href="cadastro.html">Criar conta</a>
+        </div>
+    </header>
+    
+    <main class="acesso">
+        <div class="acesso_texto">
             <h1>Comece a guardar quem importa.</h1>
-            <p>Sua conta é o ponto central do seu mapa. A partir dela, cada pessoa que você adicionar ganha um lugar, uma história e uma distância de você.</p>
+            <p>Sua conta é o centro do seu mapa. Cada pessoa que você adicionar ganha um lugar e uma distância de você.</p>
             <ul class="acesso_lista">
                 <li>
                     <img src="imgs/icone_check.svg" alt="">
@@ -45,7 +40,7 @@
                 </li>
                 <li>
                     <img src="imgs/icone_check.svg" alt="">
-                    <span>Registre lembranças de cada vínculo</span>
+                    <span>Avalie a força de cada elo</span>
                 </li>
                 <li>
                     <img src="imgs/icone_check.svg" alt="">
@@ -54,13 +49,13 @@
             </ul>
         </div>
 
-        <div class="acesso_formulario">
-            <div class="formulario_card">
+        <div class="acesso_lado_formulario">
+            <div class="formulario">
                 <h2>Criar conta</h2>
                 <p class="formulario_subtitulo">Leva menos de um minuto.</p>
 
                 <div class="campo">
-                    <label for="ipt_nome">Nome completo</label>
+                    <label for="ipt_nome">Nome</label>
                     <input id="ipt_nome" type="text" placeholder="Como você se chama?">
                 </div>
 
@@ -75,31 +70,29 @@
                         <input id="ipt_senha" type="password" placeholder="••••••••" onkeyup="mostrarSenha()">
                     </div>
                     <div class="campo">
-                        <label for="ipt_confirmacaoSenha">Confirmar senha</label>
-                        <input id="ipt_confirmacaoSenha" type="password" placeholder="••••••••">
+                        <label for="ipt_confirmarSenha">Confirmar senha</label>
+                        <input id="ipt_confirmarSenha" type="password" placeholder="••••••••">
                     </div>
                 </div>
 
-                <p class="formulario_dica" id="p_senha">Mínimo de 8 caracteres, com pelo menos um número. <p id="p_camposNull"></p></p>
+                <p class="campo_dica" id="senha_dica">Mínimo de 8 caracteres, com letra maiúscula, minúscula e um caractere especial (! @ # $ * . _).</p>
 
-
+                <span class="mensagem_erro" id="cadastro_erro"></span>
 
                 <button class="botao_primario botao_largo" onclick="cadastrar()">Criar minha conta</button>
 
                 <p class="formulario_rodape">Já tem conta? <a href="login.html">Entrar</a></p>
-
             </div>
         </div>
-    </div>
+    </main>
 
-    <div class="footer">
-        <a class="logo" href="index.html">
+    <footer class="rodape">
+        <a class="logo logo_negativo" href="index.html">
             <img src="imgs/logo_negativo.svg" alt="Símbolo do ELOS">
             <span>ELOS</span>
         </a>
         <p>Projeto individual · SPTech · 2026/2 · Daniel Henrique Matos Ferreira</p>
-    </div>
-
+    </footer>
 </body>
 </html>
 
@@ -116,7 +109,7 @@
         let senhaUpper = senha.toUpperCase()
         let senhaLower = senha.toLowerCase()
         
-        let confirmacaoSenha = ipt_confirmacaoSenha.value.trim()
+        let confirmacaoSenha = ipt_confirmarSenha.value.trim()
         
         let campos = [nome, email, senha, confirmacaoSenha]
 
@@ -169,12 +162,12 @@
 
     function mostrarSenha(){
         let senha = ipt_senha.value.trim()
-        let temEspecial = senha.includes('!') || senha.includes('@') || senha.includes('#') || senha.includes('$') || senha.includes('.') || senha.includes('*')
+        let temEspecial = senha.includes('!') || senha.includes('@') || senha.includes('#') || senha.includes('$') || senha.includes('.') || senha.includes('*') || senha.includes('_')
         let senhaUpper = senha.toUpperCase()
         let senhaLower = senha.toLowerCase()
         let requisitos = 0
 
-        if (senha.length > 8){
+        if (senha.length >= 8){
             requisitos++
         }
 
@@ -186,7 +179,7 @@
             requisitos++
         }
 
-        if (senha != temEspecial){
+        if (temEspecial == true){
             requisitos++
         }
 

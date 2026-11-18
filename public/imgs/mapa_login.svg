@@ -1,15 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" font-family="Nunito Sans, sans-serif" text-anchor="middle">
   <!-- Anéis de proximidade -->
-  <circle cx="150" cy="150" r="148" fill="#5F7E98" stroke="#C9DCEB"/>
-  <circle cx="150" cy="150" r="84" fill="#6E8BA5" stroke="#C9DCEB"/>
+  <circle cx="150" cy="150" r="146" fill="#CCF2FF"/>
+  <circle cx="150" cy="150" r="96" fill="#7FDFFF"/>
+  <circle cx="150" cy="150" r="52" fill="#E6F8FF"/>
 
   <!-- Pessoas ao redor -->
-  <circle cx="87" cy="96" r="19" fill="#C9DCEB" stroke="#F7FAFC" stroke-width="3"/>
-  <circle cx="218" cy="208" r="19" fill="#91B5D0" stroke="#F7FAFC" stroke-width="3"/>
-  <circle cx="255" cy="58" r="16" fill="#E8F0F6"/>
-  <circle cx="28" cy="226" r="16" fill="#24394D" stroke="#C9DCEB"/>
+  <circle cx="98" cy="104" r="17" fill="#0077B6" stroke="#FFFFFF" stroke-width="3"/>
+  <circle cx="206" cy="196" r="17" fill="#0077B6" stroke="#FFFFFF" stroke-width="3"/>
+  <circle cx="250" cy="70" r="14" fill="#FFFFFF" stroke="#0077B6" stroke-width="2"/>
+  <circle cx="44" cy="214" r="14" fill="#FFFFFF" stroke="#0077B6" stroke-width="2"/>
 
   <!-- Centro -->
-  <circle cx="150" cy="150" r="32" fill="#F7FAFC"/>
-  <text x="150" y="155" fill="#24394D" font-size="14" font-weight="700">Você</text>
+  <circle cx="150" cy="150" r="32" fill="#0B2E4F"/>
+  <text x="150" y="155" fill="#FFFFFF" font-size="14" font-weight="700">Você</text>
 </svg>
