@@ -1,4 +1,4 @@
-let dashboardModel = require("../models/dashModel");
+let dashModel = require("../models/dashModel");
 
 function buscarKpis(req, res) {
     let idUsuario = req.params.idUsuario;
@@ -6,7 +6,7 @@ function buscarKpis(req, res) {
     if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está undefined!");
     } else {
-        dashboardModel.buscarKpis(idUsuario)
+        dashModel.buscarKpis(idUsuario)
             .then(function (resultado) {
                 res.status(200).json(resultado);
             })
@@ -23,7 +23,7 @@ function buscarAtencao(req, res) {
     if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está undefined!");
     } else {
-        dashboardModel.buscarAtencao(idUsuario)
+        dashModel.buscarAtencao(idUsuario)
             .then(function (resultado) {
                 res.status(200).json(resultado);
             })
@@ -40,7 +40,7 @@ function buscarMaisPerto(req, res) {
     if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está undefined!");
     } else {
-        dashboardModel.buscarMaisPerto(idUsuario)
+        dashModel.buscarMaisPerto(idUsuario)
             .then(function (resultado) {
                 res.status(200).json(resultado);
             })
@@ -57,7 +57,7 @@ function buscarFracos(req, res) {
     if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está undefined!");
     } else {
-        dashboardModel.buscarFracos(idUsuario)
+        dashModel.buscarFracos(idUsuario)
             .then(function (resultado) {
                 res.status(200).json(resultado);
             })
@@ -74,7 +74,7 @@ function buscarPilares(req, res) {
     if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está undefined!");
     } else {
-        dashboardModel.buscarPilares(idUsuario)
+        dashModel.buscarPilares(idUsuario)
             .then(function (resultado) {
                 res.status(200).json(resultado);
             })
@@ -91,7 +91,7 @@ function buscarGrupos(req, res) {
     if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está undefined!");
     } else {
-        dashboardModel.buscarGrupos(idUsuario)
+        dashModel.buscarGrupos(idUsuario)
             .then(function (resultado) {
                 res.status(200).json(resultado);
             })
