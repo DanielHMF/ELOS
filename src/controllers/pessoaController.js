@@ -9,7 +9,7 @@ function cadastrar(req, res){
     let confianca = req.body.confiancaServer;
     let apoio = req.body.apoioServer;
     let idUsuario = req.body.idUsuarioServer;
-    let idGrupo = req.body.idGripoServer;
+    let idGrupo = req.body.idGrupoServer;
     
     if (nome == undefined) {
         res.status(400).send('O nome está undefined!')
