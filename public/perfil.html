@@ -1,11 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ELOS | Perfil</title>
+    <link rel="stylesheet" href="css/geral.css">
+    <link rel="stylesheet" href="css/sistema.css">
 </head>
 <body>
-    
+    <div class="sistema">
+        <main class="conteudo">
+            <div class="conteudo_interno">
+
+                <div class="cabecalho_pagina">
+                    <div>
+                        <h1>Meu perfil</h1>
+                        <p>Seus dados de acesso ao ELOS.</p>
+                    </div>
+                    <button class="botao_secundario" onclick="sair()">Sair da conta</button>
+                </div>
+                 <section class="card perfil_card">
+                    <div class="perfil_avatar" id="perfil_inicial">-</div>
+                    <div class="perfil_dados">
+                        <h2 id="perfil_nome"></h2>
+                        <p id="perfil_email"></p>
+                    </div>
+                </section>
+                <div class="linha">
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Dados da conta</h2>
+                                <p>Informações do seu cadastro.</p>
+                            </div>
+                        </div>
+                        <ul class="perfil_info">
+                            <li><span>Nome</span><b id="info_nome"></b></li>
+                            <li><span>E-mail</span><b id="info_email"></b></li>
+                        </ul>
+                    </section>
+
+                    <section class="card card_medio">
+                        <div class="card_titulo">
+                            <div>
+                                <h2>Seus elos em números</h2>
+                                <p>Um resumo do seu mapa.</p>
+                            </div>
+                            <a href="dashboard.html"><b>Ver dashboard</b></a>
+                        </div>
+                        <ul class="perfil_info">
+                            <li><span>Pessoas cadastradas</span><b id="info_total">--</b></li>
+                            <li><span>Força média do elo</span><b id="info_media">--</b></li>
+                            <li><span>Elos que pedem atenção</span><b id="info_atencao">--</b></li>
+                        </ul>
+                    </section>
+                </div> 
+            </div>
+        </main>
+    </div>
 </body>
 </html>
