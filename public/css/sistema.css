@@ -1,509 +1,710 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap');
+/* =====================================================================
+   SISTEMA.CSS — telas de dentro do sistema (depois do login)
+   Dashboard, Pessoas e Perfil.
+   Usa as variáveis, botões, campos e cores de fundo do geral.css (que vem linkado antes)
+   ===================================================================== */
 
-/* CSS das telas de dentro do sistema (depois do login): Dashboard, Pessoas e Perfil */
-/* Usa a paleta Gruta Azul. O index.css continua cuidando do site, do login e do cadastro */
 
-:root {
-  /* Azuis */
-  --cor-gelo: #E6F8FF;
-  --cor-ceu: #CCF2FF;
-  --cor-capri-claro: #7FDFFF;
-  --cor-capri: #00BFFF;
-  --cor-capri-profundo: #0077B6;
-  --cor-azul-noite: #0B2E4F;
-  --cor-azul-noite-claro: #1D4A73;
+/* Importa do Google Fonts as duas fontes da identidade visual: Nunito (títulos) e Nunito Sans (textos) */
+/* =====================================================================
+   1. ESTRUTURA DA PÁGINA (menu à esquerda, conteúdo à direita)
+   ===================================================================== */
 
-  /* Cores de apoio */
-  --cor-anil: #7B93FF;
-  --cor-lavanda: #C7B8FF;
-  --cor-anil-claro: #E8ECFF;
-
-  /* Texto, bordas e fundos */
-  --cor-texto-suave: #3E5872;
-  --cor-borda: #CDEBFA;
-  --cor-trilho: #DDF3FD;
-  --cor-branco: #FFFFFF;
-
-  /* Fontes */
-  --fonte-titulo: 'Nunito', sans-serif;
-  --fonte-texto: 'Nunito Sans', sans-serif;
-}
-
-/* ---------- Regras gerais ---------- */
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background-color: var(--cor-gelo);
-    color: var(--cor-azul-noite);
-    font-family: var(--fonte-texto);
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-h1,
-h2,
-h3 {
-    margin: 0;
-    font-family: var(--fonte-titulo);
-    line-height: 1.2;
-}
-
-h1 {
-    font-size: 32px;
-    font-weight: 700;
-}
-
-h2 {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-h3 {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-p {
-    margin: 0;
-}
-
-a {
-    color: var(--cor-capri-profundo);
-    text-decoration: none;
-}
-
-ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-/* ---------- Estrutura: menu à esquerda e conteúdo à direita ---------- */
-
+/* Div que envolve a página toda */
 .sistema {
-    display: flex;
-    min-height: 100vh;
+    display: flex;                      /* coloca o menu e o conteúdo lado a lado */
+    min-height: 100vh;                  /* ocupa no mínimo a altura inteira da tela */
 }
 
-/* position: sticky deixa o menu parado enquanto o conteúdo rola */
+/* Área do conteúdo (tudo que fica à direita do menu) */
+.conteudo {
+    flex: 1 1 0;                        /* ocupa todo o espaço que sobra ao lado do menu */
+    min-width: 0;                       /* impede que gráficos largos estourem a tela */
+    padding: 36px 44px 64px;            /* espaço interno: 36 em cima, 44 nos lados, 64 embaixo */
+}
+
+/* Caixa interna que limita a largura do conteúdo */
+.conteudo_interno {
+    display: flex;                      /* organiza os blocos com flexbox */
+    flex-direction: column;             /* um bloco embaixo do outro */
+    gap: 28px;                          /* espaço entre os blocos */
+    max-width: 1120px;                  /* largura máxima, para não esticar demais em telas grandes */
+    margin: 0 auto;                     /* centraliza a caixa na horizontal */
+}
+
+
+/* =====================================================================
+   2. MENU LATERAL (igual nas 3 telas, só muda o item ativo)
+   ===================================================================== */
+
+/* A barra do menu */
 .menu_lateral {
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    flex: 0 0 264px;
-    align-self: flex-start;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    padding: 28px 20px;
-    background-color: var(--cor-azul-noite);
+    display: flex;                      /* organiza logo e lista com flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    gap: 36px;                          /* espaço entre o logo e a lista */
+    flex: 0 0 264px;                    /* largura fixa de 264px: não cresce nem encolhe */
+    align-self: flex-start;             /* necessário para o sticky funcionar dentro do flex */
+    height: 100vh;                      /* altura da tela inteira */
+    position: sticky;                   /* o menu fica parado enquanto o conteúdo rola */
+    top: 0;                             /* gruda no topo da tela */
+    padding: 28px 20px;                 /* espaço interno */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
 }
 
+/* Logo no topo do menu (usa também .logo e .logo_negativo do geral.css) */
 .menu_logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 8px;
-    font-family: var(--fonte-titulo);
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--cor-branco);
+    padding: 0 8px;                     /* pequeno recuo para alinhar com os itens do menu */
 }
 
-.menu_logo img {
-    width: 44px;
-}
-
+/* Texto "MENU" acima dos itens */
 .menu_titulo {
-    padding: 0 16px 6px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--cor-ceu);
+    padding: 0 16px 6px;                /* alinha com o texto dos itens */
+    font-size: 12px;                    /* letra pequena */
+    font-weight: 700;                   /* negrito */
+    letter-spacing: 2px;                /* espaço entre as letras */
+    text-transform: uppercase;          /* deixa tudo em maiúsculo */
+    color: var(--cor-ceu);              /* azul clarinho */
 }
 
+/* Lista com os itens do menu */
 .menu_lista {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um item embaixo do outro */
+    gap: 6px;                           /* espaço entre os itens */
 }
 
-/* stroke="currentColor" nos ícones faz eles pegarem a mesma cor do texto */
+/* Cada item do menu (Dashboard, Pessoas, Perfil) */
 .menu_item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: 48px;
-    padding: 0 16px;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--cor-gelo);
+    display: flex;                      /* ícone e texto lado a lado */
+    align-items: center;                /* centraliza na vertical */
+    gap: 12px;                          /* espaço entre ícone e texto */
+    height: 48px;                       /* altura do item */
+    padding: 0 16px;                    /* espaço nas laterais */
+    border-radius: 14px;                /* cantos arredondados */
+    font-size: 15px;                    /* tamanho do texto */
+    font-weight: 600;                   /* seminegrito */
+    color: var(--cor-gelo);             /* texto claro; o ícone usa currentColor e pega essa mesma cor */
 }
 
+/* Item do menu quando passa o mouse */
 .menu_item:hover {
-    background-color: var(--cor-azul-noite-claro);
-    color: var(--cor-branco);
+    background-color: var(--cor-azul-noite-claro); /* fundo um pouco mais claro */
+    color: var(--cor-branco);           /* texto branco */
 }
 
-/* Item da página em que o usuário está */
+/* Item da página em que o usuário está (e o hover dele) */
 .menu_ativo,
 .menu_ativo:hover {
-    background-color: var(--cor-capri);
-    color: var(--cor-azul-noite);
+    background-color: var(--cor-capri); /* fundo capri */
+    color: var(--cor-azul-noite);       /* texto azul-noite (branco no capri fica ilegível) */
 }
 
-/* min-width: 0 impede que gráficos largos estourem a tela */
-.conteudo {
-    flex: 1 1 0;
-    min-width: 0;
-    padding: 36px 44px 64px;
-}
+/* =====================================================================
+   3. CABEÇALHO DAS PÁGINAS (título + subtítulo + botões)
+   ===================================================================== */
 
-.conteudo_interno {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    max-width: 1120px;
-    margin: 0 auto;
-}
-
+/* Linha do topo com título à esquerda e botões à direita */
 .cabecalho_pagina {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 16px;
+    display: flex;                      /* título e botões lado a lado */
+    flex-wrap: wrap;                    /* se faltar espaço, os botões descem */
+    justify-content: space-between;     /* título na esquerda, botões na direita */
+    align-items: flex-end;              /* alinha pela parte de baixo */
+    gap: 16px;                          /* espaço entre título e botões */
 }
 
+/* Título da página: menor que o h1 da Home */
+.cabecalho_pagina h1 {
+    font-size: 32px;                    /* tamanho do título nas telas do sistema */
+}
+
+/* Subtítulo embaixo do h1 */
 .cabecalho_pagina p {
-    margin-top: 6px;
-    font-size: 16px;
-    color: var(--cor-texto-suave);
+    margin-top: 6px;                    /* espaço entre o título e o subtítulo */
+    font-size: 16px;                    /* tamanho do subtítulo */
+    color: var(--cor-texto-suave);      /* cor mais suave */
 }
 
-/* ---------- Cards ---------- */
+/* Grupo de botões do cabeçalho */
+.cabecalho_botoes {
+    display: flex;                      /* botões lado a lado */
+    flex-wrap: wrap;                    /* quebram linha se faltar espaço */
+    gap: 12px;                          /* espaço entre os botões */
+}
 
+
+/* =====================================================================
+   4. CARDS (caixa branca usada em todas as telas)
+   ===================================================================== */
+
+/* Card padrão */
 .card {
-    padding: 24px;
-    border: 1px solid var(--cor-borda);
-    border-radius: 24px;
-    background-color: var(--cor-branco);
+    padding: 24px;                      /* espaço interno */
+    border: 1px solid var(--cor-borda); /* borda fininha azul */
+    border-radius: 24px;                /* cantos bem arredondados */
+    background-color: var(--cor-branco); /* fundo branco */
 }
 
+/* Título dos cards e das janelas: menor que o h2 da Home */
+.card h2,
+.modal_caixa h2 {
+    font-size: 22px;                    /* tamanho do título de card */
+}
+
+/* Topo do card: título à esquerda e link/botão à direita */
 .card_titulo {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 18px;
+    display: flex;                      /* lado a lado */
+    flex-wrap: wrap;                    /* quebra se faltar espaço */
+    justify-content: space-between;     /* separa as pontas */
+    align-items: flex-start;            /* alinha pelo topo */
+    gap: 12px;                          /* espaço entre os itens */
+    margin-bottom: 18px;                /* espaço até o conteúdo do card */
 }
 
+/* Subtítulo do card */
 .card_titulo p {
-    margin-top: 4px;
-    font-size: 14px;
-    color: var(--cor-texto-suave);
+    margin-top: 4px;                    /* espaço depois do h2 */
+    font-size: 14px;                    /* texto menor */
+    color: var(--cor-texto-suave);      /* cor suave */
 }
 
 /* Linha de cards que quebra para baixo quando a tela fica estreita */
 .linha {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: flex;                      /* cards lado a lado */
+    flex-wrap: wrap;                    /* descem quando não cabem */
+    gap: 20px;                          /* espaço entre os cards */
 }
 
+/* Card que ocupa o dobro do espaço (mapa) */
 .card_largo {
-    flex: 2 1 560px;
-    min-width: 0;
+    flex: 2 1 560px;                    /* cresce 2x mais que os outros; base de 560px */
+    min-width: 0;                       /* deixa encolher sem estourar */
 }
 
+/* Card de tamanho médio */
 .card_medio {
-    flex: 1 1 340px;
-    min-width: 0;
+    flex: 1 1 340px;                    /* cresce igual aos outros; base de 340px */
+    min-width: 0;                       /* deixa encolher sem estourar */
 }
 
-/* ---------- KPIs ---------- */
 
+/* =====================================================================
+   5. KPIs DA DASHBOARD
+   ===================================================================== */
+
+/* Card de KPI */
 .kpi {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    flex: 1 1 220px;
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* itens um embaixo do outro */
+    gap: 14px;                          /* espaço entre título, valor e legenda */
+    flex: 1 1 220px;                    /* os 4 KPIs dividem a linha; base de 220px */
 }
 
+/* Topo do KPI: nome à esquerda e ícone à direita */
 .kpi_topo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--cor-texto-suave);
+    display: flex;                      /* lado a lado */
+    justify-content: space-between;     /* separa nome e ícone */
+    align-items: center;                /* centraliza na vertical */
+    font-size: 14px;                    /* texto pequeno */
+    font-weight: 600;                   /* seminegrito */
+    color: var(--cor-texto-suave);      /* cor suave */
 }
 
+/* Quadradinho colorido com o ícone */
 .kpi_icone {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    display: flex;                      /* flexbox para centralizar o ícone */
+    justify-content: center;            /* centraliza na horizontal */
+    align-items: center;                /* centraliza na vertical */
+    width: 40px;                        /* largura */
+    height: 40px;                       /* altura */
+    border-radius: 12px;                /* cantos arredondados */
 }
 
+/* Número grande do KPI */
 .kpi_valor {
-    font-family: var(--fonte-titulo);
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 1;
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-size: 34px;                    /* número grande */
+    font-weight: 800;                   /* bem negrito */
+    line-height: 1;                     /* sem espaço extra em volta do número */
 }
 
+/* Texto pequeno embaixo do número */
 .kpi_legenda {
-    font-size: 13px;
-    color: var(--cor-texto-suave);
+    font-size: 13px;                    /* bem pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
 }
 
-/* Fundos usados nos ícones e nas cores dos grupos */
-.fundo_ceu {
-    background-color: var(--cor-ceu);
-}
 
-.fundo_capri_claro {
-    background-color: var(--cor-capri-claro);
-}
+/* =====================================================================
+   6. MAPA DE PROXIMIDADE (Dashboard)
+   ===================================================================== */
 
-.fundo_anil {
-    background-color: var(--cor-anil);
-}
-
-.fundo_lavanda {
-    background-color: var(--cor-lavanda);
-}
-
-.fundo_anil_claro {
-    background-color: var(--cor-anil-claro);
-}
-
-/* ---------- Mapa de proximidade ---------- */
-
-/* aspect-ratio: 1 / 1 deixa o mapa sempre quadrado */
+/* Área do mapa */
 .mapa {
-    position: relative;
-    width: 100%;
-    max-width: 520px;
-    aspect-ratio: 1 / 1;
-    margin: 0 auto;
+    position: relative;                 /* as pessoas (absolute) se posicionam em relação a ele */
+    width: 100%;                        /* ocupa a largura do card */
+    max-width: 520px;                   /* mas no máximo 520px */
+    aspect-ratio: 1 / 1;                /* sempre quadrado */
+    margin: 0 auto;                     /* centralizado no card */
 }
 
-/* Os três anéis ficam um em cima do outro, centralizados */
+/* Os três anéis ficam um em cima do outro */
 .anel {
-    position: absolute;
-    border-radius: 50%;
+    position: absolute;                 /* posicionado dentro do mapa */
+    border-radius: 50%;                 /* vira círculo */
 }
 
+/* Anel de fora (pessoas distantes) */
 .anel_distante {
-    inset: 0;
-    border: 1.5px solid var(--cor-ceu);
-    background-color: var(--cor-gelo);
+    inset: 0;                           /* encosta nas 4 bordas do mapa */
+    border: 1.5px solid var(--cor-ceu); /* contorno azul céu */
+    background-color: var(--cor-gelo);  /* fundo gelo */
 }
 
-/* inset = 50% menos o raio do anel. Os raios batem com a conta da distância no JavaScript */
+/* Anel do meio */
 .anel_meio {
-    inset: 14%;
-    border: 1.5px solid var(--cor-capri-claro);
-    background-color: var(--cor-ceu);
+    inset: 14%;                         /* 14% de recuo de cada lado (bate com a conta da distância no JS) */
+    border: 1.5px solid var(--cor-capri-claro); /* contorno capri claro */
+    background-color: var(--cor-ceu);   /* fundo céu */
 }
 
+/* Anel do centro (pessoas mais próximas) */
 .anel_perto {
-    inset: 26%;
-    background-color: var(--cor-capri-claro);
+    inset: 26%;                         /* 26% de recuo de cada lado */
+    background-color: var(--cor-capri-claro); /* fundo capri claro */
 }
 
-/* transform: translate(-50%, -50%) centraliza o elemento no ponto calculado */
+/* "Você" e as pessoas: centralizados no ponto calculado */
 .mapa_voce,
 .mapa_pessoa {
-    position: absolute;
-    transform: translate(-50%, -50%);
+    position: absolute;                 /* posição definida pelo left/top do JS */
+    transform: translate(-50%, -50%);   /* puxa metade da largura e altura para centralizar no ponto */
 }
 
+/* Círculo "Você" no centro */
 .mapa_voce {
-    left: 50%;
-    top: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    background-color: var(--cor-azul-noite);
-    color: var(--cor-branco);
-    font-family: var(--fonte-titulo);
-    font-weight: 800;
+    left: 50%;                          /* meio na horizontal */
+    top: 50%;                           /* meio na vertical */
+    display: flex;                      /* flexbox para centralizar o texto */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    width: 68px;                        /* largura */
+    height: 68px;                       /* altura */
+    border-radius: 50%;                 /* círculo */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
+    color: var(--cor-branco);           /* texto branco */
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-weight: 800;                   /* bem negrito */
 }
 
+/* Cada pessoa no mapa (bolinha + nome) */
 .mapa_pessoa {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* nome embaixo da bolinha */
+    align-items: center;                /* centralizados */
+    gap: 2px;                           /* pouco espaço entre eles */
 }
 
+/* Nome da pessoa no mapa */
 .mapa_pessoa span {
-    font-size: 12px;
-    font-weight: 700;
-    white-space: nowrap;
+    font-size: 12px;                    /* texto pequeno */
+    font-weight: 700;                   /* negrito */
+    white-space: nowrap;                /* não deixa o nome quebrar linha */
 }
 
+/* Bolinha com a inicial da pessoa (mapa, lista e cards) */
 .bolinha {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 38px;
-    height: 38px;
-    border: 2px solid var(--cor-azul-noite);
-    border-radius: 50%;
-    font-family: var(--fonte-titulo);
-    font-size: 14px;
-    font-weight: 800;
+    display: flex;                      /* flexbox para centralizar a letra */
+    flex-shrink: 0;                     /* não deixa a bolinha amassar quando falta espaço */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    width: 38px;                        /* largura */
+    height: 38px;                       /* altura */
+    border: 2px solid var(--cor-azul-noite); /* contorno azul-noite */
+    border-radius: 50%;                 /* círculo */
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-size: 14px;                    /* tamanho da letra */
+    font-weight: 800;                   /* bem negrito */
 }
 
+/* Legenda das cores dos grupos */
 .legenda {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 18px;
-    font-size: 13px;
-    color: var(--cor-texto-suave);
+    display: flex;                      /* itens lado a lado */
+    flex-wrap: wrap;                    /* quebram se faltar espaço */
+    justify-content: center;            /* centralizados */
+    gap: 16px;                          /* espaço entre os itens */
+    margin-top: 18px;                   /* espaço depois do mapa */
+    font-size: 13px;                    /* texto pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
 }
 
+/* Cada item da legenda */
 .legenda li {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex;                      /* bolinha e texto lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 6px;                           /* espaço entre eles */
 }
 
+/* Bolinha de cor da legenda */
 .legenda_cor {
-    width: 14px;
-    height: 14px;
-    border: 2px solid var(--cor-azul-noite);
-    border-radius: 50%;
+    width: 14px;                        /* largura */
+    height: 14px;                       /* altura */
+    border: 2px solid var(--cor-azul-noite); /* contorno */
+    border-radius: 50%;                 /* círculo */
 }
 
-/* ---------- Gráficos do Chart.js ---------- */
 
-/* O Chart.js ocupa a altura da div em volta do canvas */
+/* =====================================================================
+   7. GRÁFICOS DO CHART.JS (Dashboard)
+   ===================================================================== */
+
+/* Div em volta do canvas: o Chart.js ocupa a altura dela */
 .grafico {
-    position: relative;
-    height: 300px;
+    position: relative;                 /* o Chart.js precisa disso para medir o espaço */
+    height: 300px;                      /* altura do gráfico */
 }
 
+/* Caixinha de destaque embaixo do radar */
 .destaque {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 16px;
-    padding: 16px;
-    border-radius: 16px;
-    background-color: var(--cor-gelo);
-    font-size: 14px;
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* frases uma embaixo da outra */
+    gap: 6px;                           /* espaço entre as frases */
+    margin-top: 16px;                   /* espaço depois do gráfico */
+    padding: 16px;                      /* espaço interno */
+    border-radius: 16px;                /* cantos arredondados */
+    background-color: var(--cor-gelo);  /* fundo gelo */
+    font-size: 14px;                    /* texto menor */
 }
 
-/* ---------- Lista "Quem merece uma mensagem" ---------- */
 
+/* =====================================================================
+   8. LISTA "QUEM MERECE UMA MENSAGEM" (Dashboard)
+   ===================================================================== */
+
+/* Cada linha da lista */
 .lista_pessoa {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 0;
-    border-top: 1px solid var(--cor-trilho);
+    display: flex;                      /* bolinha e informações lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 14px;                          /* espaço entre eles */
+    padding: 14px 0;                    /* espaço em cima e embaixo */
+    border-top: 1px solid var(--cor-trilho); /* linha divisória */
 }
 
+/* Parte das informações (nome + barra) */
 .lista_pessoa_info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* nome em cima, barra embaixo */
+    gap: 6px;                           /* espaço entre eles */
+    flex: 1;                            /* ocupa o resto da linha */
 }
 
+/* Nome à esquerda e força à direita */
 .lista_pessoa_topo {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 700;
+    display: flex;                      /* lado a lado */
+    justify-content: space-between;     /* separa as pontas */
+    font-weight: 700;                   /* negrito */
 }
 
+/* Vínculo ao lado do nome */
 .lista_pessoa_topo small {
-    font-size: 15px;
-    font-weight: 400;
-    color: var(--cor-texto-suave);
+    font-size: 15px;                    /* mesmo tamanho do texto */
+    font-weight: 400;                   /* sem negrito */
+    color: var(--cor-texto-suave);      /* cor suave */
 }
 
-/* Barra da Força do Elo: o trilho é a div de fora e o preenchimento a de dentro */
+
+/* =====================================================================
+   9. BARRA DA FORÇA DO ELO (Dashboard e cards de Pessoas)
+   ===================================================================== */
+
+/* Trilho da barra (div de fora) */
 .barra {
-    height: 8px;
-    border-radius: 99px;
-    background-color: var(--cor-trilho);
-    overflow: hidden;
+    height: 8px;                        /* altura da barra */
+    border-radius: 99px;                /* pontas totalmente arredondadas */
+    background-color: var(--cor-trilho); /* cor do trilho vazio */
+    overflow: hidden;                   /* esconde o que passar da borda arredondada */
 }
 
+/* Preenchimento da barra (div de dentro; a largura vem do JS) */
 .barra div {
-    height: 100%;
-    border-radius: 99px;
+    height: 100%;                       /* mesma altura do trilho */
+    border-radius: 99px;                /* pontas arredondadas */
 }
 
-/* ---------- Botões ---------- */
 
-.botao_primario, .botao_secundario {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 46px;
-    padding: 0 22px;
-    border-radius: 14px;
-    font-family: var(--fonte-texto);
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
+/* =====================================================================
+   10. TELA PESSOAS — grade de cards
+   ===================================================================== */
+
+/* Grade que segura todos os cards de pessoa */
+.grade_pessoas {
+    display: grid;                      /* usa grid para montar colunas iguais */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* quantas colunas couberem, cada uma com no mínimo 260px */
+    gap: 20px;                          /* espaço entre os cards */
 }
 
-/* No Capri o texto é sempre azul-noite: branco fica ilegível */
-.botao_primario {
-    border: none;
-    background-color: var(--cor-capri);
-    color: var(--cor-azul-noite);
+/* Card de uma pessoa (usa também a classe .card) */
+.card_pessoa {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* partes uma embaixo da outra */
+    gap: 16px;                          /* espaço entre as partes */
 }
 
-.botao_primario:hover {
-    background-color: #66D4FF;
+/* Topo do card: bolinha + nome/vínculo */
+.card_pessoa_topo {
+    display: flex;                      /* lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 12px;                          /* espaço entre a bolinha e o texto */
 }
 
-.botao_secundario {
-    border: 1.5px solid var(--cor-azul-noite);
-    background-color: var(--cor-gelo);
-    color: var(--cor-azul-noite);
+/* Bolinha maior dentro do card de pessoa */
+.card_pessoa_topo .bolinha {
+    width: 48px;                        /* um pouco maior que a da lista */
+    height: 48px;                       /* altura igual à largura para continuar redonda */
+    font-size: 18px;                    /* letra maior */
 }
 
-.botao_secundario:hover {
-    background-color: var(--cor-branco);
+/* Vínculo embaixo do nome */
+.card_pessoa_topo p {
+    font-size: 14px;                    /* texto menor */
+    color: var(--cor-texto-suave);      /* cor suave */
 }
 
-/* ---------- Telas estreitas (celular) ---------- */
+/* Etiqueta com o nome do grupo */
+.etiqueta {
+    align-self: flex-start;             /* não estica na largura do card (o card é flex em coluna) */
+    padding: 2px 12px;                  /* espaço interno */
+    border: 1.5px solid var(--cor-azul-noite); /* contorno azul-noite */
+    border-radius: 99px;                /* formato de pílula */
+    font-size: 12px;                    /* texto pequeno */
+    font-weight: 700;                   /* negrito */
+}
 
+/* Linha "Força do elo ......... 87" */
+.card_pessoa_forca {
+    display: flex;                      /* lado a lado */
+    justify-content: space-between;     /* texto na esquerda, número na direita */
+    align-items: baseline;              /* alinha pela base das letras */
+    margin-bottom: 6px;                 /* espaço até a barra */
+    font-size: 14px;                    /* texto menor */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Número da força dentro do card */
+.card_pessoa_forca b {
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-size: 26px;                    /* número grande */
+    font-weight: 800;                   /* bem negrito */
+    color: var(--cor-azul-noite);       /* cor principal */
+}
+
+/* Os três pilares (convivência, confiança, apoio) lado a lado */
+.card_pessoa_pilares {
+    display: flex;                      /* lado a lado */
+    gap: 8px;                           /* espaço entre eles */
+}
+
+/* Cada pilar */
+.card_pessoa_pilares div {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* número em cima, nome embaixo */
+    align-items: center;                /* centralizados */
+    flex: 1;                            /* os três dividem o espaço igualmente */
+    padding: 8px 4px;                   /* espaço interno */
+    border-radius: 12px;                /* cantos arredondados */
+    background-color: var(--cor-gelo);  /* fundo gelo */
+}
+
+/* Número do pilar */
+.card_pessoa_pilares b {
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-size: 18px;                    /* tamanho do número */
+}
+
+/* Nome do pilar */
+.card_pessoa_pilares span {
+    font-size: 12px;                    /* texto pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Aviso que aparece quando o usuário não tem ninguém cadastrado */
+.vazio {
+    display: none;                      /* começa escondido; o JS mostra se a lista vier vazia */
+    flex-direction: column;             /* itens um embaixo do outro (quando aparecer) */
+    align-items: center;                /* centralizados */
+    gap: 12px;                          /* espaço entre os itens */
+    padding: 48px 24px;                 /* bastante espaço interno */
+    text-align: center;                 /* texto centralizado */
+}
+
+/* Texto do aviso */
+.vazio p {
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+
+/* =====================================================================
+   11. MODAIS (janelas de cadastro de pessoa, novo grupo e reavaliação)
+   ===================================================================== */
+
+/* Fundo escuro que cobre a tela inteira atrás da janela */
+.modal {
+    display: none;                      /* começa escondido; o JS troca para flex para abrir */
+    position: fixed;                    /* fica parado na tela, mesmo se rolar */
+    inset: 0;                           /* cobre as 4 bordas da tela */
+    z-index: 10;                        /* fica na frente de todo o resto */
+    justify-content: center;            /* centraliza a janela na horizontal */
+    align-items: center;                /* centraliza a janela na vertical */
+    padding: 20px;                      /* margem para a janela não encostar na borda no celular */
+    background-color: rgba(11, 46, 79, 0.55); /* azul-noite (#0B2E4F) com 55% de opacidade: dá para ver a tela atrás */
+}
+
+/* A janela branca em si */
+.modal_caixa {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* conteúdo um embaixo do outro */
+    gap: 18px;                          /* espaço entre os campos */
+    width: 100%;                        /* ocupa a largura disponível */
+    max-width: 520px;                   /* mas no máximo 520px */
+    max-height: 90vh;                   /* no máximo 90% da altura da tela */
+    overflow-y: auto;                   /* se o conteúdo for maior, aparece barra de rolagem */
+    padding: 28px;                      /* espaço interno */
+    border-radius: 24px;                /* cantos arredondados */
+    background-color: var(--cor-branco); /* fundo branco */
+}
+
+/* Subtítulo da janela */
+.modal_caixa > p {
+    margin-top: -12px;                  /* aproxima o subtítulo do título */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Botões no rodapé da janela */
+.modal_botoes {
+    display: flex;                      /* lado a lado */
+    justify-content: flex-end;          /* empurrados para a direita */
+    gap: 12px;                          /* espaço entre eles */
+    margin-top: 6px;                    /* espaço depois do último campo */
+}
+
+
+/* =====================================================================
+   12. SLIDERS DOS PILARES (dentro dos modais; o resto dos campos está no geral.css)
+   ===================================================================== */
+
+/* Linha com nome do pilar à esquerda e valor à direita */
+.campo_topo {
+    display: flex;                      /* lado a lado */
+    justify-content: space-between;     /* separa as pontas */
+}
+
+/* Valor do slider (ex.: 75) */
+.campo_topo span {
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-weight: 800;                   /* bem negrito */
+    color: var(--cor-capri-profundo);   /* capri escuro */
+}
+
+/* Slider de 0 a 100 (input type="range") */
+.campo input[type="range"] {
+    padding: 0;                         /* tira o padding que vale para os outros inputs */
+    border: none;                       /* tira a borda */
+    accent-color: var(--cor-capri);     /* pinta a bolinha e a parte preenchida de capri */
+    cursor: pointer;                    /* mãozinha ao passar o mouse */
+}
+
+/* Texto de ajuda embaixo do slider */
+.campo small {
+    font-size: 12px;                    /* texto pequeno */
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* =====================================================================
+   13. TELA PERFIL
+   ===================================================================== */
+
+/* Card com a foto/inicial e os dados do usuário */
+.perfil_card {
+    display: flex;                      /* bolinha e dados lado a lado */
+    flex-wrap: wrap;                    /* quebra no celular */
+    align-items: center;                /* centralizados na vertical */
+    gap: 24px;                          /* espaço entre bolinha e dados */
+}
+
+/* Bolinha grande com a inicial do usuário */
+.perfil_avatar {
+    display: flex;                      /* flexbox para centralizar a letra */
+    justify-content: center;            /* centro horizontal */
+    align-items: center;                /* centro vertical */
+    width: 96px;                        /* largura */
+    height: 96px;                       /* altura */
+    border-radius: 50%;                 /* círculo */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
+    color: var(--cor-branco);           /* letra branca */
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-size: 40px;                    /* letra grande */
+    font-weight: 800;                   /* bem negrito */
+}
+
+/* Bloco com nome e e-mail */
+.perfil_dados {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um embaixo do outro */
+    gap: 4px;                           /* pouco espaço entre eles */
+    flex: 1;                            /* ocupa o resto da linha */
+}
+
+/* E-mail embaixo do nome */
+.perfil_dados p {
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Lista de informações (nome, e-mail...) */
+.perfil_info {
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* um item embaixo do outro */
+}
+
+/* Cada linha de informação */
+.perfil_info li {
+    display: flex;                      /* rótulo e valor lado a lado */
+    justify-content: space-between;     /* rótulo na esquerda, valor na direita */
+    gap: 16px;                          /* espaço entre eles */
+    padding: 14px 0;                    /* espaço em cima e embaixo */
+    border-top: 1px solid var(--cor-trilho); /* linha divisória */
+}
+
+/* Rótulo da informação (ex.: "E-mail") */
+.perfil_info span {
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Valor da informação */
+.perfil_info b {
+    text-align: right;                  /* alinhado à direita */
+    word-break: break-all;              /* quebra e-mails compridos para não estourar o card */
+}
+
+
+/* =====================================================================
+   14. TELAS ESTREITAS (celular)
+   ===================================================================== */
+
+/* Tudo aqui dentro só vale quando a tela tiver até 900px de largura */
 @media (max-width: 900px) {
+
+    /* Página inteira */
     .sistema {
-        flex-direction: column;
+        flex-direction: column;         /* menu passa a ficar em cima do conteúdo */
     }
 
+    /* Menu */
     .menu_lateral {
-        position: static;
-        height: auto;
+        position: static;               /* deixa de grudar na tela */
+        height: auto;                   /* altura só do que tem dentro */
     }
 
+    /* Conteúdo */
     .conteudo {
-        padding: 24px 20px 48px;
+        padding: 24px 20px 48px;        /* menos espaço nas laterais */
     }
 }

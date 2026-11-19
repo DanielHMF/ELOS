@@ -26,7 +26,7 @@ function cadastrar(req, res){
     } else if (idGrupo == undefined) {
         res.status(400).send('O id do grupo está undefined!')
     }else {
-        pessoaModel.cadastrar(nome, vinculo, descricao, foto, idUsuario).then(function (resultadoPessoa) {
+        pessoaModel.cadastrar(nome, vinculo, descricao, foto, idUsuario, idGrupo).then(function (resultadoPessoa) {
             let idPessoa = resultadoPessoa.insertId;
     
             pessoaModel.cadastrarAvaliacao(convivencia, confianca, apoio, idPessoa).then(function (resultadoAvaliacao) {
