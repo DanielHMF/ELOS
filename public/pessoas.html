@@ -227,3 +227,294 @@
 
 </body>
 </html>
+
+<script>
+    // guarda o id da pessoa que está sendo reavaliada (preenchida em abrirReavaliacao)
+    let idPessoaReavaliar = 0
+
+    // ===== MODAIS =====
+
+    // Chamada pelos botões "Cadastrar pessoa", "Novo grupo" e por abrirReavaliacao()
+    // recebe a própria div do modal (ex.: div_modal_cadastro)
+    function abrirModal(modal) {
+        modal.style.display = 'flex'
+    }
+
+    // Chamada pelos botões "Cancelar" e depois de salvar com sucesso
+    function fecharModal(modal) {
+        modal.style.display = 'none'
+        limparCampos()
+    }
+
+    // Chamada por fecharModal(): deixa os 3 modais limpos para a próxima vez
+    function limparCampos() {
+        nome_input.value = ''
+        vinculo_input.value = ''
+        descricao_input.value = ''
+        grupo_nome_input.value = ''
+        grupo_descricao_input.value = ''
+
+        convivencia_input.value = 50
+        confianca_input.value = 50
+        apoio_input.value = 50
+        nova_convivencia_input.value = 50
+        nova_confianca_input.value = 50
+        novo_apoio_input.value = 50
+
+        convivencia_valor.innerHTML = 50
+        confianca_valor.innerHTML = 50
+        apoio_valor.innerHTML = 50
+        nova_convivencia_valor.innerHTML = 50
+        nova_confianca_valor.innerHTML = 50
+        novo_apoio_valor.innerHTML = 50
+
+        cadastro_erro.innerHTML = ''
+        grupo_erro.innerHTML = ''
+    }
+
+    // ===== LISTAR PESSOAS (cards) =====
+
+    // GET /pessoas/listar/:idUsuario → pessoaController.listar
+    // Chamada no carregamento, depois de cadastrar e depois de reavaliar
+    function listarPessoas() {
+        let idUsuario = sessionStorage.ID_USUARIO
+
+        fetch(`/pessoas/listar/${idUsuario}`).then(function (resposta) {
+
+            if (resposta.status == 204) {
+                // 204 = nenhuma pessoa: não tem JSON para ler
+                div_cards.style.display = 'none'
+                div_vazio.style.display = 'flex'
+            } else if (resposta.ok) {
+                resposta.json().then(function (pessoas) {
+                    console.log(pessoas)
+
+                    div_vazio.style.display = 'none'
+                    div_cards.style.display = 'grid'
+                    div_cards.innerHTML = ''
+
+                    for (let i = 0; i < pessoas.length; i++) {
+                        let pessoa = pessoas[i]
+                        let inicial = pessoa.nome[0].toUpperCase()
+                        let grupo = pessoa.grupo
+                        let corGrupo = 'fundo_anil_claro'
+
+                        // a view usa LEFT JOIN: a pessoa pode estar sem grupo
+                        if (grupo == null) {
+                            grupo = 'Sem grupo'
+                        }
+
+                        // mesmas cores da legenda da dashboard
+                        if (grupo == 'Família') {
+                            corGrupo = 'fundo_anil'
+                        } else if (grupo == 'Amigos') {
+                            corGrupo = 'fundo_lavanda'
+                        } else if (grupo == 'Faculdade') {
+                            corGrupo = 'fundo_ceu'
+                        }
+
+                        div_cards.innerHTML += `
+                            <div class="card card_pessoa">
+                                <div class="card_pessoa_topo">
+                                    <div class="bolinha ${corGrupo}">${inicial}</div>
+                                    <div>
+                                        <h3>${pessoa.nome}</h3>
+                                        <p>${pessoa.vinculo}</p>
+                                    </div>
+                                </div>
+
+                                <span class="etiqueta ${corGrupo}">${grupo}</span>
+
+                                <div>
+                                    <div class="card_pessoa_forca">
+                                        <span>Força do elo</span>
+                                        <b>${pessoa.forca}</b>
+                                    </div>
+                                    <div class="barra">
+                                        <div class="fundo_capri_claro" style="width: ${pessoa.forca}%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="card_pessoa_pilares">
+                                    <div><b>${pessoa.convivencia}</b><span>Convivência</span></div>
+                                    <div><b>${pessoa.confianca}</b><span>Confiança</span></div>
+                                    <div><b>${pessoa.apoio}</b><span>Apoio</span></div>
+                                </div>
+
+                                <button class="botao_secundario botao_largo" onclick="abrirReavaliacao(${pessoa.id}, '${pessoa.nome}')">Reavaliar</button>
+                            </div>
+                        `
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== GRUPOS (select do modal de cadastro) =====
+
+    // GET /grupos/listar/:idUsuario → grupoController.listar
+    // Chamada no carregamento e depois de criar um grupo
+    function listarGrupos() {
+        fetch(`/grupos/listar/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (grupos) {
+                    // primeira opção vazia obriga o usuário a escolher
+                    grupo_select.innerHTML = '<option value="">Selecione</option>'
+
+                    for (let i = 0; i < grupos.length; i++) {
+                        grupo_select.innerHTML += `<option value="${grupos[i].id}">${grupos[i].nome}</option>`
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== CADASTRAR PESSOA =====
+
+    // POST /pessoas/cadastrar → pessoaController.cadastrar
+    // Chamada pelo botão "Salvar" do modal de cadastro
+    function cadastrarPessoa() {
+        let nome = nome_input.value.trim()
+        let vinculo = vinculo_input.value.trim()
+        let idGrupo = grupo_select.value
+        let descricao = descricao_input.value.trim()
+        let convivencia = convivencia_input.value
+        let confianca = confianca_input.value
+        let apoio = apoio_input.value
+
+        cadastro_erro.innerHTML = ''
+
+        if (nome == '' || vinculo == '') {
+            cadastro_erro.innerHTML = 'Preencha o nome e o vínculo!'
+        } else if (idGrupo == '') {
+            cadastro_erro.innerHTML = 'Escolha um grupo!'
+        } else {
+            fetch('/pessoas/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nomeServer: nome,
+                    vinculoServer: vinculo,
+                    descricaoServer: descricao,
+                    fotoServer: '',          // ainda não tem campo de foto
+                    convivenciaServer: convivencia,
+                    confiancaServer: confianca,
+                    apoioServer: apoio,
+                    idUsuarioServer: sessionStorage.ID_USUARIO,
+                    idGrupoServer: idGrupo
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    fecharModal(div_modal_cadastro)
+                    listarPessoas()
+                } else {
+                    resposta.text().then(function (mensagem) {
+                        cadastro_erro.innerHTML = mensagem
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                cadastro_erro.innerHTML = 'Não foi possível conectar ao servidor'
+            })
+        }
+    }
+
+    // ===== CRIAR GRUPO =====
+
+    // POST /grupos/cadastrar → grupoController.cadastrar
+    // Chamada pelo botão "Criar grupo" do modal de grupo
+    function cadastrarGrupo() {
+        let nome = grupo_nome_input.value.trim()
+        let descricao = grupo_descricao_input.value.trim()
+
+        grupo_erro.innerHTML = ''
+
+        if (nome == '') {
+            grupo_erro.innerHTML = 'Dê um nome para o grupo!'
+        } else {
+            fetch('/grupos/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nomeServer: nome,
+                    descricaoServer: descricao,
+                    idUsuarioServer: sessionStorage.ID_USUARIO
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    fecharModal(div_modal_grupo)
+                    listarGrupos()
+                } else {
+                    resposta.text().then(function (mensagem) {
+                        grupo_erro.innerHTML = mensagem
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                grupo_erro.innerHTML = 'Não foi possível conectar ao servidor'
+            })
+        }
+    }
+
+    // ===== REAVALIAR =====
+
+    // Chamada pelo botão "Reavaliar" de cada card (o for de listarPessoas monta o onclick)
+    function abrirReavaliacao(idPessoa, nome) {
+        idPessoaReavaliar = idPessoa
+        reavaliar_nome.innerHTML = nome
+        abrirModal(div_modal_reavaliar)
+    }
+
+    // POST /pessoas/avaliar/:idPessoa → pessoaController.avaliar
+    // Chamada pelo botão "Salvar avaliação" do modal de reavaliação
+    function reavaliarPessoa() {
+        fetch(`/pessoas/avaliar/${idPessoaReavaliar}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                convivenciaServer: nova_convivencia_input.value,
+                confiancaServer: nova_confianca_input.value,
+                apoioServer: novo_apoio_input.value
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                fecharModal(div_modal_reavaliar)
+                listarPessoas()   // a view já pega a avaliação mais recente
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== CARREGAMENTO DA PÁGINA =====
+    // sem login, volta para a tela de login; com login, carrega os dados
+    if (sessionStorage.ID_USUARIO == undefined) {
+        window.location.href = 'login.html'
+    } else {
+        listarPessoas()
+        listarGrupos()
+    }
+</script>
