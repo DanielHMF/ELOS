@@ -90,3 +90,80 @@
     </div>
 </body>
 </html>
+
+<script>
+    // ===== SESSÃO =====
+
+    // Chamada pelo botão "Sair da conta": apaga os dados do login e volta para a tela de login
+    function sair() {
+        sessionStorage.clear()
+        window.location.href = 'login.html'
+    }
+
+    // ===== DADOS DO USUÁRIO (vêm do sessionStorage, sem fetch) =====
+
+    // Chamada no carregamento da página
+    function mostrarDados() {
+        let nome = sessionStorage.NOME_USUARIO
+        let email = sessionStorage.EMAIL_USUARIO
+
+        perfil_inicial.innerHTML = nome[0].toUpperCase()
+        perfil_nome.innerHTML = nome
+        perfil_email.innerHTML = email
+        info_nome.innerHTML = nome
+        info_email.innerHTML = email
+    }
+
+    // ===== RESUMO DOS ELOS =====
+
+    // GET /dash/kpis/:idUsuario → dashController.buscarKpis
+    function buscarKpis() {
+        fetch(`/dash/kpis/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    info_total.innerHTML = resultado[0].total
+
+                    // sem pessoas cadastradas, a média vem null
+                    if (resultado[0].media == null) {
+                        info_media.innerHTML = '--'
+                    } else {
+                        info_media.innerHTML = resultado[0].media
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // GET /dash/atencao/:idUsuario → dashController.buscarAtencao
+    function buscarAtencao() {
+        fetch(`/dash/atencao/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    info_atencao.innerHTML = resultado[0].atencao
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== CARREGAMENTO DA PÁGINA =====
+    // sem login, volta para a tela de login; com login, carrega os dados
+    if (sessionStorage.ID_USUARIO == undefined) {
+        window.location.href = 'login.html'
+    } else {
+        mostrarDados()
+        buscarKpis()
+        buscarAtencao()
+    }
+</script>
