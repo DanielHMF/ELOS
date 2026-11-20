@@ -280,10 +280,17 @@
                         let x = 50 + raio * Math.cos(angulo)
                         let y = 50 + raio * Math.sin(angulo)
 
+                        let grupo_null = pessoa.grupo
+
+                        if(pessoa.grupo == ''){
+                            grupo_null = 'Sem grupo'
+                        }
+
                         div_mapa.innerHTML += `
                             <div class="mapa_pessoa" style="left: ${x}%; top: ${y}%;">
                                 <div class="bolinha ${classeDoGrupo(pessoa.grupo)}">${pessoa.nome[0].toUpperCase()}</div>
                                 <span>${pessoa.nome}</span>
+                                <div class="tooltip"><b>${pessoa.nome}</b><br>${pessoa.vinculo} - ${grupo_null}<br>Força: ${pessoa.forca}</div>
                             </div>
                         `
                     }

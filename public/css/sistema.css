@@ -280,6 +280,29 @@
     transform: translate(-50%, -50%);   /* puxa metade da largura e altura para centralizar no ponto */
 }
 
+.tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 1px;
+    background-color: rgba(11, 46, 79, 0.9);
+    color: white;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.mapa_pessoa:hover {
+    z-index: 5;
+}
+
+.mapa_pessoa:hover .tooltip{
+    display: block;
+}
+
 /* Círculo "Você" no centro */
 .mapa_voce {
     left: 50%;                          /* meio na horizontal */
