@@ -47,9 +47,9 @@
                         <h1>Meu perfil</h1>
                         <p>Seus dados de acesso ao ELOS.</p>
                     </div>
-                    <button class="botao_secundario" onclick="sair()">Sair da conta</button>
+                    <button class="botao_secundario" onclick="abrirModal(modal_sair)">Sair da conta</button>
                 </div>
-                 <section class="card perfil_card">
+                <section class="card perfil_card">
                     <div class="perfil_avatar" id="perfil_inicial">-</div>
                     <div class="perfil_dados">
                         <h2 id="perfil_nome"></h2>
@@ -69,11 +69,13 @@
                             <li><span>E-mail</span><b id="info_email"></b></li>
                         </ul>
                     </section>
+                    
 
-                    <section class="card card_medio">
-                        <div class="card_titulo">
-                            <div>
-                                <h2>Seus elos em números</h2>
+                    <!-- 
+                        <section class="card card_medio">
+                            <div class="card_titulo">
+                                <div>
+                                    <h2>Seus elos em números</h2>
                                 <p>Um resumo do seu mapa.</p>
                             </div>
                             <a href="dash.html"><b>Ver dashboard</b></a>
@@ -83,10 +85,20 @@
                             <li><span>Força média do elo</span><b id="info_media">--</b></li>
                             <li><span>Elos que pedem atenção</span><b id="info_atencao">--</b></li>
                         </ul>
-                    </section>
+                    </section> -->
                 </div> 
             </div>
         </main>
+    </div>
+    <div class="modal" id="modal_sair">
+        <div class="modal_caixa">
+            <h2>Deseja sair da conta?</h2>
+            
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(modal_sair)">Cancelar</button>
+                <button class="botao_primario" onclick="sair()">Confirmar</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
@@ -98,6 +110,19 @@
     function sair() {
         sessionStorage.clear()
         window.location.href = 'login.html'
+    }
+
+    // ===== MODAIS =====
+
+    // Chamada pelos botões "Cadastrar pessoa", "Novo grupo" e por abrirReavaliacao()
+    // recebe a própria div do modal (ex.: div_modal_cadastro)
+    function abrirModal(modal) {
+        modal.style.display = 'flex'
+    }
+
+    // Chamada pelos botões "Cancelar" e depois de salvar com sucesso
+    function fecharModal(modal) {
+        modal.style.display = 'none'
     }
 
     // ===== DADOS DO USUÁRIO (vêm do sessionStorage, sem fetch) =====
@@ -117,45 +142,45 @@
     // ===== RESUMO DOS ELOS =====
 
     // GET /dash/kpis/:idUsuario → dashController.buscarKpis
-    function buscarKpis() {
-        fetch(`/dash/kpis/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
-            if (resposta.ok) {
-                resposta.json().then(function (resultado) {
-                    info_total.innerHTML = resultado[0].total
+    // function buscarKpis() {
+    //     fetch(`/dash/kpis/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
+    //         if (resposta.ok) {
+    //             resposta.json().then(function (resultado) {
+    //                 info_total.innerHTML = resultado[0].total
 
-                    // sem pessoas cadastradas, a média vem null
-                    if (resultado[0].media == null) {
-                        info_media.innerHTML = '--'
-                    } else {
-                        info_media.innerHTML = resultado[0].media
-                    }
-                })
-            } else {
-                resposta.text().then(function (mensagem) {
-                    console.log(mensagem)
-                })
-            }
-        }).catch(function (erro) {
-            console.log(erro)
-        })
-    }
+    //                 // sem pessoas cadastradas, a média vem null
+    //                 if (resultado[0].media == null) {
+    //                     info_media.innerHTML = '--'
+    //                 } else {
+    //                     info_media.innerHTML = resultado[0].media
+    //                 }
+    //             })
+    //         } else {
+    //             resposta.text().then(function (mensagem) {
+    //                 console.log(mensagem)
+    //             })
+    //         }
+    //     }).catch(function (erro) {
+    //         console.log(erro)
+    //     })
+    // }
 
     // GET /dash/atencao/:idUsuario → dashController.buscarAtencao
-    function buscarAtencao() {
-        fetch(`/dash/atencao/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
-            if (resposta.ok) {
-                resposta.json().then(function (resultado) {
-                    info_atencao.innerHTML = resultado[0].atencao
-                })
-            } else {
-                resposta.text().then(function (mensagem) {
-                    console.log(mensagem)
-                })
-            }
-        }).catch(function (erro) {
-            console.log(erro)
-        })
-    }
+    // function buscarAtencao() {
+    //     fetch(`/dash/atencao/${sessionStorage.ID_USUARIO}`).then(function (resposta) {
+    //         if (resposta.ok) {
+    //             resposta.json().then(function (resultado) {
+    //                 info_atencao.innerHTML = resultado[0].atencao
+    //             })
+    //         } else {
+    //             resposta.text().then(function (mensagem) {
+    //                 console.log(mensagem)
+    //             })
+    //         }
+    //     }).catch(function (erro) {
+    //         console.log(erro)
+    //     })
+    // }
 
     // ===== CARREGAMENTO DA PÁGINA =====
     // sem login, volta para a tela de login; com login, carrega os dados
@@ -163,7 +188,7 @@
         window.location.href = 'login.html'
     } else {
         mostrarDados()
-        buscarKpis()
-        buscarAtencao()
+        // buscarKpis()
+        // buscarAtencao()
     }
 </script>

@@ -463,9 +463,9 @@
 
     // ===== CARREGAMENTO DA PÁGINA =====
     // sem login, volta para a tela de login; com login, chama uma função por rota
-    if (idUsuario == undefined) {
-        window.location.href = 'login.html'
-    } else {
+    // if (idUsuario == undefined) {
+    //     window.location.href = 'login.html'
+    // } else {
         span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO
         buscarKpis()
         buscarMaisPerto()
@@ -474,5 +474,5 @@
         buscarPilares()
         buscarFracos()
         buscarGrupos()
-    }
+    // }
 </script>
