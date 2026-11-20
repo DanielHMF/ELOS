@@ -96,7 +96,7 @@
 </body>
 </html>
 
-<script>
+<!-- <script>
     function cadastrar(){
         let nome = ipt_nome.value.trim()
 
@@ -122,7 +122,7 @@
         for(i; i < campos.length && campos[i] != ''; i++){}
 
         if (i < campos.length){
-            p_camposNull.innerHTML = `<p style="color: red">Preencha todos os campos!</p>`
+            cadastro_erro.innerHTML = `<p style="color: red">Preencha todos os campos!</p>`
         } else {
             if (!nomeValido){
                 alert('Nome inválido')
@@ -184,12 +184,117 @@
         }
 
         if (requisitos == 4) {
-            p_senha.innerHTML = `Senha <b style="color: green">Forte</b>`
+            senha_dica.innerHTML = `Senha <b style="color: green">Forte</b>`
         } else if (requisitos == 3) {
-            p_senha.innerHTML = `Senha <b style="color: #FFD700">Média</b>`
+            senha_dica.innerHTML = `Senha <b style="color: #FFD700">Média</b>`
         } else {
-            p_senha.innerHTML = `Senha <b style="color: red">Fraca</b>`
+            senha_dica.innerHTML = `Senha <b style="color: red">Fraca</b>`
         }
     }
     
+</script> -->
+
+<script>
+    // Chamada pelo botão "Criar minha conta" (onclick no HTML)
+    function cadastrar() {
+        let nome = ipt_nome.value.trim()
+
+        let email = ipt_email.value.toLowerCase().trim()
+        let indexArroba = email.indexOf('@')
+        let indexCom = email.indexOf('.com')
+
+        let senha = ipt_senha.value.trim()
+        let temEspecial = senha.includes('!') || senha.includes('@') || senha.includes('#') || senha.includes('$') || senha.includes('*') || senha.includes('.') || senha.includes('_')
+        let senhaUpper = senha.toUpperCase()
+        let senhaLower = senha.toLowerCase()
+
+        let confirmacaoSenha = ipt_confirmarSenha.value.trim()
+
+        let campos = [nome, email, senha, confirmacaoSenha]
+
+        let nomeValido = nome.length > 1
+        let emailValido = indexArroba > 0 && indexCom > indexArroba + 1
+        let senhaValida = senha != senhaUpper && senha != senhaLower && senha.length >= 8 && temEspecial == true
+        let confirmacaoValida = confirmacaoSenha == senha
+
+        // limpa a mensagem de uma tentativa anterior
+        cadastro_erro.innerHTML = ''
+
+        // percorre o vetor até achar um campo vazio (ou chegar no fim)
+        let i = 0
+        for (i; i < campos.length && campos[i] != ''; i++) { }
+
+        if (i < campos.length) {
+            cadastro_erro.innerHTML = 'Preencha todos os campos!'
+        } else if (!nomeValido) {
+            cadastro_erro.innerHTML = 'Nome inválido'
+        } else if (!emailValido) {
+            cadastro_erro.innerHTML = 'E-mail inválido'
+        } else if (!senhaValida) {
+            cadastro_erro.innerHTML = 'A senha não atende os requisitos mínimos'
+        } else if (!confirmacaoValida) {
+            cadastro_erro.innerHTML = 'As senhas não coincidem'
+        } else {
+            // POST /usuarios/cadastrar → usuarioController.cadastrar
+            fetch('/usuarios/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nomeServer: nome,
+                    emailServer: email,
+                    senhaServer: senha
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    alert('Cadastro realizado com sucesso!')
+                    window.location.href = 'login.html'
+                } else {
+                    // 409 = e-mail já cadastrado; 500 = erro no banco
+                    resposta.text().then(function (mensagem) {
+                        cadastro_erro.innerHTML = mensagem
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                cadastro_erro.innerHTML = 'Não foi possível conectar ao servidor'
+            })
+        }
+    }
+
+    // Chamada a cada tecla digitada no campo de senha (onkeyup no HTML)
+    function mostrarSenha() {
+        let senha = ipt_senha.value.trim()
+        let temEspecial = senha.includes('!') || senha.includes('@') || senha.includes('#') || senha.includes('$') || senha.includes('.') || senha.includes('*') || senha.includes('_')
+        let senhaUpper = senha.toUpperCase()
+        let senhaLower = senha.toLowerCase()
+        let requisitos = 0
+
+        if (senha.length >= 8) {
+            requisitos++
+        }
+
+        if (senha != senhaUpper) {
+            requisitos++
+        }
+
+        if (senha != senhaLower) {
+            requisitos++
+        }
+
+        if (temEspecial == true) {
+            requisitos++
+        }
+
+        if (senha == '') {
+            senha_dica.innerHTML = 'Mínimo de 8 caracteres, com letra maiúscula, minúscula e um caractere especial (! @ # $ * . _).'
+        } else if (requisitos == 4) {
+            senha_dica.innerHTML = `Senha <b style="color: green">forte</b>`
+        } else if (requisitos == 3) {
+            senha_dica.innerHTML = `Senha <b style="color: #E0A800">média</b>: falta 1 requisito`
+        } else {
+            senha_dica.innerHTML = `Senha <b style="color: red">fraca</b>: mínimo de 8 caracteres, com maiúscula, minúscula e especial`
+        }
+    }
 </script>
