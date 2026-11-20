@@ -158,3 +158,321 @@
     </div>
 </body>
 </html>
+
+<script>
+    let idUsuario = sessionStorage.ID_USUARIO
+
+    // ===== CORES DOS GRUPOS =====
+
+    // Chamada pelo mapa e pela lista: devolve a classe de cor do grupo (mesmas cores da legenda)
+    function classeDoGrupo(grupo) {
+        let classe = 'fundo_anil_claro'
+
+        if (grupo == 'Família') {
+            classe = 'fundo_anil'
+        } else if (grupo == 'Amigos') {
+            classe = 'fundo_lavanda'
+        } else if (grupo == 'Faculdade') {
+            classe = 'fundo_ceu'
+        }
+
+        return classe
+    }
+
+    // Chamada pelo gráfico de grupos: o Chart.js desenha num canvas, então precisa do código da cor
+    // (são as mesmas cores das variáveis do geral.css)
+    function corDoGrupo(grupo) {
+        let cor = '#E8ECFF'
+
+        if (grupo == 'Família') {
+            cor = '#7B93FF'
+        } else if (grupo == 'Amigos') {
+            cor = '#C7B8FF'
+        } else if (grupo == 'Faculdade') {
+            cor = '#CCF2FF'
+        }
+
+        return cor
+    }
+
+    // ===== KPIs =====
+
+    // GET /dash/kpis/:idUsuario → dashController.buscarKpis
+    function buscarKpis() {
+        fetch(`/dash/kpis/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    kpi_total.innerHTML = resultado[0].total
+
+                    // sem pessoas, a média vem null
+                    if (resultado[0].media != null) {
+                        kpi_media.innerHTML = resultado[0].media
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // GET /dash/mais-perto/:idUsuario → dashController.buscarMaisPerto
+    function buscarMaisPerto() {
+        fetch(`/dash/mais-perto/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    // sem pessoas, o vetor vem vazio
+                    if (resultado.length > 0) {
+                        kpi_mais_perto.innerHTML = resultado[0].nome
+                        kpi_mais_perto_legenda.innerHTML = `${resultado[0].vinculo} · força ${resultado[0].forca}`
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // GET /dash/atencao/:idUsuario → dashController.buscarAtencao
+    function buscarAtencao() {
+        fetch(`/dash/atencao/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    kpi_atencao.innerHTML = resultado[0].atencao
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== MAPA DE PROXIMIDADE =====
+
+    // GET /pessoas/listar/:idUsuario → pessoaController.listar (a mesma rota da tela Pessoas)
+    function montarMapa() {
+        fetch(`/pessoas/listar/${idUsuario}`).then(function (resposta) {
+            // 204 = nenhuma pessoa: o mapa fica só com o "Você"
+            if (resposta.status != 204 && resposta.ok) {
+                resposta.json().then(function (pessoas) {
+                    let total = pessoas.length
+
+                    for (let i = 0; i < total; i++) {
+                        let pessoa = pessoas[i]
+
+                        // DISTÂNCIA: força 100 fica a 16% do centro (fora do círculo "Você"); força 0 fica a 46% (borda do anel de fora)
+                        let raio = 16 + (100 - pessoa.forca) * 0.30
+
+                        // ÂNGULO: divide a volta inteira (2π) igualmente entre as pessoas
+                        let angulo = i * (2 * Math.PI / total)
+
+                        // POSIÇÃO: centro (50%) + raio na direção do ângulo
+                        let x = 50 + raio * Math.cos(angulo)
+                        let y = 50 + raio * Math.sin(angulo)
+
+                        div_mapa.innerHTML += `
+                            <div class="mapa_pessoa" style="left: ${x}%; top: ${y}%;">
+                                <div class="bolinha ${classeDoGrupo(pessoa.grupo)}">${pessoa.nome[0].toUpperCase()}</div>
+                                <span>${pessoa.nome}</span>
+                            </div>
+                        `
+                    }
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== GRÁFICO DOS 3 PILARES =====
+
+    // GET /dash/pilares/:idUsuario → dashController.buscarPilares
+    function buscarPilares() {
+        fetch(`/dash/pilares/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    let convivencia = resultado[0].convivencia
+                    let confianca = resultado[0].confianca
+                    let apoio = resultado[0].apoio
+
+                    // sem pessoas, as médias vêm null
+                    if (convivencia == null) {
+                        div_destaque_pilares.innerHTML = 'Cadastre pessoas para ver os pilares.'
+                    } else {
+                        new Chart(grafico_pilares, {
+                            type: 'radar',
+                            data: {
+                                labels: ['Convivência', 'Confiança', 'Apoio'],
+                                datasets: [{
+                                    label: 'Média',
+                                    data: [convivencia, confianca, apoio],
+                                    backgroundColor: 'rgba(0, 191, 255, 0.2)',   // capri transparente
+                                    borderColor: '#00BFFF',                       // capri
+                                    pointBackgroundColor: '#0B2E4F'               // azul-noite
+                                }]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: { r: { min: 0, max: 100 } }
+                            }
+                        })
+
+                        mostrarDestaque(convivencia, confianca, apoio)
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // Chamada por buscarPilares(): compara os 3 valores e escreve o mais forte e o mais fraco
+    function mostrarDestaque(convivencia, confianca, apoio) {
+        let nomes = ['Convivência', 'Confiança', 'Apoio']
+        let valores = [convivencia, confianca, apoio]
+        let maior = 0
+        let menor = 0
+
+        // guarda a POSIÇÃO do maior e do menor valor no vetor
+        for (let i = 1; i < valores.length; i++) {
+            if (valores[i] > valores[maior]) {
+                maior = i
+            }
+            if (valores[i] < valores[menor]) {
+                menor = i
+            }
+        }
+
+        div_destaque_pilares.innerHTML = `
+            <span>Pilar mais forte: <b>${nomes[maior]} (${valores[maior]})</b></span>
+            <span>Pilar que pede cuidado: <b>${nomes[menor]} (${valores[menor]})</b></span>
+        `
+    }
+
+    // ===== QUEM MERECE UMA MENSAGEM =====
+
+    // GET /dash/fracos/:idUsuario → dashController.buscarFracos
+    function buscarFracos() {
+        fetch(`/dash/fracos/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (fracos) {
+                    div_lista_fracos.innerHTML = ''
+
+                    if (fracos.length == 0) {
+                        div_lista_fracos.innerHTML = '<p>Ninguém por aqui ainda.</p>'
+                    }
+
+                    for (let i = 0; i < fracos.length; i++) {
+                        let pessoa = fracos[i]
+                        let classe = classeDoGrupo(pessoa.grupo)
+
+                        div_lista_fracos.innerHTML += `
+                            <div class="lista_pessoa">
+                                <div class="bolinha ${classe}">${pessoa.nome[0].toUpperCase()}</div>
+                                <div class="lista_pessoa_info">
+                                    <div class="lista_pessoa_topo">
+                                        <span>${pessoa.nome} <small>${pessoa.vinculo}</small></span>
+                                        <span>${pessoa.forca}</span>
+                                    </div>
+                                    <div class="barra">
+                                        <div class="fundo_capri_claro" style="width: ${pessoa.forca}%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    }
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== GRÁFICO DE FORÇA POR GRUPO =====
+
+    // GET /dash/grupos/:idUsuario → dashController.buscarGrupos
+    function buscarGrupos() {
+        fetch(`/dash/grupos/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (resultado) {
+                    // o Chart.js recebe vetores separados: um de nomes e um de valores
+                    let nomes = []
+                    let medias = []
+                    let cores = []
+
+                    for (let i = 0; i < resultado.length; i++) {
+                        let grupo = resultado[i].grupo
+
+                        if (grupo == null) {
+                            grupo = 'Sem grupo'
+                        }
+
+                        nomes.push(grupo)
+                        medias.push(resultado[i].media)
+                        cores.push(corDoGrupo(grupo))
+                    }
+
+                    new Chart(grafico_grupos, {
+                        type: 'bar',
+                        data: {
+                            labels: nomes,
+                            datasets: [{
+                                label: 'Força média',
+                                data: medias,
+                                backgroundColor: cores,
+                                borderColor: '#0B2E4F',
+                                borderWidth: 2,
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { min: 0, max: 100 } }
+                        }
+                    })
+                })
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== CARREGAMENTO DA PÁGINA =====
+    // sem login, volta para a tela de login; com login, chama uma função por rota
+    if (idUsuario == undefined) {
+        window.location.href = 'login.html'
+    } else {
+        span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO
+        buscarKpis()
+        buscarMaisPerto()
+        buscarAtencao()
+        montarMapa()
+        buscarPilares()
+        buscarFracos()
+        buscarGrupos()
+    }
+</script>
