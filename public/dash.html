@@ -388,6 +388,12 @@
                         let pessoa = fracos[i]
                         let classe = classeDoGrupo(pessoa.grupo)
 
+                        let grupo_null = pessoa.grupo
+
+                        if(pessoa.grupo == ''){
+                            grupo_null = 'Sem grupo'
+                        }
+
                         div_lista_fracos.innerHTML += `
                             <div class="lista_pessoa">
                                 <div class="bolinha ${classe}">${pessoa.nome[0].toUpperCase()}</div>

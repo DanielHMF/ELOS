@@ -6,6 +6,7 @@
     <title>ELOS | Pessoas</title>
     <link rel="stylesheet" href="css/geral.css">
     <link rel="stylesheet" href="css/sistema.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -97,7 +98,7 @@
             </div>
         </main>
     </div>
-    
+
     <div class="modal" id="div_modal_cadastro">
         <div class="modal_caixa">
             <h2>Cadastrar pessoa</h2>
@@ -227,12 +228,103 @@
         </div>
     </div>
 
+    <!-- MODAL DE DETALHES: aberto ao clicar no topo de um card -->
+    <div class="modal" id="div_modal_detalhes">
+        <div class="modal_caixa">
+            <div class="detalhes_topo">
+                <div id="detalhes_foto"></div>
+                <div>
+                    <h2 id="detalhes_nome"></h2>
+                    <p id="detalhes_vinculo"></p>
+                </div>
+            </div>
+
+            <p id="detalhes_descricao"></p>
+
+            <div class="grafico grafico_detalhes">
+                <canvas id="grafico_pessoa"></canvas>
+            </div>
+
+            <div class="modal_botoes modal_botoes_quebra">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_detalhes)">Fechar</button>
+                <button class="botao_secundario" onclick="detalhesExcluir()">Excluir</button>
+                <button class="botao_secundario" onclick="detalhesEditar()">Editar</button>
+                <button class="botao_primario" onclick="detalhesReavaliar()">Reavaliar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE EDIÇÃO: só os dados da pessoa (as notas mudam pelo Reavaliar) -->
+    <div class="modal" id="div_modal_editar">
+        <div class="modal_caixa">
+            <h2>Editar pessoa</h2>
+            <p>Para mudar as notas, use o Reavaliar.</p>
+
+            <div class="campo">
+                <label for="nome_editar_input">Nome</label>
+                <input id="nome_editar_input" type="text">
+            </div>
+
+            <div class="campo_duplo">
+                <div class="campo">
+                    <label for="vinculo_editar_input">Vínculo</label>
+                    <input id="vinculo_editar_input" type="text">
+                </div>
+                <div class="campo">
+                    <label for="grupo_editar_select">Grupo</label>
+                    <select id="grupo_editar_select">
+                        <!-- as opções vêm do GET /grupos/listar (mesma função do cadastro) -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="descricao_editar_input">Descrição (opcional)</label>
+                <textarea id="descricao_editar_input"></textarea>
+            </div>
+
+            <span class="mensagem_erro" id="editar_erro"></span>
+
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_editar)">Cancelar</button>
+                <button class="botao_primario" onclick="editarPessoa()">Salvar alterações</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
+    <div class="modal" id="div_modal_excluir">
+        <div class="modal_caixa">
+            <h2>Excluir <span id="excluir_nome"></span>?</h2>
+            <p>O histórico de avaliações dessa pessoa também será apagado. Não dá para desfazer.</p>
+
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_excluir)">Cancelar</button>
+                <button class="botao_primario" onclick="excluirPessoa()">Excluir</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
 
 <script>
     // guarda o id da pessoa que está sendo reavaliada (preenchida em abrirReavaliacao)
     let idPessoaReavaliar = 0
+
+    // guarda as pessoas que vieram do banco (preenchida em listarPessoas)
+    // os botões dos cards passam só a POSIÇÃO (i) e a função pega a pessoa aqui
+    let listaPessoas = []
+
+    // posição da pessoa aberta no modal de detalhes (preenchida em abrirDetalhes)
+    let posicaoDetalhes = 0
+
+    // id da pessoa que está sendo editada / excluída
+    let idPessoaEditar = 0
+    let idPessoaExcluir = 0
+
+    // guarda o gráfico radar do modal de detalhes para poder destruí-lo antes de criar outro
+    let graficoPessoa = null
 
     // ===== MODAIS =====
 
@@ -270,8 +362,31 @@
         nova_confianca_valor.innerHTML = 50
         novo_apoio_valor.innerHTML = 50
 
+        nome_editar_input.value = ''
+        vinculo_editar_input.value = ''
+        descricao_editar_input.value = ''
+
         cadastro_erro.innerHTML = ''
         grupo_erro.innerHTML = ''
+        editar_erro.innerHTML = ''
+    }
+
+    // ===== CORES DOS GRUPOS =====
+
+    // Chamada pelos cards e pelo modal de detalhes: devolve a classe de cor do grupo
+    // (mesmas cores da legenda da dashboard)
+    function classeDoGrupo(grupo) {
+        let classe = 'fundo_anil_claro'
+
+        if (grupo == 'Família') {
+            classe = 'fundo_anil'
+        } else if (grupo == 'Amigos') {
+            classe = 'fundo_lavanda'
+        } else if (grupo == 'Faculdade') {
+            classe = 'fundo_ceu'
+        }
+
+        return classe
     }
 
     // ===== LISTAR PESSOAS (cards) =====
@@ -285,11 +400,13 @@
 
             if (resposta.status == 204) {
                 // 204 = nenhuma pessoa: não tem JSON para ler
+                listaPessoas = []
                 div_cards.style.display = 'none'
                 div_vazio.style.display = 'flex'
             } else if (resposta.ok) {
                 resposta.json().then(function (pessoas) {
                     console.log(pessoas)
+                    listaPessoas = pessoas
 
                     div_vazio.style.display = 'none'
                     div_cards.style.display = 'grid'
@@ -299,25 +416,17 @@
                         let pessoa = pessoas[i]
                         let inicial = pessoa.nome[0].toUpperCase()
                         let grupo = pessoa.grupo
-                        let corGrupo = 'fundo_anil_claro'
 
                         // a view usa LEFT JOIN: a pessoa pode estar sem grupo
                         if (grupo == null) {
                             grupo = 'Sem grupo'
                         }
 
-                        // mesmas cores da legenda da dashboard
-                        if (grupo == 'Família') {
-                            corGrupo = 'fundo_anil'
-                        } else if (grupo == 'Amigos') {
-                            corGrupo = 'fundo_lavanda'
-                        } else if (grupo == 'Faculdade') {
-                            corGrupo = 'fundo_ceu'
-                        }
+                        let corGrupo = classeDoGrupo(grupo)
 
                         div_cards.innerHTML += `
                             <div class="card card_pessoa">
-                                <div class="card_pessoa_topo">
+                                <div class="card_pessoa_topo card_clicavel" onclick="abrirDetalhes(${i})">
                                     <div class="bolinha ${corGrupo}">${inicial}</div>
                                     <div>
                                         <h3>${pessoa.nome}</h3>
@@ -343,7 +452,11 @@
                                     <div><b>${pessoa.apoio}</b><span>Apoio</span></div>
                                 </div>
 
-                                <button class="botao_secundario botao_largo" onclick="abrirReavaliacao(${pessoa.id}, '${pessoa.nome}')">Reavaliar</button>
+                                <div class="card_pessoa_botoes">
+                                    <button class="botao_secundario" onclick="abrirReavaliacao(${i})">Reavaliar</button>
+                                    <button class="botao_secundario" onclick="abrirEditar(${i})">Editar</button>
+                                    <button class="botao_secundario" onclick="abrirExcluir(${i})">Excluir</button>
+                                </div>
                             </div>
                         `
                     }
@@ -369,9 +482,11 @@
                 resposta.json().then(function (grupos) {
                     // primeira opção vazia obriga o usuário a escolher
                     grupo_select.innerHTML = '<option value="">Selecione</option>'
+                    grupo_editar_select.innerHTML = '<option value="">Selecione</option>'
 
                     for (let i = 0; i < grupos.length; i++) {
                         grupo_select.innerHTML += `<option value="${grupos[i].id}">${grupos[i].nome}</option>`
+                        grupo_editar_select.innerHTML += `<option value="${grupos[i].id}">${grupos[i].nome}</option>`
                     }
                 })
             } else {
@@ -477,10 +592,22 @@
 
     // ===== REAVALIAR =====
 
-    // Chamada pelo botão "Reavaliar" de cada card (o for de listarPessoas monta o onclick)
-    function abrirReavaliacao(idPessoa, nome) {
-        idPessoaReavaliar = idPessoa
-        reavaliar_nome.innerHTML = nome
+    // Chamada pelo botão "Reavaliar" de cada card e do modal de detalhes
+    // recebe a POSIÇÃO da pessoa no vetor listaPessoas
+    function abrirReavaliacao(i) {
+        let pessoa = listaPessoas[i]
+
+        idPessoaReavaliar = pessoa.id
+        reavaliar_nome.innerHTML = pessoa.nome
+
+        // os sliders já começam com as notas atuais da pessoa
+        nova_convivencia_input.value = pessoa.convivencia
+        nova_confianca_input.value = pessoa.confianca
+        novo_apoio_input.value = pessoa.apoio
+        nova_convivencia_valor.innerHTML = pessoa.convivencia
+        nova_confianca_valor.innerHTML = pessoa.confianca
+        novo_apoio_valor.innerHTML = pessoa.apoio
+
         abrirModal(div_modal_reavaliar)
     }
 
@@ -511,6 +638,177 @@
         })
     }
 
+    // ===== EDITAR =====
+
+    // Chamada pelo botão "Editar" de cada card e do modal de detalhes
+    // preenche o modal com os dados atuais da pessoa antes de abrir
+    function abrirEditar(i) {
+        let pessoa = listaPessoas[i]
+
+        idPessoaEditar = pessoa.id
+        nome_editar_input.value = pessoa.nome
+        vinculo_editar_input.value = pessoa.vinculo
+        grupo_editar_select.value = pessoa.fk_grupo   // marca a opção com esse id
+
+        // a descrição é opcional: no banco pode estar null
+        if (pessoa.descricao == null) {
+            descricao_editar_input.value = ''
+        } else {
+            descricao_editar_input.value = pessoa.descricao
+        }
+
+        abrirModal(div_modal_editar)
+    }
+
+    // PUT /pessoas/editar/:idPessoa → pessoaController.editar
+    // Chamada pelo botão "Salvar alterações" do modal de edição
+    function editarPessoa() {
+        let nome = nome_editar_input.value.trim()
+        let vinculo = vinculo_editar_input.value.trim()
+        let idGrupo = grupo_editar_select.value
+        let descricao = descricao_editar_input.value.trim()
+
+        editar_erro.innerHTML = ''
+
+        if (nome == '' || vinculo == '') {
+            editar_erro.innerHTML = 'Preencha o nome e o vínculo!'
+        } else if (idGrupo == '') {
+            editar_erro.innerHTML = 'Escolha um grupo!'
+        } else {
+            fetch(`/pessoas/editar/${idPessoaEditar}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nomeServer: nome,
+                    vinculoServer: vinculo,
+                    descricaoServer: descricao,
+                    idGrupoServer: idGrupo
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    fecharModal(div_modal_editar)
+                    listarPessoas()
+                } else {
+                    resposta.text().then(function (mensagem) {
+                        editar_erro.innerHTML = mensagem
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                editar_erro.innerHTML = 'Não foi possível conectar ao servidor'
+            })
+        }
+    }
+
+    // ===== EXCLUIR =====
+
+    // Chamada pelo botão "Excluir" de cada card e do modal de detalhes
+    // só abre a confirmação; quem apaga de verdade é excluirPessoa()
+    function abrirExcluir(i) {
+        let pessoa = listaPessoas[i]
+
+        idPessoaExcluir = pessoa.id
+        excluir_nome.innerHTML = pessoa.nome
+        abrirModal(div_modal_excluir)
+    }
+
+    // DELETE /pessoas/deletar/:idPessoa → pessoaController.deletar
+    // Chamada pelo botão "Excluir" do modal de confirmação
+    function excluirPessoa() {
+        fetch(`/pessoas/deletar/${idPessoaExcluir}`, {
+            method: 'DELETE'
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                fecharModal(div_modal_excluir)
+                listarPessoas()
+            } else {
+                resposta.text().then(function (mensagem) {
+                    console.log(mensagem)
+                })
+            }
+        }).catch(function (erro) {
+            console.log(erro)
+        })
+    }
+
+    // ===== DETALHES (modal com gráfico radar) =====
+
+    // Chamada ao clicar no topo de um card (nome e bolinha)
+    function abrirDetalhes(i) {
+        let pessoa = listaPessoas[i]
+        let grupo = pessoa.grupo
+
+        posicaoDetalhes = i
+
+        if (grupo == null) {
+            grupo = 'Sem grupo'
+        }
+
+        // FOTO: ainda não tem upload; se um dia tiver link salvo, mostra a imagem,
+        // senão mostra a bolinha com a inicial na cor do grupo
+        if (pessoa.foto == null || pessoa.foto == '') {
+            detalhes_foto.innerHTML = `<div class="bolinha bolinha_grande ${classeDoGrupo(grupo)}">${pessoa.nome[0].toUpperCase()}</div>`
+        } else {
+            detalhes_foto.innerHTML = `<img class="bolinha bolinha_grande" src="${pessoa.foto}" alt="Foto de ${pessoa.nome}">`
+        }
+
+        detalhes_nome.innerHTML = pessoa.nome
+        detalhes_vinculo.innerHTML = `${pessoa.vinculo} · ${grupo} · força ${pessoa.forca}`
+
+        if (pessoa.descricao == null || pessoa.descricao == '') {
+            detalhes_descricao.innerHTML = 'Sem descrição.'
+        } else {
+            detalhes_descricao.innerHTML = pessoa.descricao
+        }
+
+        // 1º abre o modal: com display none o canvas tem tamanho 0 e o gráfico não aparece
+        abrirModal(div_modal_detalhes)
+
+        // 2º destrói o gráfico da pessoa anterior (o Chart.js não deixa criar 2 no mesmo canvas)
+        if (graficoPessoa != null) {
+            graficoPessoa.destroy()
+        }
+
+        // 3º cria o radar com os 3 pilares (mesma configuração do radar da dashboard)
+        graficoPessoa = new Chart(grafico_pessoa, {
+            type: 'radar',
+            data: {
+                labels: ['Convivência', 'Confiança', 'Apoio'],
+                datasets: [{
+                    label: pessoa.nome,
+                    data: [pessoa.convivencia, pessoa.confianca, pessoa.apoio],
+                    backgroundColor: 'rgba(0, 191, 255, 0.2)',   // capri transparente
+                    borderColor: '#00BFFF',                       // capri
+                    pointBackgroundColor: '#0B2E4F'               // azul-noite
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { r: { min: 0, max: 100 } }
+            }
+        })
+    }
+
+    // Botões do modal de detalhes: fecham o detalhes e abrem o modal certo
+    // usando a posição guardada em abrirDetalhes()
+    function detalhesReavaliar() {
+        fecharModal(div_modal_detalhes)
+        abrirReavaliacao(posicaoDetalhes)
+    }
+
+    function detalhesEditar() {
+        fecharModal(div_modal_detalhes)
+        abrirEditar(posicaoDetalhes)
+    }
+
+    function detalhesExcluir() {
+        fecharModal(div_modal_detalhes)
+        abrirExcluir(posicaoDetalhes)
+    }
+
     // ===== CARREGAMENTO DA PÁGINA =====
     // sem login, volta para a tela de login; com login, carrega os dados
     if (sessionStorage.ID_USUARIO == undefined) {
@@ -519,4 +817,4 @@
         listarPessoas()
         listarGrupos()
     }
-</script>
+</script>

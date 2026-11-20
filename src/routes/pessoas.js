@@ -15,4 +15,12 @@ router.get("/listar/:idUsuario", function (req, res) {
     pessoaController.listar(req, res);
 });
 
-module.exports = router;
+router.delete("/deletar/:idPessoa", function (req, res) {
+    pessoaController.deletar(req, res);
+});
+
+router.put("/editar/:idPessoa", function (req, res) {
+    pessoaController.editar(req, res);
+});
+
+module.exports = router;

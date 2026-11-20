@@ -93,8 +93,64 @@ function listar(req, res){
     }
 }
 
+function deletar(req, res) {
+    let idPessoa = req.params.idPessoa;
+
+    if (idPessoa == undefined) {
+        res.status(400).send('O id da pessoa está undefined!');
+    } else {
+        // primeiro as avaliações: a tabela avaliacao tem FK para pessoa,
+        // então o MySQL não deixa apagar a pessoa enquanto ela tiver avaliações
+        pessoaModel.deletarAvaliacao(idPessoa).then(function () {
+
+            pessoaModel.deletarPessoa(idPessoa).then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+
+            .catch(function (erro) {
+                console.log('Houve um erro ao excluir a pessoa! Erro: ', erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+        })
+
+        .catch(function (erro) {
+            console.log('Houve um erro ao excluir as avaliações! Erro: ', erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
+function editar(req, res) {
+    let idPessoa = req.params.idPessoa;
+    let nome = req.body.nomeServer;
+    let vinculo = req.body.vinculoServer;
+    let descricao = req.body.descricaoServer;
+    let idGrupo = req.body.idGrupoServer;
+
+    if (idPessoa == undefined) {
+        res.status(400).send('O id da pessoa está undefined!');
+    } else if (nome == undefined) {
+        res.status(400).send('O nome está undefined!');
+    } else if (vinculo == undefined) {
+        res.status(400).send('O vínculo está undefined!');
+    } else if (idGrupo == undefined) {
+        res.status(400).send('O id do grupo está undefined!');
+    } else {
+        pessoaModel.editar(idPessoa, nome, vinculo, descricao, idGrupo).then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+
+        .catch(function (erro) {
+            console.log('Houve um erro ao editar a pessoa! Erro: ', erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 module.exports = {
     cadastrar,
     avaliar,
-    listar
-};
+    listar,
+    deletar,
+    editar
+};

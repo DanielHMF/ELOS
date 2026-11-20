@@ -51,6 +51,7 @@ SELECT
     pessoa.descricao,
     pessoa.foto,
     pessoa.fk_usuario,
+    pessoa.fk_grupo,
     grupo.nome AS grupo,
     avaliacao.convivencia,
     avaliacao.confianca,

@@ -31,7 +31,8 @@ function listar(idUsuario){
             convivencia, 
             confianca, 
             apoio, 
-            forca 
+            forca, 
+            descricao, foto, fk_grupo
         FROM vw_elos 
         WHERE fk_usuario = ${idUsuario} 
             ORDER BY forca DESC
@@ -42,8 +43,43 @@ function listar(idUsuario){
     return database.executar(instrucaoSql);
 }
 
+function deletarPessoa(idPessoa){
+    let instrucaoSql = `
+        DELETE FROM pessoa WHERE id = ${idPessoa};
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+    
+    return database.executar(instrucaoSql);
+}
+
+function deletarAvaliacao(idPessoa){
+    let instrucaoSql = `
+        DELETE FROM avaliacao WHERE fk_pessoa = ${idPessoa};
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+    
+    return database.executar(instrucaoSql);
+}
+
+function editar(idPessoa, nome, vinculo, descricao, idGrupo){
+    let instrucaoSql = `
+        UPDATE pessoa
+        SET nome = '${nome}', vinculo = '${vinculo}', descricao = '${descricao}', fk_grupo = ${idGrupo}
+        WHERE id = ${idPessoa};
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
     cadastrarAvaliacao,
-    listar
-}
+    listar,
+    deletarPessoa,
+    deletarAvaliacao,
+    editar
+}

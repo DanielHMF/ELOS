@@ -709,6 +709,55 @@
 
 
 /* =====================================================================
+   13.1 PESSOAS: BOTÕES DO CARD E MODAL DE DETALHES
+   ===================================================================== */
+
+/* Topo do card (bolinha + nome): clicar abre o modal de detalhes */
+.card_clicavel {
+    cursor: pointer;                    /* mãozinha: mostra que dá para clicar */
+}
+
+/* Reavaliar, Editar e Excluir lado a lado no rodapé do card */
+.card_pessoa_botoes {
+    display: flex;                      /* lado a lado */
+    gap: 8px;                           /* espaço entre eles */
+}
+
+/* Os 3 botões dividem a largura igualmente e ficam mais compactos */
+.card_pessoa_botoes button {
+    flex: 1;                            /* cada um ocupa 1 parte igual */
+    height: 40px;                       /* um pouco mais baixos que o padrão (48px) */
+    padding: 0 8px;                     /* menos espaço nas laterais para caberem os 3 */
+    font-size: 14px;                    /* texto um pouco menor */
+}
+
+/* Foto/inicial + nome no topo do modal de detalhes */
+.detalhes_topo {
+    display: flex;                      /* lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 16px;                          /* espaço entre a foto e o nome */
+}
+
+/* Bolinha grande do modal de detalhes (serve para a inicial e para a foto) */
+.bolinha_grande {
+    width: 72px;                        /* maior que a do card (48px) */
+    height: 72px;                       /* altura igual à largura para ficar redonda */
+    font-size: 28px;                    /* letra maior */
+    object-fit: cover;                  /* se for foto, corta sem esticar */
+}
+
+/* Radar do modal: um pouco mais baixo que o da dashboard (300px) */
+.grafico_detalhes {
+    height: 260px;
+}
+
+/* No modal de detalhes são 4 botões: deixa quebrar linha se não couber */
+.modal_botoes_quebra {
+    flex-wrap: wrap;
+}
+
+
+/* =====================================================================
    14. TELAS ESTREITAS (celular)
    ===================================================================== */
 
