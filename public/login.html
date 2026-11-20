@@ -76,7 +76,7 @@
 </body>
 </html>
 
-<script>
+<!-- <script>
     function entrar() {
         let email = email_input.value.toLowerCase().trim()
         let senha = senha_input.value.trim()
@@ -110,6 +110,50 @@
             }).catch(function (erro) {
                 console.log(erro)
                 alert('Não foi possível conectar ao servidor')
+            })
+        }
+    }
+</script> -->
+
+<script>
+    // Chamada pelo botão "Entrar" (onclick no HTML)
+    function entrar() {
+        let email = email_input.value.toLowerCase().trim()
+        let senha = senha_input.value.trim()
+
+        login_erro.innerHTML = ''
+
+        if (email == '' || senha == '') {
+            login_erro.innerHTML = 'Preencha todos os campos!'
+        } else {
+            // POST /usuarios/autenticar → usuarioController.autenticar
+            fetch('/usuarios/autenticar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    emailServer: email,
+                    senhaServer: senha
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (usuario) {
+                        // guarda o usuário para as telas logadas usarem
+                        sessionStorage.ID_USUARIO = usuario.id
+                        sessionStorage.NOME_USUARIO = usuario.nome
+                        sessionStorage.EMAIL_USUARIO = usuario.email
+                        window.location.href = 'dash.html'
+                    })
+                } else {
+                    // 403 = e-mail e/ou senha inválidos
+                    resposta.text().then(function (mensagem) {
+                        login_erro.innerHTML = mensagem
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                login_erro.innerHTML = 'Não foi possível conectar ao servidor'
             })
         }
     }
