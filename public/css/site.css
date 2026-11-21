@@ -19,7 +19,7 @@
     top: 0;                             /* gruda no topo da tela */
     z-index: 10;                        /* fica na frente das seções ao rolar */
     padding: 16px 6vw;                  /* 6vw = 6% da largura da tela nas laterais */
-    border-bottom: 1px solid var(--cor-borda); /* linha fininha embaixo */
+    border-bottom: 1px solid var(--cor-capri-claro); /* linha fininha embaixo */
     background-color: var(--cor-gelo);  /* fundo igual ao da página, para não ficar transparente */
 }
 
@@ -168,7 +168,7 @@
     flex-direction: column;             /* um embaixo do outro */
     gap: 12px;                          /* espaço entre ícone, título e texto */
     padding: 28px;                      /* espaço interno */
-    border: 1px solid var(--cor-borda); /* borda fininha */
+    border: 1px solid var(--cor-capri-claro); /* borda fininha */
     border-radius: 24px;                /* cantos arredondados */
     background-color: var(--cor-gelo);  /* fundo gelo (a seção é branca) */
 }

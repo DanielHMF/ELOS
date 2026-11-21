@@ -56,8 +56,16 @@
     padding: 0 8px;                     /* pequeno recuo para alinhar com os itens do menu */
 }
 
+/* .menu_lateral > nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 700px;
+} */
+
 /* Texto "MENU" acima dos itens */
 .menu_titulo {
+    margin-top: 20px;
     padding: 0 16px 6px;                /* alinha com o texto dos itens */
     font-size: 12px;                    /* letra pequena */
     font-weight: 700;                   /* negrito */
@@ -68,6 +76,7 @@
 
 /* Lista com os itens do menu */
 .menu_lista {
+    margin-top: 10px;
     display: flex;                      /* flexbox */
     flex-direction: column;             /* um item embaixo do outro */
     gap: 6px;                           /* espaço entre os itens */
@@ -108,13 +117,19 @@
     display: flex;                      /* título e botões lado a lado */
     flex-wrap: wrap;                    /* se faltar espaço, os botões descem */
     justify-content: space-between;     /* título na esquerda, botões na direita */
-    align-items: flex-end;              /* alinha pela parte de baixo */
+    align-items: flex-start;              /* alinha pela parte de baixo */
     gap: 16px;                          /* espaço entre título e botões */
+    width: 720px;
 }
 
 /* Título da página: menor que o h1 da Home */
 .cabecalho_pagina h1 {
     font-size: 32px;                    /* tamanho do título nas telas do sistema */
+}
+
+.titolo_cabecalho {
+    flex-wrap: wrap;
+    width: 50px;
 }
 
 /* Subtítulo embaixo do h1 */

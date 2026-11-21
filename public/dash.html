@@ -48,8 +48,11 @@
 
                 <div class="cabecalho_pagina">
                     <div>
-                        <h1>Olá, <span id="span_nome_usuario"></span></h1>
-                        <p>Veja como estão os seus elos hoje.</p>
+                        <h2>Olá, <span id="span_nome_usuario"></span></h2>
+                        <p>Veja as pessoas que você ama hoje.</p>
+                    </div>
+                    <div class="titulo_cabecalho">
+                        <h1>Acompanhe seus elos</h1>
                     </div>
                 </div>
 
@@ -107,10 +110,10 @@
                             <!-- as pessoas entram aqui pelo JavaScript -->
                         </div>
                         <ul class="legenda">
-                            <li><span class="legenda_cor fundo_anil"></span>Família</li>
-                            <li><span class="legenda_cor fundo_lavanda"></span>Amigos</li>
-                            <li><span class="legenda_cor fundo_ceu"></span>Faculdade</li>
-                            <li><span class="legenda_cor fundo_anil_claro"></span>Trabalho e outros</li>
+                            <li><span class="legenda_cor fundo_anil"></span>Perto</li>
+                            <li><span class="legenda_cor fundo_lavanda"></span>Médio</li>
+                            <li><span class="legenda_cor fundo_ceu"></span>Longe</li>
+                            <!-- <li><span class="legenda_cor fundo_anil_claro"></span>Trabalho e outros</li> -->
                         </ul>
                     </section>
 
@@ -168,13 +171,13 @@
     function classeDoGrupo(grupo) {
         let classe = 'fundo_anil_claro'
 
-        if (grupo == 'Família') {
-            classe = 'fundo_anil'
-        } else if (grupo == 'Amigos') {
-            classe = 'fundo_lavanda'
-        } else if (grupo == 'Faculdade') {
-            classe = 'fundo_ceu'
-        }
+        // if (grupo == 'Família') {
+        //     classe = 'fundo_anil'
+        // } else if (grupo == 'Amigos') {
+        //     classe = 'fundo_lavanda'
+        // } else if (grupo == 'Faculdade') {
+        //     classe = 'fundo_ceu'
+        // }
 
         return classe
     }
@@ -184,13 +187,13 @@
     function corDoGrupo(grupo) {
         let cor = '#E8ECFF'
 
-        if (grupo == 'Família') {
-            cor = '#7B93FF'
-        } else if (grupo == 'Amigos') {
-            cor = '#C7B8FF'
-        } else if (grupo == 'Faculdade') {
-            cor = '#CCF2FF'
-        }
+        // if (grupo == 'Família') {
+        //     cor = '#7B93FF'
+        // } else if (grupo == 'Amigos') {
+        //     cor = '#C7B8FF'
+        // } else if (grupo == 'Faculdade') {
+        //     cor = '#CCF2FF'
+        // }
 
         return cor
     }

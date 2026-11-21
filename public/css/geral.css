@@ -32,7 +32,8 @@
 
   /* ----- Texto, bordas e fundos ----- */
   --cor-texto-suave: #3E5872;       /* textos secundários (subtítulos, legendas) */
-  --cor-borda: #CDEBFA;             /* borda fininha de cards e campos */
+  /* --cor-borda: #CDEBFA;             borda fininha de cards e campos */
+  --cor-borda: #7FDFFF;             /* borda fininha de cards e campos */
   --cor-trilho: #DDF3FD;            /* fundo de barras e linhas divisórias */
   --cor-branco: #FFFFFF;            /* fundo dos cards */
 
