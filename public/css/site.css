@@ -19,8 +19,7 @@
     top: 0;                             /* gruda no topo da tela */
     z-index: 10;                        /* fica na frente das seções ao rolar */
     padding: 16px 6vw;                  /* 6vw = 6% da largura da tela nas laterais */
-    border-bottom: 1px solid var(--cor-capri-claro); /* linha fininha embaixo */
-    background-color: var(--cor-gelo);  /* fundo igual ao da página, para não ficar transparente */
+    background-color: var(--cor-ceu);   /* fundo céu, igual ao banner (sem linha separando) */
 }
 
 /* Lista de links do meio (Propósito, Como funciona, Sobre mim) */
@@ -46,6 +45,16 @@
     gap: 8px;                           /* espaço entre eles */
 }
 
+/* Botão "Entrar" no header: fundo gelo para destacar do fundo céu */
+.header .botao_suave {
+    background-color: var(--cor-gelo);  /* fundo gelo */
+}
+
+/* "Entrar" com o mouse em cima */
+.header .botao_suave:hover {
+    background-color: var(--cor-branco); /* fundo branco */
+}
+
 
 /* =====================================================================
    2. SEÇÕES DA HOME (estrutura comum)
@@ -58,9 +67,33 @@
     padding: 88px 24px;                 /* espaço em cima/embaixo e nas laterais */
 }
 
-/* Faixa de fundo branco que ocupa a largura toda (alterna com o gelo) */
+/* Faixas de fundo que ocupam a largura toda (a .secao dentro delas limita o conteúdo) */
 .faixa_branca {
-    background-color: var(--cor-branco); /* fundo branco */
+    background-color: var(--cor-branco); /* fundo branco (Sobre mim) */
+}
+
+.faixa_ceu {
+    background-color: var(--cor-ceu);   /* fundo céu (banner, continua o header) */
+}
+
+.faixa_escura {
+    background-color: var(--cor-azul-noite); /* fundo azul-noite (Propósito) */
+    color: var(--cor-branco);           /* textos brancos */
+}
+
+.faixa_capri {
+    background-color: var(--cor-capri-claro); /* fundo capri claro (Inspiração) */
+}
+
+/* Na faixa escura, a etiqueta e o texto do título ficam claros */
+.faixa_escura .etiqueta_secao,
+.faixa_escura .secao_titulo p {
+    color: var(--cor-branco);           /* branco */
+}
+
+/* Na faixa capri, a etiqueta fica azul-noite (o capri escuro some no fundo capri) */
+.faixa_capri .etiqueta_secao {
+    color: var(--cor-azul-noite);       /* azul-noite */
 }
 
 /* Título de seção: etiqueta + h2 + parágrafo */
@@ -119,15 +152,10 @@
 .selo {
     padding: 6px 16px;                  /* espaço interno */
     border-radius: 99px;                /* formato de pílula */
-    background-color: var(--cor-ceu);   /* fundo céu */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
     font-size: 14px;                    /* texto pequeno */
     font-weight: 700;                   /* negrito */
-    color: var(--cor-capri-profundo);   /* capri escuro */
-}
-
-/* Palavra destacada dentro do h1 */
-.destaque_texto {
-    color: var(--cor-capri-profundo);   /* capri escuro para chamar atenção */
+    color: var(--cor-branco);           /* texto branco */
 }
 
 /* Botões do banner */
@@ -168,9 +196,27 @@
     flex-direction: column;             /* um embaixo do outro */
     gap: 12px;                          /* espaço entre ícone, título e texto */
     padding: 28px;                      /* espaço interno */
-    border: 1px solid var(--cor-capri-claro); /* borda fininha */
     border-radius: 24px;                /* cantos arredondados */
-    background-color: var(--cor-gelo);  /* fundo gelo (a seção é branca) */
+    background-color: var(--cor-gelo);  /* fundo gelo (aparece bem na faixa escura) */
+    color: var(--cor-azul-noite);       /* textos azul-noite (a faixa escura deixa tudo branco) */
+}
+
+/* Título do card: um pouco mais leve que os outros títulos */
+.card_site h3 {
+    font-weight: 600;                   /* seminegrito */
+}
+
+/* Cards do "Como funciona": número na esquerda, texto na direita, fundo céu */
+.card_passo {
+    flex-direction: row;                /* lado a lado (o card normal é em coluna) */
+    align-items: flex-start;            /* alinhados pelo topo */
+    gap: 16px;                          /* espaço entre o número e o texto */
+    background-color: var(--cor-ceu);   /* fundo céu */
+}
+
+/* Texto do card de passo: espaço entre o título e o parágrafo */
+.card_passo h3 {
+    margin-bottom: 6px;                 /* espaço até o parágrafo */
 }
 
 /* Texto do card */
@@ -194,6 +240,16 @@
     width: 28px;                        /* tamanho do ícone */
 }
 
+/* Quadrado azul-noite (3º card do Propósito) */
+.icone_escuro {
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
+}
+
+/* O ícone é desenhado em azul-noite: o filtro deixa ele branco para aparecer no fundo escuro */
+.icone_escuro img {
+    filter: brightness(0) invert(1);    /* brightness(0) = preto; invert(1) = vira branco */
+}
+
 /* Círculo com o número do passo */
 .passo_numero {
     display: flex;                      /* flexbox para centralizar o número */
@@ -201,9 +257,10 @@
     align-items: center;                /* centro vertical */
     width: 48px;                        /* largura */
     height: 48px;                       /* altura */
-    margin-bottom: 6px;                 /* espaço extra até o título */
+    flex-shrink: 0;                     /* não amassa quando o texto do lado é comprido */
     border-radius: 50%;                 /* círculo */
-    background-color: var(--cor-capri); /* fundo capri */
+    background-color: var(--cor-azul-noite); /* fundo azul-noite */
+    color: var(--cor-branco);           /* número branco */
     font-family: var(--fonte-titulo);   /* Nunito */
     font-size: 20px;                    /* tamanho do número */
     font-weight: 800;                   /* bem negrito */
@@ -227,10 +284,11 @@
     display: flex;                      /* flexbox para centralizar o texto provisório */
     justify-content: center;            /* centro horizontal */
     align-items: center;                /* centro vertical */
-    flex: 0 1 360px;                    /* não cresce; base de 360px */
-    aspect-ratio: 4 / 5;                /* formato retrato */
-    overflow: hidden;                   /* corta a foto nos cantos arredondados */
-    border-radius: 28px;                /* cantos arredondados */
+    flex: 0 1 300px;                    /* não cresce; base de 300px */
+    aspect-ratio: 1 / 1;                /* quadrada, para virar um círculo */
+    overflow: hidden;                   /* corta a foto no formato redondo */
+    border: 10px solid var(--cor-capri-claro); /* borda grossa capri claro */
+    border-radius: 50%;                 /* círculo */
     background-color: var(--cor-ceu);   /* fundo céu enquanto não tem foto */
     color: var(--cor-texto-suave);      /* cor do texto provisório */
 }
@@ -267,41 +325,52 @@
 /* Cada pílula */
 .linha_tempo li {
     padding: 8px 16px;                  /* espaço interno */
-    border: 1.5px solid var(--cor-borda); /* contorno azul claro */
     border-radius: 99px;                /* formato de pílula */
-    background-color: var(--cor-branco); /* fundo branco */
+    background-color: var(--cor-ceu);   /* fundo céu */
     font-size: 14px;                    /* texto menor */
     font-weight: 700;                   /* negrito */
 }
 
 /* Pílula de destaque (momento atual) */
 .linha_tempo .linha_tempo_atual {
-    border-color: var(--cor-capri);     /* contorno capri */
-    background-color: var(--cor-capri); /* fundo capri */
-}
-
-
-/* =====================================================================
-   6. CHAMADA FINAL (card azul-noite antes do rodapé)
-   ===================================================================== */
-
-/* Card da chamada */
-.chamada {
-    display: flex;                      /* texto e botão lado a lado */
-    flex-wrap: wrap;                    /* no celular, o botão desce */
-    justify-content: space-between;     /* texto na esquerda, botão na direita */
-    align-items: center;                /* centralizados na vertical */
-    gap: 24px;                          /* espaço entre eles */
-    padding: 48px;                      /* espaço interno */
-    border-radius: 32px;                /* cantos bem arredondados */
     background-color: var(--cor-azul-noite); /* fundo azul-noite */
     color: var(--cor-branco);           /* texto branco */
 }
 
-/* Parágrafo da chamada */
-.chamada p {
-    margin-top: 8px;                    /* espaço depois do título */
-    color: var(--cor-ceu);              /* azul clarinho, mais suave que o branco */
+
+/* =====================================================================
+   6. INSPIRAÇÃO (fotos da família antes do rodapé)
+   ===================================================================== */
+
+/* Grade das fotos: quantas colunas couberem, mínimo 220px cada */
+.grade_inspiracao {
+    display: grid;                      /* grid para colunas iguais */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* 4 no computador, menos no celular */
+    gap: 20px;                          /* espaço entre as fotos */
+}
+
+/* Cada foto com a legenda embaixo (<figure> é a tag do HTML para imagem + legenda) */
+.foto_inspiracao {
+    margin: 0;                          /* tira a margem automática do <figure> */
+    overflow: hidden;                   /* corta a foto nos cantos arredondados */
+    border-radius: 24px;                /* cantos arredondados */
+    background-color: var(--cor-branco); /* fundo branco atrás da legenda */
+}
+
+/* A foto em si */
+.foto_inspiracao img {
+    display: block;                     /* tira o espacinho que a imagem deixa embaixo */
+    width: 100%;                        /* ocupa a largura do card */
+    aspect-ratio: 4 / 5;                /* formato retrato, igual à foto do Sobre mim */
+    object-fit: cover;                  /* preenche sem distorcer, cortando o que sobrar */
+    background-color: var(--cor-ceu);   /* fundo céu enquanto a foto não foi colocada na pasta */
+}
+
+/* Legenda embaixo da foto */
+.foto_inspiracao figcaption {
+    padding: 14px 18px;                 /* espaço interno */
+    font-family: var(--fonte-titulo);   /* Nunito */
+    font-weight: 700;                   /* negrito */
 }
 
 
@@ -342,13 +411,14 @@
     gap: 20px;                          /* espaço entre título, texto e imagem */
     flex: 1 1 420px;                    /* cresce; base de 420px */
     padding: 56px 6vw;                  /* espaço interno */
+    background-color: var(--cor-azul-noite); /* metade escura */
+    color: var(--cor-branco);           /* textos brancos */
 }
 
 /* Parágrafo da metade da esquerda */
 .acesso_texto > p {
     max-width: 480px;                   /* não deixa a linha ficar comprida demais */
     font-size: 17px;                    /* um pouco maior */
-    color: var(--cor-texto-suave);      /* cor suave */
 }
 
 /* Imagem do mapa no Login */
@@ -380,26 +450,86 @@
     height: 32px;                       /* altura */
     padding: 6px;                       /* espaço entre o ícone e a borda do círculo */
     border-radius: 50%;                 /* círculo */
-    background-color: var(--cor-capri-claro); /* fundo capri claro */
+    background-color: var(--cor-ceu);   /* fundo céu */
 }
 
-/* Metade da direita (fundo branco com o formulário) */
+/* Metade da direita (fundo céu com o card do formulário) */
 .acesso_lado_formulario {
     display: flex;                      /* flexbox para centralizar o card */
     justify-content: center;            /* centro horizontal */
     align-items: center;                /* centro vertical */
     flex: 1 1 420px;                    /* cresce; base de 420px */
     padding: 56px 24px;                 /* espaço interno */
-    background-color: var(--cor-branco); /* fundo branco */
+    background-color: var(--cor-ceu);   /* fundo céu */
 }
 
-/* O formulário em si */
+/* O formulário em si: um card gelo com sombra */
 .formulario {
     display: flex;                      /* flexbox */
     flex-direction: column;             /* campos um embaixo do outro */
     gap: 18px;                          /* espaço entre os campos */
     width: 100%;                        /* ocupa a largura disponível */
-    max-width: 420px;                   /* mas no máximo 420px */
+    max-width: 460px;                   /* mas no máximo 460px */
+    padding: 44px 40px;                 /* espaço interno */
+    border: 1px solid var(--cor-capri-claro); /* borda fininha */
+    border-radius: 32px;                /* cantos bem arredondados */
+    background-color: var(--cor-gelo);  /* fundo gelo */
+    box-shadow: 0 24px 48px rgba(11, 46, 79, 0.12); /* sombra suave (azul-noite com 12% de opacidade) */
+}
+
+/* Botão "Criar uma conta" do login: fundo céu */
+.formulario .botao_secundario {
+    background-color: var(--cor-ceu);   /* fundo céu */
+}
+
+/* Label e link "Esqueci minha senha" na mesma linha */
+.campo_topo {
+    display: flex;                      /* lado a lado */
+    justify-content: space-between;     /* label na esquerda, link na direita */
+    align-items: center;                /* centralizados na vertical */
+}
+
+/* Link "Esqueci minha senha" */
+.campo_topo a {
+    font-size: 14px;                    /* texto menor */
+}
+
+/* Linha "Manter conectado" (caixinha + texto) */
+.lembrar {
+    display: flex;                      /* caixinha e texto lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 10px;                          /* espaço entre eles */
+    color: var(--cor-texto-suave);      /* cor suave */
+    cursor: pointer;                    /* clicar no texto também marca a caixinha */
+}
+
+/* A caixinha */
+.lembrar input {
+    width: 18px;                        /* largura */
+    height: 18px;                       /* altura */
+}
+
+/* Barra de força da senha: 3 partes + texto */
+.forca_senha {
+    display: flex;                      /* partes e texto lado a lado */
+    align-items: center;                /* centralizados na vertical */
+    gap: 6px;                           /* espaço entre as partes */
+    margin-top: -6px;                   /* aproxima da dica */
+}
+
+/* Cada parte da barra (a cor muda pelo JavaScript) */
+.forca_senha span {
+    flex: 1;                            /* as 3 partes dividem o espaço igualmente */
+    height: 6px;                        /* espessura */
+    border-radius: 99px;                /* pontas arredondadas */
+    background-color: var(--cor-trilho); /* começa vazia */
+}
+
+/* Texto "Senha fraca / média / forte" */
+.forca_senha b {
+    min-width: 92px;                    /* espaço fixo para o texto não empurrar a barra */
+    text-align: right;                  /* alinhado à direita */
+    font-size: 14px;                    /* texto menor */
 }
 
 /* Subtítulo embaixo do "Entrar" / "Criar conta" */
@@ -452,10 +582,5 @@
     /* Seções */
     .secao {
         padding: 56px 20px;             /* menos espaço */
-    }
-
-    /* Card da chamada final */
-    .chamada {
-        padding: 32px 24px;             /* menos espaço interno */
     }
 }

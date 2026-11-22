@@ -14,7 +14,16 @@
             <img src="imgs/logo.svg" alt="Símbolo do ELOS">
             <span>ELOS</span>
         </a>
-        
+
+        <nav>
+            <ul class="navbar">
+                <li><a href="index.html#proposito">Propósito</a></li>
+                <li><a href="index.html#como_funciona">Como funciona</a></li>
+                <li><a href="index.html#sobre_mim">Sobre mim</a></li>
+                <li><a href="index.html#inspiracao">Inspiração</a></li>
+            </ul>
+        </nav>
+
         <div class="header_botoes">
             <a class="botao_suave" href="login.html">Entrar</a>
             <a class="botao_primario" href="cadastro.html">Criar conta</a>
@@ -39,9 +48,18 @@
                 </div>
 
                 <div class="campo">
-                    <label for="senha_input">Senha</label>
+                    <!-- label e link na mesma linha -->
+                    <div class="campo_topo">
+                        <label for="senha_input">Senha</label>
+                        <a href="#">Esqueci minha senha</a>
+                    </div>
                     <input id="senha_input" type="password" placeholder="••••••••">
                 </div>
+
+                <label class="lembrar">
+                    <input type="checkbox" id="lembrar_input">
+                    Manter conectado
+                </label>
 
                 <span class="mensagem_erro" id="login_erro"></span>
 

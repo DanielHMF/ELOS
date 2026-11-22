@@ -15,6 +15,14 @@
             <span>ELOS</span>
         </a>
 
+        <nav>
+            <ul class="navbar">
+                <li><a href="index.html#proposito">Propósito</a></li>
+                <li><a href="index.html#como_funciona">Como funciona</a></li>
+                <li><a href="index.html#sobre_mim">Sobre mim</a></li>
+                <li><a href="index.html#inspiracao">Inspiração</a></li>
+            </ul>
+        </nav>
 
         <div class="header_botoes">
             <a class="botao_suave" href="login.html">Entrar</a>
@@ -24,8 +32,8 @@
     
     <main class="acesso">
         <div class="acesso_texto">
-            <h1>Comece a registrar quem você ama.</h1>
-            <p>Sua conta é o centro do seu mapa. Cada pessoa que você adicionar ganha um lugar e uma distância de você.</p>
+            <h1>Comece a guardar quem importa.</h1>
+            <p>Sua conta é o ponto central do seu mapa. A partir dela, cada pessoa que você adicionar ganha um lugar, uma história e uma distância de você.</p>
             <ul class="acesso_lista">
                 <li>
                     <img src="imgs/icone_check.svg" alt="">
@@ -33,7 +41,7 @@
                 </li>
                 <li>
                     <img src="imgs/icone_check.svg" alt="">
-                    <span>Avalie a força de cada elo</span>
+                    <span>Registre lembranças de cada vínculo</span>
                 </li>
                 <li>
                     <img src="imgs/icone_check.svg" alt="">
@@ -48,7 +56,7 @@
                 <p class="formulario_subtitulo">Leva menos de um minuto.</p>
 
                 <div class="campo">
-                    <label for="ipt_nome">Nome</label>
+                    <label for="ipt_nome">Nome completo</label>
                     <input id="ipt_nome" type="text" placeholder="Como você se chama?">
                 </div>
 
@@ -68,7 +76,15 @@
                     </div>
                 </div>
 
-                <p class="campo_dica" id="senha_dica">Mínimo de 8 caracteres, com letra maiúscula, minúscula e um caractere especial.</p>
+                <p class="campo_dica" id="senha_dica">Mínimo de 8 caracteres, com letra maiúscula, letra minúscula e um caractere especial (! @ # $ * . _).</p>
+
+                <!-- barra de força da senha: mostrarSenha() pinta 1, 2 ou 3 partes -->
+                <div class="forca_senha">
+                    <span id="forca_1"></span>
+                    <span id="forca_2"></span>
+                    <span id="forca_3"></span>
+                    <b id="forca_texto"></b>
+                </div>
 
                 <span class="mensagem_erro" id="cadastro_erro"></span>
 
@@ -280,14 +296,30 @@
             requisitos++
         }
 
+        // cores da barra: parte pintada = azul-noite, parte vazia = trilho (azul bem clarinho)
+        let cheia = '#0B2E4F'
+        let vazia = '#DDF3FD'
+
         if (senha == '') {
-            senha_dica.innerHTML = 'Mínimo de 8 caracteres, com letra maiúscula, minúscula e um caractere especial (! @ # $ * . _).'
+            forca_1.style.backgroundColor = vazia
+            forca_2.style.backgroundColor = vazia
+            forca_3.style.backgroundColor = vazia
+            forca_texto.innerHTML = ''
         } else if (requisitos == 4) {
-            senha_dica.innerHTML = `Senha <b style="color: green">forte</b>`
+            forca_1.style.backgroundColor = cheia
+            forca_2.style.backgroundColor = cheia
+            forca_3.style.backgroundColor = cheia
+            forca_texto.innerHTML = 'Senha forte'
         } else if (requisitos == 3) {
-            senha_dica.innerHTML = `Senha <b style="color: #E0A800">média</b>: falta 1 requisito`
+            forca_1.style.backgroundColor = cheia
+            forca_2.style.backgroundColor = cheia
+            forca_3.style.backgroundColor = vazia
+            forca_texto.innerHTML = 'Senha média'
         } else {
-            senha_dica.innerHTML = `Senha <b style="color: red">fraca</b>: mínimo de 8 caracteres, com maiúscula, minúscula e especial`
+            forca_1.style.backgroundColor = cheia
+            forca_2.style.backgroundColor = vazia
+            forca_3.style.backgroundColor = vazia
+            forca_texto.innerHTML = 'Senha fraca'
         }
     }
 </script>
