@@ -125,6 +125,7 @@ function editar(req, res) {
     let nome = req.body.nomeServer;
     let vinculo = req.body.vinculoServer;
     let descricao = req.body.descricaoServer;
+    let foto = req.body.fotoServer;
     let idGrupo = req.body.idGrupoServer;
 
     if (idPessoa == undefined) {
@@ -136,7 +137,7 @@ function editar(req, res) {
     } else if (idGrupo == undefined) {
         res.status(400).send('O id do grupo está undefined!');
     } else {
-        pessoaModel.editar(idPessoa, nome, vinculo, descricao, idGrupo).then(function (resultado) {
+        pessoaModel.editar(idPessoa, nome, vinculo, descricao, foto, idGrupo).then(function (resultado) {
             res.status(200).json(resultado);
         })
 
@@ -153,4 +154,4 @@ module.exports = {
     listar,
     deletar,
     editar
-};
+};

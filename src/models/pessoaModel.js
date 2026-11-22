@@ -63,10 +63,10 @@ function deletarAvaliacao(idPessoa){
     return database.executar(instrucaoSql);
 }
 
-function editar(idPessoa, nome, vinculo, descricao, idGrupo){
+function editar(idPessoa, nome, vinculo, descricao, foto, idGrupo){
     let instrucaoSql = `
         UPDATE pessoa
-        SET nome = '${nome}', vinculo = '${vinculo}', descricao = '${descricao}', fk_grupo = ${idGrupo}
+        SET nome = '${nome}', vinculo = '${vinculo}', descricao = '${descricao}', foto = '${foto}', fk_grupo = ${idGrupo}
         WHERE id = ${idPessoa};
     `;
 
@@ -82,4 +82,4 @@ module.exports = {
     deletarPessoa,
     deletarAvaliacao,
     editar
-}
+}
