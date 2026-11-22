@@ -23,4 +23,4 @@ router.put("/editar/:idPessoa", function (req, res) {
     pessoaController.editar(req, res);
 });
 
-module.exports = router;
+module.exports = router;

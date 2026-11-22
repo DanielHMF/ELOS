@@ -33,14 +33,15 @@ app.use("/dash", dashRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`
-            ######   ##        ####     ###### 
-            ##       ##       ##  ##   ##    ##
-            ##       ##       ##  ##   ##         
-     #####  ####     ##       ##  ##    ######   #####      
-            ##       ##       ##  ##         ##    
-            ##       ##       ##  ##   ##    ##      
-            ######   ######    ####     ######         
+            ######   ##        #####     ###### 
+            ##       ##       ##   ##   ##    ##
+            ##       ##       ##   ##   ##         
+     #####  ####     ##       ##   ##    ######   #####      
+            ##       ##       ##   ##         ##    
+            ##       ##       ##   ##   ##    ##      
+            ######   ######    #####     ######                      
     \n                                                                                                 
-    Servidor do seu site já está rodando: http://${HOST_APP}:${PORTA_APP}\n
+    Servidor do seu site já está rodando: http://${HOST_APP}:${PORTA_APP}
+    \n
     Você está rodando sua aplicação no ambiente: ${process.env.AMBIENTE_PROCESSO}`);
 });
