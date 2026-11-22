@@ -48,11 +48,11 @@
 
                 <div class="cabecalho_pagina">
                     <div>
-                        <h2>Olá, <span id="span_nome_usuario"></span></h2>
-                        <p>Veja as pessoas que você ama hoje.</p>
+                        <h1>Acompanhe seus elos</h1>
                     </div>
                     <div class="titulo_cabecalho">
-                        <h1>Acompanhe seus elos</h1>
+                        <h2>Olá, <span id="span_nome_usuario"></span></h2>
+                        <p>Veja as pessoas que você ama hoje.</p>
                     </div>
                 </div>
 
@@ -110,10 +110,10 @@
                             <!-- as pessoas entram aqui pelo JavaScript -->
                         </div>
                         <ul class="legenda">
-                            <li><span class="legenda_cor fundo_anil"></span>Perto</li>
-                            <li><span class="legenda_cor fundo_lavanda"></span>Médio</li>
-                            <li><span class="legenda_cor fundo_ceu"></span>Longe</li>
-                            <!-- <li><span class="legenda_cor fundo_anil_claro"></span>Trabalho e outros</li> -->
+                            <!-- mesmas cores dos anéis do mapa (anel_perto, anel_meio, anel_distante) -->
+                            <li><span class="legenda_cor fundo_capri_claro"></span>Perto</li>
+                            <li><span class="legenda_cor fundo_ceu"></span>Médio</li>
+                            <li><span class="legenda_cor fundo_gelo"></span>Longe</li>
                         </ul>
                     </section>
 
@@ -165,37 +165,20 @@
 <script>
     let idUsuario = sessionStorage.ID_USUARIO
 
-    // ===== CORES DOS GRUPOS =====
+    // ===== FOTO OU INICIAL =====
 
-    // Chamada pelo mapa e pela lista: devolve a classe de cor do grupo (mesmas cores da legenda)
-    function classeDoGrupo(grupo) {
-        let classe = 'fundo_anil_claro'
+    // Chamada pelo mapa e pela lista: com link de foto devolve uma <img>,
+    // sem foto (null ou vazio) devolve a bolinha com a inicial (todas na mesma cor)
+    function montarAvatar(pessoa) {
+        let avatar = ''
 
-        // if (grupo == 'Família') {
-        //     classe = 'fundo_anil'
-        // } else if (grupo == 'Amigos') {
-        //     classe = 'fundo_lavanda'
-        // } else if (grupo == 'Faculdade') {
-        //     classe = 'fundo_ceu'
-        // }
+        if (pessoa.foto == null || pessoa.foto == '') {
+            avatar = `<div class="bolinha fundo_anil_claro">${pessoa.nome[0].toUpperCase()}</div>`
+        } else {
+            avatar = `<img class="bolinha" src="${pessoa.foto}" alt="Foto de ${pessoa.nome}">`
+        }
 
-        return classe
-    }
-
-    // Chamada pelo gráfico de grupos: o Chart.js desenha num canvas, então precisa do código da cor
-    // (são as mesmas cores das variáveis do geral.css)
-    function corDoGrupo(grupo) {
-        let cor = '#E8ECFF'
-
-        // if (grupo == 'Família') {
-        //     cor = '#7B93FF'
-        // } else if (grupo == 'Amigos') {
-        //     cor = '#C7B8FF'
-        // } else if (grupo == 'Faculdade') {
-        //     cor = '#CCF2FF'
-        // }
-
-        return cor
+        return avatar
     }
 
     // ===== KPIs =====
@@ -291,7 +274,7 @@
 
                         div_mapa.innerHTML += `
                             <div class="mapa_pessoa" style="left: ${x}%; top: ${y}%;">
-                                <div class="bolinha ${classeDoGrupo(pessoa.grupo)}">${pessoa.nome[0].toUpperCase()}</div>
+                                ${montarAvatar(pessoa)}
                                 <span>${pessoa.nome}</span>
                                 <div class="tooltip"><b>${pessoa.nome}</b><br>${pessoa.vinculo} - ${grupo_null}<br>Força: ${pessoa.forca}</div>
                             </div>
@@ -389,7 +372,6 @@
 
                     for (let i = 0; i < fracos.length; i++) {
                         let pessoa = fracos[i]
-                        let classe = classeDoGrupo(pessoa.grupo)
 
                         let grupo_null = pessoa.grupo
 
@@ -399,7 +381,7 @@
 
                         div_lista_fracos.innerHTML += `
                             <div class="lista_pessoa">
-                                <div class="bolinha ${classe}">${pessoa.nome[0].toUpperCase()}</div>
+                                ${montarAvatar(pessoa)}
                                 <div class="lista_pessoa_info">
                                     <div class="lista_pessoa_topo">
                                         <span>${pessoa.nome} <small>${pessoa.vinculo}</small></span>
@@ -433,7 +415,6 @@
                     // o Chart.js recebe vetores separados: um de nomes e um de valores
                     let nomes = []
                     let medias = []
-                    let cores = []
 
                     for (let i = 0; i < resultado.length; i++) {
                         let grupo = resultado[i].grupo
@@ -444,7 +425,6 @@
 
                         nomes.push(grupo)
                         medias.push(resultado[i].media)
-                        cores.push(corDoGrupo(grupo))
                     }
 
                     new Chart(grafico_grupos, {
@@ -454,7 +434,7 @@
                             datasets: [{
                                 label: 'Força média',
                                 data: medias,
-                                backgroundColor: cores,
+                                backgroundColor: '#E8ECFF',     // anil claro (mesma cor das bolinhas)
                                 borderColor: '#0B2E4F',
                                 borderWidth: 2,
                                 borderRadius: 8

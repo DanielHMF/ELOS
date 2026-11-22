@@ -109,11 +109,6 @@
                 <input id="nome_input" type="text" placeholder="Ex.: Ana">
             </div>
 
-            <div class="campo">
-                <label for="nome_input">Nome</label>
-                <input id="nome_input" type="text" placeholder="Ex.: Ana">
-            </div>
-
             <div class="campo_duplo">
                 <div class="campo">
                     <label for="vinculo_input">Vínculo</label>
@@ -130,6 +125,12 @@
             <div class="campo">
                 <label for="descricao_input">Descrição (opcional)</label>
                 <textarea id="descricao_input" placeholder="Algo que você quer lembrar sobre essa pessoa"></textarea>
+            </div>
+
+            <div class="campo">
+                <label for="foto_input">Link da foto (opcional)</label>
+                <input id="foto_input" type="text" placeholder="Ex.: imgs/pessoas/ana.jpg">
+                <small>Endereço de uma imagem da internet ou de uma foto na pasta imgs.</small>
             </div>
 
             <div class="campo">
@@ -179,11 +180,6 @@
             <div class="campo">
                 <label for="grupo_nome_input">Nome do grupo</label>
                 <input id="grupo_nome_input" type="text" placeholder="Ex.: Futebol de quinta">
-            </div>
-
-            <div class="campo">
-                <label for="grupo_descricao_input">Descrição (opcional)</label>
-                <textarea id="grupo_descricao_input"></textarea>
             </div>
 
             <span class="mensagem_erro" id="grupo_erro"></span>
@@ -288,6 +284,12 @@
                 <textarea id="descricao_editar_input"></textarea>
             </div>
 
+            <div class="campo">
+                <label for="foto_editar_input">Link da foto (opcional)</label>
+                <input id="foto_editar_input" type="text" placeholder="Ex.: imgs/pessoas/ana.jpg">
+                <small>Endereço de uma imagem da internet ou de uma foto na pasta imgs.</small>
+            </div>
+
             <span class="mensagem_erro" id="editar_erro"></span>
 
             <div class="modal_botoes">
@@ -350,8 +352,8 @@
         nome_input.value = ''
         vinculo_input.value = ''
         descricao_input.value = ''
+        foto_input.value = ''
         grupo_nome_input.value = ''
-        grupo_descricao_input.value = ''
 
         convivencia_input.value = 50
         confianca_input.value = 50
@@ -370,28 +372,28 @@
         nome_editar_input.value = ''
         vinculo_editar_input.value = ''
         descricao_editar_input.value = ''
+        foto_editar_input.value = ''
 
         cadastro_erro.innerHTML = ''
         grupo_erro.innerHTML = ''
         editar_erro.innerHTML = ''
     }
 
-    // ===== CORES DOS GRUPOS =====
+    // ===== FOTO OU INICIAL =====
 
-    // Chamada pelos cards e pelo modal de detalhes: devolve a classe de cor do grupo
-    // (mesmas cores da legenda da dashboard)
-    function classeDoGrupo(grupo) {
-        let classe = 'fundo_anil_claro'
+    // Chamada pelos cards e pelo modal de detalhes: devolve o HTML do "avatar" da pessoa
+    // com link de foto → <img>; sem foto (null ou vazio) → bolinha com a inicial (todas na mesma cor)
+    // classeExtra: '' no card, 'bolinha_grande' no modal de detalhes
+    function montarAvatar(pessoa, classeExtra) {
+        let avatar = ''
 
-        if (grupo == 'Família') {
-            classe = 'fundo_anil'
-        } else if (grupo == 'Amigos') {
-            classe = 'fundo_lavanda'
-        } else if (grupo == 'Faculdade') {
-            classe = 'fundo_ceu'
+        if (pessoa.foto == null || pessoa.foto == '') {
+            avatar = `<div class="bolinha ${classeExtra} fundo_anil_claro">${pessoa.nome[0].toUpperCase()}</div>`
+        } else {
+            avatar = `<img class="bolinha ${classeExtra}" src="${pessoa.foto}" alt="Foto de ${pessoa.nome}">`
         }
 
-        return classe
+        return avatar
     }
 
     // ===== LISTAR PESSOAS (cards) =====
@@ -419,7 +421,6 @@
 
                     for (let i = 0; i < pessoas.length; i++) {
                         let pessoa = pessoas[i]
-                        let inicial = pessoa.nome[0].toUpperCase()
                         let grupo = pessoa.grupo
 
                         // a view usa LEFT JOIN: a pessoa pode estar sem grupo
@@ -427,19 +428,18 @@
                             grupo = 'Sem grupo'
                         }
 
-                        let corGrupo = classeDoGrupo(grupo)
 
                         div_cards.innerHTML += `
                             <div class="card card_pessoa">
                                 <div class="card_pessoa_topo card_clicavel" onclick="abrirDetalhes(${i})">
-                                    <div class="bolinha ${corGrupo}">${inicial}</div>
+                                    ${montarAvatar(pessoa, '')}
                                     <div>
                                         <h3>${pessoa.nome}</h3>
                                         <p>${pessoa.vinculo}</p>
                                     </div>
                                 </div>
 
-                                <span class="etiqueta ${corGrupo}">${grupo}</span>
+                                <span class="etiqueta fundo_anil_claro">${grupo}</span>
 
                                 <div>
                                     <div class="card_pessoa_forca">
@@ -513,6 +513,7 @@
         let vinculo = vinculo_input.value.trim()
         let idGrupo = grupo_select.value
         let descricao = descricao_input.value.trim()
+        let foto = foto_input.value.trim()
         let convivencia = convivencia_input.value
         let confianca = confianca_input.value
         let apoio = apoio_input.value
@@ -523,6 +524,9 @@
             cadastro_erro.innerHTML = 'Preencha o nome e o vínculo!'
         } else if (idGrupo == '') {
             cadastro_erro.innerHTML = 'Escolha um grupo!'
+        } else if (foto.length > 500) {
+            // a coluna foto no banco é VARCHAR(500)
+            cadastro_erro.innerHTML = 'O link da foto é grande demais (máximo 500 caracteres)!'
         } else {
             fetch('/pessoas/cadastrar', {
                 method: 'POST',
@@ -533,7 +537,7 @@
                     nomeServer: nome,
                     vinculoServer: vinculo,
                     descricaoServer: descricao,
-                    fotoServer: '',          // ainda não tem campo de foto
+                    fotoServer: foto,
                     convivenciaServer: convivencia,
                     confiancaServer: confianca,
                     apoioServer: apoio,
@@ -562,7 +566,6 @@
     // Chamada pelo botão "Criar grupo" do modal de grupo
     function cadastrarGrupo() {
         let nome = grupo_nome_input.value.trim()
-        let descricao = grupo_descricao_input.value.trim()
 
         grupo_erro.innerHTML = ''
 
@@ -576,7 +579,6 @@
                 },
                 body: JSON.stringify({
                     nomeServer: nome,
-                    descricaoServer: descricao,
                     idUsuarioServer: sessionStorage.ID_USUARIO
                 })
             }).then(function (resposta) {
@@ -662,6 +664,13 @@
             descricao_editar_input.value = pessoa.descricao
         }
 
+        // a foto também é opcional: sem esse if, o campo mostraria a palavra "null"
+        if (pessoa.foto == null) {
+            foto_editar_input.value = ''
+        } else {
+            foto_editar_input.value = pessoa.foto
+        }
+
         abrirModal(div_modal_editar)
     }
 
@@ -672,6 +681,7 @@
         let vinculo = vinculo_editar_input.value.trim()
         let idGrupo = grupo_editar_select.value
         let descricao = descricao_editar_input.value.trim()
+        let foto = foto_editar_input.value.trim()
 
         editar_erro.innerHTML = ''
 
@@ -679,6 +689,8 @@
             editar_erro.innerHTML = 'Preencha o nome e o vínculo!'
         } else if (idGrupo == '') {
             editar_erro.innerHTML = 'Escolha um grupo!'
+        } else if (foto.length > 500) {
+            editar_erro.innerHTML = 'O link da foto é grande demais (máximo 500 caracteres)!'
         } else {
             fetch(`/pessoas/editar/${idPessoaEditar}`, {
                 method: 'PUT',
@@ -689,6 +701,7 @@
                     nomeServer: nome,
                     vinculoServer: vinculo,
                     descricaoServer: descricao,
+                    fotoServer: foto,
                     idGrupoServer: idGrupo
                 })
             }).then(function (resposta) {
@@ -751,13 +764,8 @@
             grupo = 'Sem grupo'
         }
 
-        // FOTO: ainda não tem upload; se um dia tiver link salvo, mostra a imagem,
-        // senão mostra a bolinha com a inicial na cor do grupo
-        if (pessoa.foto == null || pessoa.foto == '') {
-            detalhes_foto.innerHTML = `<div class="bolinha bolinha_grande ${classeDoGrupo(grupo)}">${pessoa.nome[0].toUpperCase()}</div>`
-        } else {
-            detalhes_foto.innerHTML = `<img class="bolinha bolinha_grande" src="${pessoa.foto}" alt="Foto de ${pessoa.nome}">`
-        }
+        // foto (se tiver link) ou bolinha grande com a inicial
+        detalhes_foto.innerHTML = montarAvatar(pessoa, 'bolinha_grande')
 
         detalhes_nome.innerHTML = pessoa.nome
         detalhes_vinculo.innerHTML = `${pessoa.vinculo} · ${grupo} · força ${pessoa.forca}`

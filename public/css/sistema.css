@@ -119,7 +119,7 @@
     justify-content: space-between;     /* título na esquerda, botões na direita */
     align-items: flex-start;              /* alinha pela parte de baixo */
     gap: 16px;                          /* espaço entre título e botões */
-    width: 720px;
+    /* width: 720px; */
 }
 
 /* Título da página: menor que o h1 da Home */
@@ -127,9 +127,11 @@
     font-size: 32px;                    /* tamanho do título nas telas do sistema */
 }
 
-.titolo_cabecalho {
-    flex-wrap: wrap;
-    width: 50px;
+.titulo_cabecalho {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Subtítulo embaixo do h1 */
@@ -362,6 +364,7 @@
     font-family: var(--fonte-titulo);   /* Nunito */
     font-size: 14px;                    /* tamanho da letra */
     font-weight: 800;                   /* bem negrito */
+    object-fit: cover;                  /* quando é foto (<img>): corta para caber no círculo, sem esticar */
 }
 
 /* Legenda das cores dos grupos */
@@ -681,6 +684,20 @@
     font-family: var(--fonte-titulo);   /* Nunito */
     font-size: 40px;                    /* letra grande */
     font-weight: 800;                   /* bem negrito */
+    overflow: hidden;                   /* a foto não passa da borda redonda */
+}
+
+/* Foto do usuário dentro do círculo do perfil */
+.perfil_avatar img {
+    width: 100%;                        /* ocupa o círculo inteiro */
+    height: 100%;
+    object-fit: cover;                  /* corta para caber, sem esticar */
+}
+
+/* Botão "Alterar foto" embaixo do e-mail */
+.perfil_dados button {
+    align-self: flex-start;             /* fica do tamanho do texto (sem esticar na coluna) */
+    margin-top: 12px;                   /* espaço depois do e-mail */
 }
 
 /* Bloco com nome e e-mail */

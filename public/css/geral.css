@@ -282,6 +282,11 @@ img {
    6. CORES DE FUNDO REAPROVEITÁVEIS (ícones, grupos, etiquetas)
    ===================================================================== */
 
+/* Fundo gelo */
+.fundo_gelo {
+    background-color: var(--cor-gelo);  /* azul quase branco (anel de fora do mapa) */
+}
+
 /* Fundo céu */
 .fundo_ceu {
     background-color: var(--cor-ceu);   /* azul bem clarinho */
