@@ -12,4 +12,8 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
-module.exports = router;
+router.put("/foto/:idUsuario", function (req, res) {
+    usuarioController.atualizarFoto(req, res);
+});
+
+module.exports = router;

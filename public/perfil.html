@@ -54,6 +54,7 @@
                     <div class="perfil_dados">
                         <h2 id="perfil_nome"></h2>
                         <p id="perfil_email"></p>
+                        <button class="botao_secundario" onclick="abrirFoto()">Alterar foto</button>
                     </div>
                 </section>
                 <div class="linha">
@@ -90,6 +91,25 @@
             </div>
         </main>
     </div>
+    <div class="modal" id="modal_foto">
+        <div class="modal_caixa">
+            <h2>Alterar foto</h2>
+            <p>Cole o link de uma imagem. Deixe vazio para voltar a mostrar a sua inicial.</p>
+
+            <div class="campo">
+                <label for="foto_usuario_input">Link da foto</label>
+                <input id="foto_usuario_input" type="text" placeholder="Ex.: imgs/usuarios/daniel.jpg">
+            </div>
+
+            <span class="mensagem_erro" id="foto_erro"></span>
+
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(modal_foto)">Cancelar</button>
+                <button class="botao_primario" onclick="salvarFoto()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="modal_sair">
         <div class="modal_caixa">
             <h2>Deseja sair da conta?</h2>
@@ -114,13 +134,13 @@
 
     // ===== MODAIS =====
 
-    // Chamada pelos botões "Cadastrar pessoa", "Novo grupo" e por abrirReavaliacao()
-    // recebe a própria div do modal (ex.: div_modal_cadastro)
+    // Chamada pelos botões "Sair da conta" e "Alterar foto"
+    // recebe a própria div do modal (ex.: modal_sair)
     function abrirModal(modal) {
         modal.style.display = 'flex'
     }
 
-    // Chamada pelos botões "Cancelar" e depois de salvar com sucesso
+    // Chamada pelos botões "Cancelar" e depois de salvar a foto
     function fecharModal(modal) {
         modal.style.display = 'none'
     }
@@ -132,11 +152,71 @@
         let nome = sessionStorage.NOME_USUARIO
         let email = sessionStorage.EMAIL_USUARIO
 
-        perfil_inicial.innerHTML = nome[0].toUpperCase()
+        let foto = sessionStorage.FOTO_USUARIO
+
+        // sem foto (vazio ou nunca guardada) → inicial; com link → imagem dentro do círculo
+        if (foto == undefined || foto == '') {
+            perfil_inicial.innerHTML = nome[0].toUpperCase()
+        } else {
+            perfil_inicial.innerHTML = `<img src="${foto}" alt="Sua foto">`
+        }
+
         perfil_nome.innerHTML = nome
         perfil_email.innerHTML = email
         info_nome.innerHTML = nome
         info_email.innerHTML = email
+    }
+
+    // ===== FOTO DO USUÁRIO =====
+
+    // Chamada pelo botão "Alterar foto": abre o modal já com o link atual
+    function abrirFoto() {
+        let foto = sessionStorage.FOTO_USUARIO
+
+        if (foto == undefined) {
+            foto = ''
+        }
+
+        foto_usuario_input.value = foto
+        foto_erro.innerHTML = ''
+        abrirModal(modal_foto)
+    }
+
+    // PUT /usuarios/foto/:idUsuario → usuarioController.atualizarFoto
+    // Chamada pelo botão "Salvar" do modal de foto
+    function salvarFoto() {
+        let foto = foto_usuario_input.value.trim()
+
+        foto_erro.innerHTML = ''
+
+        // a coluna foto no banco é VARCHAR(500); vazio é permitido (volta para a inicial)
+        if (foto.length > 500) {
+            foto_erro.innerHTML = 'O link da foto é grande demais (máximo 500 caracteres)!'
+        } else {
+            fetch(`/usuarios/foto/${sessionStorage.ID_USUARIO}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fotoServer: foto
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    // atualiza a sessão também: senão a foto nova só aparece depois de entrar de novo
+                    sessionStorage.FOTO_USUARIO = foto
+                    fecharModal(modal_foto)
+                    mostrarDados()
+                } else {
+                    resposta.text().then(function (mensagem) {
+                        foto_erro.innerHTML = mensagem
+                    })
+                }
+            }).catch(function (erro) {
+                console.log(erro)
+                foto_erro.innerHTML = 'Não foi possível conectar ao servidor'
+            })
+        }
     }
 
     // ===== RESUMO DOS ELOS =====
@@ -191,4 +271,4 @@
         // buscarKpis()
         // buscarAtencao()
     }
-</script>
+</script>

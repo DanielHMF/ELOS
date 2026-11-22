@@ -135,6 +135,14 @@
                         sessionStorage.ID_USUARIO = usuario.id
                         sessionStorage.NOME_USUARIO = usuario.nome
                         sessionStorage.EMAIL_USUARIO = usuario.email
+
+                        // o sessionStorage só guarda texto: se a foto vier null, ele guardaria a palavra "null"
+                        if (usuario.foto == null) {
+                            sessionStorage.FOTO_USUARIO = ''
+                        } else {
+                            sessionStorage.FOTO_USUARIO = usuario.foto
+                        }
+
                         window.location.href = 'dash.html'
                     })
                 } else {

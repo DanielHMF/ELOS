@@ -15,7 +15,8 @@ function autenticar(req, res) {
                     res.json({
                         id: resultadoAutenticar[0].id,
                         nome: resultadoAutenticar[0].nome,
-                        email: resultadoAutenticar[0].email
+                        email: resultadoAutenticar[0].email,
+                        foto: resultadoAutenticar[0].foto
                     });
                 } else {
                     res.status(403).send("E-mail e/ou senha inválido(s)");
@@ -56,7 +57,28 @@ function cadastrar(req, res) {
     }
 }
 
+function atualizarFoto(req, res) {
+    let idUsuario = req.params.idUsuario;
+    let foto = req.body.fotoServer;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("O id do usuário está undefined!");
+    } else if (foto == undefined) {
+        res.status(400).send("A foto está undefined!");
+    } else {
+        usuarioModel.atualizarFoto(idUsuario, foto)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log("Houve um erro ao atualizar a foto! Erro: ", erro.sqlMessage);
+                res.status(500).send("Erro ao atualizar a foto");
+            });
+    }
+}
+
 module.exports = {
     autenticar,
-    cadastrar
-}
+    cadastrar,
+    atualizarFoto
+}
