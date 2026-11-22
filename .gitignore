@@ -2,7 +2,10 @@
 node_modules
 package-lock.json
 
+
+# fotos das pessoas usadas no projeto (ficam só no computador, não vão para o GitHub)
+public/imgs/pessoas/
 .github
 .vscode
 .env
-.env.dev
+.env.dev
