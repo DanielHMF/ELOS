@@ -7,13 +7,13 @@ CREATE TABLE usuario(
     nome VARCHAR(45) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(45) NOT NULL,
+    foto VARCHAR(500),
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE grupo(
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45) NOT NULL,
-    descricao VARCHAR(200),
     fk_usuario INT, 
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
@@ -43,7 +43,7 @@ CREATE TABLE avaliacao(
 
 INSERT INTO grupo (nome) VALUES ('Família'), ('Amigos'), ('Faculdade'), ('Trabalho');
 
-CREATE VIEW vw_elos AS 
+CREATE OR REPLACE VIEW vw_elos AS 
 SELECT
     pessoa.id,
     pessoa.nome,
