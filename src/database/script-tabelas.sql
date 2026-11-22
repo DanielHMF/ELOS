@@ -24,7 +24,7 @@ CREATE TABLE pessoa(
     vinculo VARCHAR(45) NOT NULL,
     descricao VARCHAR(200),
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    foto VARCHAR(150),
+    foto VARCHAR(500),
     fk_usuario INT NOT NULL,
     fk_grupo INT,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id),
