@@ -1,9 +1,9 @@
 let database = require("../database/config.js")
 
-function cadastrar(nome, descricao, idUsuario) {
+function cadastrar(nome, idUsuario) {
     let instrucaoSql = `
-        INSERT INTO grupo (nome, descricao, fk_usuario)
-        VALUES ('${nome}', '${descricao}', ${idUsuario});
+        INSERT INTO grupo (nome, fk_usuario)
+        VALUES ('${nome}', ${idUsuario});
     `;    
 
     console.log('Executando a instrução sql \n' + instrucaoSql);
@@ -13,7 +13,7 @@ function cadastrar(nome, descricao, idUsuario) {
 
 function listar(idUsuario) {
     let instrucaoSql = `
-        SELECT id, nome, descricao
+        SELECT id, nome
         FROM grupo
         WHERE fk_usuario IS NULL
             OR fk_usuario = ${idUsuario}
@@ -28,4 +28,4 @@ function listar(idUsuario) {
 module.exports = {
     listar,
     cadastrar
-}
+}

@@ -19,7 +19,6 @@ function listar(req, res) {
 
 function cadastrar(req, res) {
     let nome = req.body.nomeServer;
-    let descricao = req.body.descricaoServer;
     let idUsuario = req.body.idUsuarioServer;
 
     if (nome == undefined) {
@@ -27,7 +26,7 @@ function cadastrar(req, res) {
     } else if (idUsuario == undefined) {
         res.status(400).send('O id do usuário está undefined!');
     } else {
-        grupoModel.cadastrar(nome, descricao, idUsuario)
+        grupoModel.cadastrar(nome, idUsuario)
         .then(function (resultado) {
             res.status(201).json(resultado);
         })
@@ -41,4 +40,4 @@ function cadastrar(req, res) {
 module.exports = {
     listar,
     cadastrar
-}
+}
