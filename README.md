@@ -58,7 +58,7 @@ ELOS/
 ├── package.json
 ├── AGENTS.md               # regras do projeto para assistentes de IA
 ├── docs/                   # documentação do projeto
-│   ├── documentacao_projeto.md
+│   ├── ELOS_Documentacao_do_Projeto.docx
 │   ├── diario_de_prompts.md
 │   ├── modelagem/          # modelagem do banco
 │   └── prototipos/         # protótipos das telas
@@ -106,7 +106,7 @@ npm run dev
 
 ## 📄 Documentação
 
-- [Documentação do projeto](docs/documentacao_projeto.md)
+- [Documentação do projeto (Word)](docs/ELOS_Documentacao_do_Projeto.docx)
 - [Diário de Prompts](docs/diario_de_prompts.md)
 
 ## 👤 Autor

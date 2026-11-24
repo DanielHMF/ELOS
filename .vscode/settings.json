@@ -1,13 +1,13 @@
 {
     "omnify.alien": "xlr8",
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#5e8ee638",
-        "titleBar.inactiveBackground": "#5e8ee61f",
-        "titleBar.border": "#5e8ee6",
-        "statusBar.border": "#5e8ee6",
-        "statusBar.foreground": "#5e8ee6",
-        "activityBar.activeBorder": "#5e8ee6",
-        "focusBorder": "#5e8ee680",
+        "titleBar.activeBackground": "#5E8EE638",
+        "titleBar.inactiveBackground": "#5E8EE61f",
+        "titleBar.border": "#5E8EE6",
+        "statusBar.border": "#5E8EE6",
+        "statusBar.foreground": "#5E8EE6",
+        "activityBar.activeBorder": "#5E8EE6",
+        "focusBorder": "#5E8EE680",
         "__omnify": "xlr8:subtle"
     }
 }

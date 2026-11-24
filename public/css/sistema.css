@@ -678,6 +678,7 @@
     align-items: center;                /* centro vertical */
     width: 96px;                        /* largura */
     height: 96px;                       /* altura */
+    border: 3px solid var(--cor-azul-noite);
     border-radius: 50%;                 /* círculo */
     background-color: var(--cor-azul-noite); /* fundo azul-noite */
     color: var(--cor-branco);           /* letra branca */

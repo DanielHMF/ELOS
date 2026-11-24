@@ -15,6 +15,7 @@
     justify-content: space-between;     /* logo na esquerda, botões na direita */
     align-items: center;                /* tudo centralizado na vertical */
     gap: 16px;                          /* espaço entre os blocos */
+    border-bottom: 2px solid var(--cor-borda);
     position: sticky;                   /* o header acompanha a rolagem */
     top: 0;                             /* gruda no topo da tela */
     z-index: 10;                        /* fica na frente das seções ao rolar */
@@ -82,7 +83,7 @@
 }
 
 .faixa_capri {
-    background-color: var(--cor-capri-claro); /* fundo capri claro (Inspiração) */
+    background-color: var(--cor-gelo); /* fundo capri claro (Inspiração) */
 }
 
 /* Na faixa escura, a etiqueta e o texto do título ficam claros */
@@ -287,7 +288,7 @@
     flex: 0 1 300px;                    /* não cresce; base de 300px */
     aspect-ratio: 1 / 1;                /* quadrada, para virar um círculo */
     overflow: hidden;                   /* corta a foto no formato redondo */
-    border: 10px solid var(--cor-capri-claro); /* borda grossa capri claro */
+    border: 5px solid var(--cor-azul-noite); /* borda grossa capri claro */
     border-radius: 50%;                 /* círculo */
     background-color: var(--cor-ceu);   /* fundo céu enquanto não tem foto */
     color: var(--cor-texto-suave);      /* cor do texto provisório */
@@ -387,6 +388,7 @@
     gap: 16px;                          /* espaço entre eles */
     padding: 32px 6vw;                  /* espaço interno */
     background-color: var(--cor-azul-noite); /* fundo azul-noite */
+    border-top: 2px solid var(--cor-borda);
     color: var(--cor-ceu);              /* texto azul clarinho */
     font-size: 14px;                    /* texto menor */
 }

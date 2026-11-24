@@ -8,7 +8,7 @@ Cada pessoa recebe a Força do Elo, uma nota de 0 a 100. Ela é a média de 3 no
 
 Telas: Institucional, Cadastro, Login, Dashboard, Pessoas e Perfil.
 
-A documentação completa fica em `docs/documentacao_projeto.md`.
+A documentação completa fica em `docs/ELOS_Documentacao_do_Projeto.docx`.
 
 ## Tecnologias
 
