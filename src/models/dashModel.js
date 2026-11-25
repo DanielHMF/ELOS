@@ -86,7 +86,23 @@ function buscarGrupos(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+// Pessoas do mapa de proximidade, na ordem em que foram cadastradas (id crescente)
+// (o listar de pessoas ordena pela força; aqui não, para o mapa não virar uma espiral)
+function buscarMapa(idUsuario) {
+    let instrucaoSql = `
+        SELECT id, nome, vinculo, grupo, convivencia, confianca, apoio, forca, descricao, foto
+        FROM vw_elos
+        WHERE fk_usuario = ${idUsuario}
+        ORDER BY id;
+    `;
+
+    console.log('Executando a instrução SQL: \n' + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
+    buscarMapa,
     buscarKpis,
     buscarAtencao,
     buscarMaisPerto,

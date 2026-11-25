@@ -3,6 +3,10 @@ let router = express.Router();
 
 let dashController = require("../controllers/dashController");
 
+router.get("/mapa/:idUsuario", function (req, res) {
+    dashController.buscarMapa(req, res);
+});
+
 router.get("/kpis/:idUsuario", function (req, res) {
     dashController.buscarKpis(req, res);
 });
@@ -27,4 +31,4 @@ router.get("/grupos/:idUsuario", function (req, res) {
     dashController.buscarGrupos(req, res);
 });
 
-module.exports = router;
+module.exports = router;

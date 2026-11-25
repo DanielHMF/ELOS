@@ -111,9 +111,9 @@
                         </div>
                         <ul class="legenda">
                             <!-- mesmas cores dos anéis do mapa (anel_perto, anel_meio, anel_distante) -->
-                            <li><span class="legenda_cor fundo_capri_claro"></span>Perto</li>
-                            <li><span class="legenda_cor fundo_ceu"></span>Médio</li>
-                            <li><span class="legenda_cor fundo_gelo"></span>Longe</li>
+                            <li><span class="legenda_cor fundo_capri_claro"></span>Perto(<80)</li>
+                            <li><span class="legenda_cor fundo_ceu"></span>Médio(<50)</li>
+                            <li><span class="legenda_cor fundo_gelo"></span>Longe(<0)</li>
                         </ul>
                     </section>
 
@@ -189,7 +189,7 @@
 <script>
     let idUsuario = sessionStorage.ID_USUARIO
 
-    // guarda as pessoas que vieram do /pessoas/listar (preenchida em montarMapa)
+    // guarda as pessoas que vieram do /dash/mapa (preenchida em montarMapa)
     // o modal de detalhes pega a pessoa daqui
     let listaPessoas = []
 
@@ -355,9 +355,9 @@
 
     // ===== MAPA DE PROXIMIDADE =====
 
-    // GET /pessoas/listar/:idUsuario → pessoaController.listar (a mesma rota da tela Pessoas)
+    // GET /dash/mapa/:idUsuario → dashController.buscarMapa (pessoas na ordem de cadastro)
     function montarMapa() {
-        fetch(`/pessoas/listar/${idUsuario}`).then(function (resposta) {
+        fetch(`/dash/mapa/${idUsuario}`).then(function (resposta) {
             // 204 = nenhuma pessoa: o mapa fica só com o "Você"
             if (resposta.status != 204 && resposta.ok) {
                 resposta.json().then(function (pessoas) {
