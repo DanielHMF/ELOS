@@ -99,7 +99,7 @@
         </main>
     </div>
 
-    <div class="modal" id="div_modal_cadastro">
+    <div class="modal" id="div_modal_cadastro" onmousedown="fecharFora(event, div_modal_cadastro)">
         <div class="modal_caixa">
             <h2>Cadastrar pessoa</h2>
             <p>De 0 a 100, como está esse elo hoje?</p>
@@ -172,7 +172,7 @@
         </div>
     </div>
 
-    <div class="modal" id="div_modal_grupo">
+    <div class="modal" id="div_modal_grupo" onmousedown="fecharFora(event, div_modal_grupo)">
         <div class="modal_caixa">
             <h2>Novo grupo</h2>
             <p>Crie um grupo só seu, além dos que já vêm prontos.</p>
@@ -190,7 +190,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="div_modal_reavaliar">
+    <div class="modal" id="div_modal_reavaliar" onmousedown="fecharFora(event, div_modal_reavaliar)">
         <div class="modal_caixa">
             <h2>Reavaliar <span id="reavaliar_nome"></span></h2>
             <p>A avaliação antiga fica guardada no histórico.</p>
@@ -230,17 +230,16 @@
     </div>
 
     <!-- MODAL DE DETALHES: aberto ao clicar no topo de um card -->
-    <div class="modal" id="div_modal_detalhes">
+    <div class="modal" id="div_modal_detalhes" onmousedown="fecharFora(event, div_modal_detalhes)">
         <div class="modal_caixa">
+            <!-- foto grande em cima e nome embaixo, tudo centralizado -->
             <div class="detalhes_topo">
                 <div id="detalhes_foto"></div>
-                <div>
-                    <h2 id="detalhes_nome"></h2>
-                    <p id="detalhes_vinculo"></p>
-                </div>
+                <h2 id="detalhes_nome"></h2>
+                <p id="detalhes_vinculo"></p>
             </div>
 
-            <p id="detalhes_descricao"></p>
+            <p class="detalhes_descricao" id="detalhes_descricao"></p>
 
             <div class="grafico grafico_detalhes">
                 <canvas id="grafico_pessoa"></canvas>
@@ -256,7 +255,7 @@
     </div>
 
     <!-- MODAL DE EDIÇÃO: só os dados da pessoa (as notas mudam pelo Reavaliar) -->
-    <div class="modal" id="div_modal_editar">
+    <div class="modal" id="div_modal_editar" onmousedown="fecharFora(event, div_modal_editar)">
         <div class="modal_caixa">
             <h2>Editar pessoa</h2>
             <p>Para mudar as notas, use o Reavaliar.</p>
@@ -300,7 +299,7 @@
     </div>
 
     <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO -->
-    <div class="modal" id="div_modal_excluir">
+    <div class="modal" id="div_modal_excluir" onmousedown="fecharFora(event, div_modal_excluir)">
         <div class="modal_caixa">
             <h2>Excluir <span id="excluir_nome"></span>?</h2>
             <p>O histórico de avaliações dessa pessoa também será apagado. Não dá para desfazer.</p>
@@ -345,6 +344,15 @@
     function fecharModal(modal) {
         modal.style.display = 'none'
         limparCampos()
+    }
+
+    // Chamada ao apertar o mouse no fundo escuro de qualquer modal (onmousedown no HTML)
+    // event.target = onde o mouse foi apertado: se foi no próprio fundo (e não dentro da caixa), fecha
+    // (é onmousedown e não onclick para não fechar quando alguém seleciona um texto e solta o mouse fora)
+    function fecharFora(evento, modal) {
+        if (evento.target == modal) {
+            fecharModal(modal)
+        }
     }
 
     // Chamada por fecharModal(): deixa os 3 modais limpos para a próxima vez
@@ -429,7 +437,7 @@
                         }
 
 
-                        div_cards.innerHTML = `
+                        div_cards.innerHTML += `
                             <div class="card card_pessoa">
                                 <div class="card_pessoa_topo card_clicavel" onclick="abrirDetalhes(${i})">
                                     ${montarAvatar(pessoa, '')}

@@ -43,7 +43,7 @@ function buscarMaisPerto(idUsuario) {
 
 function buscarFracos(idUsuario) {
     let instrucaoSql = `
-        SELECT nome, vinculo, grupo, forca, foto
+        SELECT id, nome, vinculo, grupo, forca, foto
         FROM vw_elos
         WHERE fk_usuario = ${idUsuario}
         ORDER BY forca ASC

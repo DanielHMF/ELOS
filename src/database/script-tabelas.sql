@@ -41,9 +41,7 @@ CREATE TABLE avaliacao(
     FOREIGN KEY (fk_pessoa) REFERENCES pessoa(id)
 );
 
-INSERT INTO grupo (nome) VALUES ('Família'), ('Amigos'), ('Faculdade'), ('Trabalho');
-
-CREATE OR REPLACE VIEW vw_elos AS 
+CREATE VIEW vw_elos AS 
 SELECT
     pessoa.id,
     pessoa.nome,

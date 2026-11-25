@@ -159,23 +159,133 @@
             </div>
         </main>
     </div>
+
+    <!-- MODAL DE DETALHES: o mesmo da tela Pessoas, aberto ao clicar numa pessoa do mapa ou da lista -->
+    <div class="modal" id="div_modal_detalhes" onmousedown="fecharFora(event, div_modal_detalhes)">
+        <div class="modal_caixa">
+            <!-- foto grande em cima e nome embaixo, tudo centralizado -->
+            <div class="detalhes_topo">
+                <div id="detalhes_foto"></div>
+                <h2 id="detalhes_nome"></h2>
+                <p id="detalhes_vinculo"></p>
+            </div>
+
+            <p class="detalhes_descricao" id="detalhes_descricao"></p>
+
+            <div class="grafico grafico_detalhes">
+                <canvas id="grafico_pessoa"></canvas>
+            </div>
+
+            <!-- na dashboard não tem reavaliar/editar/excluir: isso fica na tela Pessoas -->
+            <div class="modal_botoes">
+                <button class="botao_secundario" onclick="fecharModal(div_modal_detalhes)">Fechar</button>
+                <a class="botao_primario" href="pessoas.html">Ir para Pessoas</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
 <script>
     let idUsuario = sessionStorage.ID_USUARIO
 
+    // guarda as pessoas que vieram do /pessoas/listar (preenchida em montarMapa)
+    // o modal de detalhes pega a pessoa daqui
+    let listaPessoas = []
+
+    // guarda o gráfico radar do modal para poder destruí-lo antes de criar outro
+    let graficoPessoa = null
+
+    // ===== MODAL =====
+
+    function abrirModal(modal) {
+        modal.style.display = 'flex'
+    }
+
+    function fecharModal(modal) {
+        modal.style.display = 'none'
+    }
+
+    // Chamada ao apertar o mouse no fundo escuro de qualquer modal (onmousedown no HTML)
+    // event.target = onde o mouse foi apertado: se foi no próprio fundo (e não dentro da caixa), fecha
+    // (é onmousedown e não onclick para não fechar quando alguém seleciona um texto e solta o mouse fora)
+    function fecharFora(evento, modal) {
+        if (evento.target == modal) {
+            fecharModal(modal)
+        }
+    }
+
+    // Chamada ao clicar numa pessoa do mapa: recebe a POSIÇÃO dela no vetor listaPessoas
+    // (mesma lógica do abrirDetalhes da tela Pessoas)
+    function abrirDetalhes(i) {
+        let pessoa = listaPessoas[i]
+        let grupo = pessoa.grupo
+
+        if (grupo == null || grupo == '') {
+            grupo = 'Sem grupo'
+        }
+
+        detalhes_foto.innerHTML = montarAvatar(pessoa, 'bolinha_grande')
+        detalhes_nome.innerHTML = pessoa.nome
+        detalhes_vinculo.innerHTML = `${pessoa.vinculo} · ${grupo} · força ${pessoa.forca}`
+
+        if (pessoa.descricao == null || pessoa.descricao == '') {
+            detalhes_descricao.innerHTML = 'Sem descrição.'
+        } else {
+            detalhes_descricao.innerHTML = pessoa.descricao
+        }
+
+        // 1º abre o modal: com display none o canvas tem tamanho 0 e o gráfico não aparece
+        abrirModal(div_modal_detalhes)
+
+        // 2º destrói o gráfico da pessoa anterior (o Chart.js não deixa criar 2 no mesmo canvas)
+        if (graficoPessoa != null) {
+            graficoPessoa.destroy()
+        }
+
+        // 3º cria o radar com os 3 pilares
+        graficoPessoa = new Chart(grafico_pessoa, {
+            type: 'radar',
+            data: {
+                labels: ['Convivência', 'Confiança', 'Apoio'],
+                datasets: [{
+                    label: pessoa.nome,
+                    data: [pessoa.convivencia, pessoa.confianca, pessoa.apoio],
+                    backgroundColor: 'rgba(0, 191, 255, 0.2)',   // capri transparente
+                    borderColor: '#00BFFF',                       // capri
+                    pointBackgroundColor: '#0B2E4F'               // azul-noite
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { r: { min: 0, max: 100 } }
+            }
+        })
+    }
+
+    // Chamada ao clicar numa pessoa de "Quem merece uma mensagem"
+    // essa lista vem de outra rota (/dash/fracos), então procura a pessoa pelo id no vetor listaPessoas
+    function abrirDetalhesPorId(idPessoa) {
+        for (let i = 0; i < listaPessoas.length; i++) {
+            if (listaPessoas[i].id == idPessoa) {
+                abrirDetalhes(i)
+            }
+        }
+    }
+
     // ===== FOTO OU INICIAL =====
 
-    // Chamada pelo mapa e pela lista: com link de foto devolve uma <img>,
+    // Chamada pelo mapa, pela lista e pelo modal: com link de foto devolve uma <img>,
     // sem foto (null ou vazio) devolve a bolinha com a inicial (todas na mesma cor)
-    function montarAvatar(pessoa) {
+    // classeExtra: '' no mapa e na lista, 'bolinha_grande' no modal
+    function montarAvatar(pessoa, classeExtra) {
         let avatar = ''
 
         if (pessoa.foto == null || pessoa.foto == '') {
-            avatar = `<div class="bolinha fundo_anil_claro">${pessoa.nome[0].toUpperCase()}</div>`
+            avatar = `<div class="bolinha ${classeExtra} fundo_anil_claro">${pessoa.nome[0].toUpperCase()}</div>`
         } else {
-            avatar = `<img class="bolinha" src="${pessoa.foto}" alt="Foto de ${pessoa.nome}">`
+            avatar = `<img class="bolinha ${classeExtra}" src="${pessoa.foto}" alt="Foto de ${pessoa.nome}">`
         }
 
         return avatar
@@ -251,6 +361,7 @@
             // 204 = nenhuma pessoa: o mapa fica só com o "Você"
             if (resposta.status != 204 && resposta.ok) {
                 resposta.json().then(function (pessoas) {
+                    listaPessoas = pessoas
                     let total = pessoas.length
 
                     for (let i = 0; i < total; i++) {
@@ -268,13 +379,14 @@
 
                         let grupo_null = pessoa.grupo
 
-                        if(pessoa.grupo == ''){
+                        // a view usa LEFT JOIN: sem grupo, vem null
+                        if (pessoa.grupo == null || pessoa.grupo == '') {
                             grupo_null = 'Sem grupo'
                         }
 
                         div_mapa.innerHTML += `
-                            <div class="mapa_pessoa" style="left: ${x}%; top: ${y}%;">
-                                ${montarAvatar(pessoa)}
+                            <div class="mapa_pessoa" style="left: ${x}%; top: ${y}%;" onclick="abrirDetalhes(${i})">
+                                ${montarAvatar(pessoa, '')}
                                 <span>${pessoa.nome}</span>
                                 <div class="tooltip"><b>${pessoa.nome}</b><br>${pessoa.vinculo} - ${grupo_null}<br>Força: ${pessoa.forca}</div>
                             </div>
@@ -373,15 +485,9 @@
                     for (let i = 0; i < fracos.length; i++) {
                         let pessoa = fracos[i]
 
-                        let grupo_null = pessoa.grupo
-
-                        if(pessoa.grupo == ''){
-                            grupo_null = 'Sem grupo'
-                        }
-
                         div_lista_fracos.innerHTML += `
-                            <div class="lista_pessoa">
-                                ${montarAvatar(pessoa)}
+                            <div class="lista_pessoa" onclick="abrirDetalhesPorId(${pessoa.id})">
+                                ${montarAvatar(pessoa, '')}
                                 <div class="lista_pessoa_info">
                                     <div class="lista_pessoa_topo">
                                         <span>${pessoa.nome} <small>${pessoa.vinculo}</small></span>

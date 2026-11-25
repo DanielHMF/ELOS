@@ -91,7 +91,7 @@
             </div>
         </main>
     </div>
-    <div class="modal" id="modal_foto">
+    <div class="modal" id="modal_foto" onmousedown="fecharFora(event, modal_foto)">
         <div class="modal_caixa">
             <h2>Alterar foto</h2>
             <p>Cole o link de uma imagem. Deixe vazio para voltar a mostrar a sua inicial.</p>
@@ -110,7 +110,7 @@
         </div>
     </div>
 
-    <div class="modal" id="modal_sair">
+    <div class="modal" id="modal_sair" onmousedown="fecharFora(event, modal_sair)">
         <div class="modal_caixa">
             <h2>Deseja sair da conta?</h2>
             
@@ -143,6 +143,15 @@
     // Chamada pelos botões "Cancelar" e depois de salvar a foto
     function fecharModal(modal) {
         modal.style.display = 'none'
+    }
+
+    // Chamada ao apertar o mouse no fundo escuro de qualquer modal (onmousedown no HTML)
+    // event.target = onde o mouse foi apertado: se foi no próprio fundo (e não dentro da caixa), fecha
+    // (é onmousedown e não onclick para não fechar quando alguém seleciona um texto e solta o mouse fora)
+    function fecharFora(evento, modal) {
+        if (evento.target == modal) {
+            fecharModal(modal)
+        }
     }
 
     // ===== DADOS DO USUÁRIO (vêm do sessionStorage, sem fetch) =====

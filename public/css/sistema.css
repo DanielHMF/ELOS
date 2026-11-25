@@ -766,17 +766,41 @@
 
 /* Foto/inicial + nome no topo do modal de detalhes */
 .detalhes_topo {
-    display: flex;                      /* lado a lado */
-    align-items: center;                /* centralizados na vertical */
-    gap: 16px;                          /* espaço entre a foto e o nome */
+    display: flex;                      /* flexbox */
+    flex-direction: column;             /* foto em cima, nome e vínculo embaixo */
+    align-items: center;                /* tudo centralizado na horizontal */
+    gap: 6px;                           /* espaço entre eles */
+    text-align: center;                 /* textos centralizados */
 }
 
-/* Bolinha grande do modal de detalhes (serve para a inicial e para a foto) */
+/* Espaço extra entre a foto e o nome */
+.detalhes_topo h2 {
+    margin-top: 10px;
+}
+
+/* Vínculo, grupo e força embaixo do nome */
+.detalhes_topo p {
+    color: var(--cor-texto-suave);      /* cor suave */
+}
+
+/* Descrição da pessoa, centralizada como o resto do topo */
+.detalhes_descricao {
+    text-align: center;
+}
+
+/* Foto grande do modal de detalhes (serve para a inicial e para a foto) */
 .bolinha_grande {
-    width: 72px;                        /* maior que a do card (48px) */
-    height: 72px;                       /* altura igual à largura para ficar redonda */
-    font-size: 28px;                    /* letra maior */
+    width: 180px;                       /* bem maior que a do card (48px), para mostrar a foto */
+    height: 180px;                      /* altura igual à largura para ficar redonda */
+    border-width: 4px;                  /* contorno mais grosso, proporcional ao tamanho */
+    font-size: 64px;                    /* letra grande quando não tem foto */
     object-fit: cover;                  /* se for foto, corta sem esticar */
+}
+
+/* Pessoas do mapa e da lista "Quem merece uma mensagem": clicar abre o modal */
+.mapa_pessoa,
+.lista_pessoa {
+    cursor: pointer;                    /* mãozinha: mostra que dá para clicar */
 }
 
 /* Radar do modal: um pouco mais baixo que o da dashboard (300px) */
